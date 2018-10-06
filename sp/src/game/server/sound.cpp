@@ -875,9 +875,9 @@ void CAmbientGeneric::InputStopSound( inputdata_t &inputdata )
 	}
 }
 
-void CAmbientGeneric::SendSound( SoundFlags_t flags)
+void CAmbientGeneric::SendSound(SoundFlags_t flags)
 {
-	char *szSoundFile = (char *)STRING( m_iszSound );
+	char *szSoundFile = (char *)STRING(m_iszSound);
 	CBaseEntity* pSoundSource = m_hSoundSource;
 	if (pSoundSource)
 	{
@@ -911,7 +911,7 @@ void CAmbientGeneric::SendSound( SoundFlags_t flags)
 			m_fActive = false;
 		}
 	}
-
+}
 
 //-----------------------------------------------------------------------------
 // Purpose: Input handler that stops playing the sound.
