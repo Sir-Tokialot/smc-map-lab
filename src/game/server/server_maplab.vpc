@@ -48,6 +48,12 @@ $Project "Server (MapLab)"
 		$File	"$SRCDIR\game\shared\vehicle_choreo_generic_shared.h"
 		$File	"$SRCDIR\game\shared\weapon_parse_default.cpp"
 
+		$Folder	"MapLab DLL"
+		{
+			$File	"mod\npc_lost_soul.cpp"
+			$File	"mod\npc_shadow_walker.cpp"
+		}
+
 		$Folder	"HL2 DLL"
 		{
 			$File	"$SRCDIR\game\shared\episodic\achievements_ep1.cpp"
