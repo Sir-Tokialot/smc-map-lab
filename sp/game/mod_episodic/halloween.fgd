@@ -13,34 +13,34 @@
 // NPCs
 //
 //-------------------------------------------------------------------------
-@NPCClass base(BaseNPC) studio("models/monster/subject.mdl") = npc_shadow_walker : "Shadow Walker"
+@NPCClass base(BaseNPC) studioprop() = npc_shadow_walker : "Shadow Walker"
 [             
-	additionalequipment(choices) : "Weapons" : "0" =
+	additionalequipment(choices) : "Weapons" : "0" : "It is recommended that the Shadow Walker be equipped with a melee weapon such as the crowbar or stunstick. The shotgun and Annabelle also work surprisingly well, but firing patterns have not been set up for automatic weapons." =
 	[
-		"weapon_smg1" : "SMG1"
-		"weapon_ar2" : "AR2"
-		"weapon_stunstick" : "Stun Stick"
+		"0"  : "Custom Melee Weapon"
 		"weapon_crowbar" : "Crow Bar"
+		"weapon_stunstick" : "Stun Stick"
 		"weapon_shotgun" : "Shotgun"
-		"weapon_beerbottle" : "Beer Bottle"
-		"weapon_beerbottle2" : "Beer Bottle2"
-		"weapon_rpg" : "RPG"
-		"0"  : "Nothing"
+		"weapon_annabelle" : "Annabelle"
+		"weapon_pistol" : "Pistol"
+		"weapon_ar2" : "AR2"
+		"weapon_smg1" : "SMG1"
+		"weapon_alyxgun" : "Alyx Gun"
 	]
 	
-	model(studio) : "World Model" : "models/monster/subject.mdl"
+	model(studio) : "World Model" : "models/monster/subject.mdl" : "You may specify any model for this NPC. However, the NPC was written with standard human animations in mind. Missing animations may cause errors. Be aware the animations of the model you choose will affect the NPC's behavior."
+	WeaponModel(studio) : "Weapon Model Override" : "models/props_canal/mattpipe.mdl" : "If the Shadow Walker is set to use 'Custom Melee Weapon', you may supply a world model to use. I would recommend using the pipe model, the crowbar model, or the stunstick model."
 	
-	Health(integer) : "Health" : 75 : "Starting health of the NPC"
+	Health(integer) : "Health" : 75 : "Starting health of the NPC."
 	
-	FearSound(sound)		: "Fear Sound" : "" : "Must be a sound script (cannot use WAV)"
-	DeathSound(sound)		: "Death Sound" : "NPC_ShadowWalker.Death" : "Must be a sound script (cannot use WAV)"
-	IdleSound(sound)		: "Idle Sound" : "NPC_ShadowWalker.Idle" : "Must be a sound script (cannot use WAV)"
-	PainSound(sound)		: "Pain Sound" : "NPC_ShadowWalker.Pain" : "Must be a sound script (cannot use WAV)"
-	AlertSound(sound)		: "Alert Sound" : "NPC_ShadowWalker.Alert" : "Must be a sound script (cannot use WAV)"
-	LostEnemySound(sound)	: "Lost Enemy Sound" : "" : "Must be a sound script (cannot use WAV)"
-	FoundEnemySound(sound)	: "Found Enemy Sound" : "" : "Must be a sound script (cannot use WAV)"
-	FoundEnemySound(sound)	: "Found Enemy Sound" : "" : "Must be a sound script (cannot use WAV)"
-	UseBothSquadSlots(choices) : "Use Both Squad Slots" : 0 = 
+	FearSound(sound)		: "Fear Sound" : "NPC_ShadowWalker.Fear" : "The NPC will play this sound when retreating."
+	DeathSound(sound)		: "Death Sound" : "NPC_ShadowWalker.Death" : "The NPC will play this sound on death."
+	IdleSound(sound)		: "Idle Sound" : "NPC_ShadowWalker.Idle" : "The NPC will play this sound while wandering idly."
+	PainSound(sound)		: "Pain Sound" : "NPC_ShadowWalker.Pain" : "The NPC will play this sound when damaged."
+	AlertSound(sound)		: "Alert Sound" : "NPC_ShadowWalker.Alert" : "The NPC will play this sound while in an alert state."
+	LostEnemySound(sound)	: "Lost Enemy Sound" : "NPC_ShadowWalker.LostEnemy" : "The NPC will play this sound if it loses sight of its enemy."
+	FoundEnemySound(sound)	: "Found Enemy Sound" : "NPC_ShadowWalker.FoundEnemy" : "The NPC will play this sound if it finds an enemy again after previously losing it."
+	UseBothSquadSlots(choices) : "Use Both Squad Slots" : 0 : "When in a squad, how many shadow walkers should be able to chase the player at one time? Additional squadmates will run away from the player in the hopes of setting up an ambush." = 
 	[
 		0 : "Use One Squad Slot" 
 		1 : "Use Both Squad Slots" 

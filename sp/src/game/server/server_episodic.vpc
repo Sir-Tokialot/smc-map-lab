@@ -50,6 +50,11 @@ $Project "Server (Episodic)"
 
 		$Folder	"HL2 DLL"
 		{
+			$Folder	"Mod"
+			{
+				$File "mod\npc_lost_soul.cpp"
+				$File "mod\npc_shadow_walker.cpp"
+			}
 			$File	"$SRCDIR\game\shared\episodic\achievements_ep1.cpp"
 			$File	"$SRCDIR\game\shared\episodic\achievements_ep2.cpp"
 			$File	"$SRCDIR\game\shared\episodic\achievements_epx.cpp"
