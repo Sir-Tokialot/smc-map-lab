@@ -1,0 +1,86 @@
+// Default sound scripts for npc_lost_soul
+// Author: 1upD
+
+"NPC_LostSoul.Die"
+{
+	"channel"		"CHAN_BODY"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"physics/flesh/flesh_bloody_break.wav"
+}
+
+
+"NPC_LostSoul.Burn"
+{
+	"channel"		"CHAN_ITEM"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_70dB"
+
+	"rndwave"
+	{
+		"wave"	"player/pl_burnpain1.wav"
+		"wave"	"player/pl_burnpain2.wav"
+		"wave"	"player/pl_burnpain3.wav"
+	}
+}
+
+
+"NPC_LostSoul.Float"
+{
+	"channel"		"CHAN_ITEM"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"ambient\levels\citadel\datatransfmalevx01.wav"
+		"wave"	"ambient\levels\citadel\datatransmalevx01.wav"
+		"wave"	"ambient\levels\citadel\datatransmalevx02.wav"
+		"wave"	"ambient\levels\citadel\datatransmalevx02.wav"
+		"wave"	"ambient\levels\citadel\datatransrandom03.wav"
+	}
+}
+
+
+"NPC_LostSoul.ChargeAnnounce"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"pitch"			"120, 125"
+	"soundlevel"	"SNDLVL_70dB"
+	"rndwave"
+	{
+		"wave"	"npc/zombie_poison/pz_alert1.wav"
+		"wave"	"npc/zombie_poison/pz_alert1.wav"
+	}
+}
+
+"NPC_LostSoul.ChargeEnd"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"pitch"			"120, 125"
+	"soundlevel"	"SNDLVL_70dB"
+	"rndwave"
+	{
+		"wave"	"npc/zombie_poison/pz_warn1.wav"
+		"wave"	"npc/zombie_poison/pz_warn1.wav"
+	}
+}
+
+"NPC_LostSoul.Stunned"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"0.80"
+	"pitch"			"145,150"
+	"soundlevel"	"SNDLVL_70dB"
+	"wave"			"npc/scanner/scanner_siren2.wav"
+}
+

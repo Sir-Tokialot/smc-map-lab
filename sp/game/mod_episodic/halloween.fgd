@@ -1,0 +1,52 @@
+//=============================================================================
+//
+// Purpose: Half-Life 2 mod game definition file (.fgd) 
+//			Defines new entities for Halloween themed mods
+//
+//=============================================================================
+
+@include "base.fgd"
+@include "halflife2"
+
+//-------------------------------------------------------------------------
+//
+// NPCs
+//
+//-------------------------------------------------------------------------
+@NPCClass base(BaseNPC) studio("models/monster/subject.mdl") = npc_shadow_walker : "Shadow Walker"
+[             
+	additionalequipment(choices) : "Weapons" : "0" =
+	[
+		"weapon_smg1" : "SMG1"
+		"weapon_ar2" : "AR2"
+		"weapon_stunstick" : "Stun Stick"
+		"weapon_crowbar" : "Crow Bar"
+		"weapon_shotgun" : "Shotgun"
+		"weapon_beerbottle" : "Beer Bottle"
+		"weapon_beerbottle2" : "Beer Bottle2"
+		"weapon_rpg" : "RPG"
+		"0"  : "Nothing"
+	]
+	
+	model(studio) : "World Model" : "models/monster/subject.mdl"
+	
+	Health(integer) : "Health" : 75 : "Starting health of the NPC"
+	
+	FearSound(sound)		: "Fear Sound" : "" : "Must be a sound script (cannot use WAV)"
+	DeathSound(sound)		: "Death Sound" : "NPC_ShadowWalker.Death" : "Must be a sound script (cannot use WAV)"
+	IdleSound(sound)		: "Idle Sound" : "NPC_ShadowWalker.Idle" : "Must be a sound script (cannot use WAV)"
+	PainSound(sound)		: "Pain Sound" : "NPC_ShadowWalker.Pain" : "Must be a sound script (cannot use WAV)"
+	AlertSound(sound)		: "Alert Sound" : "NPC_ShadowWalker.Alert" : "Must be a sound script (cannot use WAV)"
+	LostEnemySound(sound)	: "Lost Enemy Sound" : "" : "Must be a sound script (cannot use WAV)"
+	FoundEnemySound(sound)	: "Found Enemy Sound" : "" : "Must be a sound script (cannot use WAV)"
+	FoundEnemySound(sound)	: "Found Enemy Sound" : "" : "Must be a sound script (cannot use WAV)"
+	UseBothSquadSlots(choices) : "Use Both Squad Slots" : 0 = 
+	[
+		0 : "Use One Squad Slot" 
+		1 : "Use Both Squad Slots" 
+	]
+]
+
+@NPCClass base(npc_manhack) studio("models/skeleton/skeleton_torso3.mdl") = npc_lost_soul : "Lost Soul"
+[             
+]
