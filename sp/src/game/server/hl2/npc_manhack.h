@@ -102,9 +102,9 @@ public:
 
 	virtual float	GetHeadTurnRate( void ) { return 45.0f; } // Degrees per second
 
-	void			CheckCollisions(float flInterval);
+	virtual void			CheckCollisions(float flInterval);
 	virtual void	GatherEnemyConditions( CBaseEntity *pEnemy );
-	void			PlayFlySound(void);
+	virtual void			PlayFlySound(void);
 	virtual void	StopLoopingSounds(void);
 
 	void			Precache(void);
@@ -113,9 +113,9 @@ public:
 	void			Activate();
 	void			StartTask( const Task_t *pTask );
 
-	void			BladesInit();
-	void			SoundInit( void );
-	void			StartEye( void );
+	virtual void			BladesInit();
+	virtual void			SoundInit( void );
+	virtual void			StartEye( void );
 	
 	bool			HandleInteraction(int interactionType, void* data, CBaseCombatCharacter* sourceEnt);
 
@@ -126,7 +126,7 @@ public:
 
 	void			SpinBlades(float flInterval);
 
-	void			Slice( CBaseEntity *pHitEntity, float flInterval, trace_t &tr );
+	virtual void			Slice( CBaseEntity *pHitEntity, float flInterval, trace_t &tr );
 	void			Bump( CBaseEntity *pHitEntity, float flInterval, trace_t &tr );
 	void			Splash( const Vector &vecSplashPos );
 

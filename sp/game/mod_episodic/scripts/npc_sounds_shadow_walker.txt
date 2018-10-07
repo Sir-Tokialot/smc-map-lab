@@ -1,0 +1,200 @@
+// Default sound scripts for npc_shadow_walker
+// Author: 1upD
+
+"NPC_ShadowWalker.Pain"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"0.95"
+	"pitch"			"65, 70"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc\stalker\stalker_pain1.wav"
+		"wave"	"npc\stalker\stalker_pain2.wav"
+		"wave"	"npc\stalker\stalker_pain3.wav"
+
+	}
+}
+
+"NPC_ShadowWalker.Idle"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"0.95"
+	"pitch"			"80, 90"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"npc\stalker\stalker_scream1.wav"
+		"wave"		"npc\stalker\stalker_scream2.wav"
+		"wave"		"npc\stalker\stalker_scream3.wav"
+		"wave"		"npc\stalker\stalker_scream4.wav"
+	}
+}
+
+"NPC_ShadowWalker.Vocal.Idle"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"0.95"
+	"pitch"			"62, 62"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo\episode_1\citadel\al_stalk_pleasestopscreaming01.wav"
+		"wave"	"vo\episode_1\citadel\al_stalk_pleasestopscreaming02.wav"
+		"wave"	"vo\episode_1\citadel\al_stalk_pleasestopscreaming03.wav"
+		"wave"	"vo\episode_1\citadel\al_stalk_pleasestopscreaming04.wav"
+		"wave"	"vo\episode_1\citadel\al_stalk_pleasestopscreaming05.wav"
+		"wave"	"vo\k_lab2\al_optimism.wav"
+		"wave"	"vo\episode_1\c17\al_elev_whereselev.wav"
+		"wave"	"vo\episode_1\intro\al_wheredoeshethink.wav"
+		"wave"	"vo\outland_02\griggs_everywhere.wav"
+		"wave"	"vo\outland_11a\silo\kl_silo_wheredata01.wav"
+		"wave"	"vo\episode_1\intro\al_cantbelieveit.wav"
+		"wave"	"vo\episode_1\npc\alyx\al_deaf_canthearanything.wav"
+		"wave"	"vo\episode_1\npc\alyx\al_deaf_canthearyou.wav"
+		"wave"	"vo\k_lab\ba_cantlook.wav"
+
+	}
+}
+
+"NPC_ShadowWalker.Fear"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"0.95"
+	"pitch"			"62, 62"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		// Replace these
+		"wave"	"npc\stalker\stalker_die2.wav"
+		"wave"	"npc\stalker\stalker_pain1.wav"
+		"wave"	"npc\stalker\stalker_pain2.wav"
+		"wave"	"npc\stalker\stalker_pain3.wav"
+
+	}
+}
+
+"NPC_ShadowWalker.Alert"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"0.95"
+	"pitch"			"80, 90"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"npc\stalker\stalker_alert1b.wav"
+		"wave"		"npc\stalker\stalker_alert2b.wav"
+		"wave"		"npc\stalker\stalker_alert3b.wav"
+	}
+}
+
+"NPC_ShadowWalker.Vocal.Alert"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"0.95"
+	"pitch"			"62, 62"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo\citadel\al_bitofit.wav"
+		"wave"	"vo\outland_01\intro\al_rbed_notalone.wav"
+
+	}
+}
+
+"NPC_ShadowWalker.LostEnemy"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"0.95"
+	"pitch"			"80, 90"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc\zombie_poison\pz_alert2.wav"
+		"wave"	"npc\stalker\stalker_die2.wav"
+		"wave"	"npc\stalker\stalker_scream4.wav"
+	}
+}
+
+"NPC_ShadowWalker.Vocal.LostEnemy"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"0.95"
+	"pitch"			"62, 62"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo\citadel\al_notagain02.wav"
+		"wave"	"vo\episode_1\npc\alyx\al_light_lost05.wav"
+		"wave"	"vo\episode_1\npc\alyx\al_light_lost11.wav"
+		"wave"	"vo\citadel\al_wonderwhere.wav"
+		"wave"	"vo\outland_12a\launch\al_launch_damnit.wav"
+		"wave"	"vo\streetwar\alyx_gate\al_no.wav"
+		"wave"	"vo\k_lab\kl_thenwhere.wav"
+	}
+}
+
+"NPC_ShadowWalker.FoundEnemy"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"0.95"
+	"pitch"			"75, 85"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc\stalker\go_alert2.wav"
+		"wave"	"npc\stalker\go_alert2a.wav"
+	}
+}
+
+"NPC_ShadowWalker.Vocal.FoundEnemy"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"0.95"
+	"pitch"			"62, 62"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc\stalker\stalker_scream1.wav"
+		"wave"	"vo\citadel\al_thatshim.wav"
+		"wave"	"vo\citadel\al_thereheis.wav"
+		"wave"	"vo\episode_1\npc\alyx\al_rejoin02.wav"
+		"wave"	"vo\episode_1\npc\alyx\al_seemanyfoe03.wav"
+		"wave"	"vo\episode_1\npc\alyx\al_zombie_liveone02.wav"
+
+	}
+}
+
+"NPC_ShadowWalker.Death"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"0.95"
+	"pitch"			"60, 65"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"ambient\creatures\town_child_scream1.wav"
+	}
+}
