@@ -24,6 +24,7 @@
 #include "engine/IEngineSound.h"
 #include "basehlcombatweapon_shared.h"
 #include "ai_squadslot.h"
+#include "weapon_crowbar.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -45,7 +46,7 @@ public:
 	virtual int				SelectAlertSchedule();
 	virtual int				SelectCombatSchedule();
 	virtual bool			CanPickkUpWeapons() { return true;  }
-	Activity		NPC_TranslateActivity(Activity eNewActivity);
+	Activity				NPC_TranslateActivity(Activity eNewActivity);
 
 	// Sounds
 	virtual void		PlaySound(string_t soundname, bool optional);
@@ -56,8 +57,13 @@ public:
 	virtual void		FearSound(void) { PlaySound(m_iszFearSound, false); };
 	virtual void		LostEnemySound(void) { PlaySound(m_iszLostEnemySound, false); };
 	virtual void		FoundEnemySound(void) { PlaySound(m_iszFoundEnemySound, false); };
+
+	void			Activate();
+	void			FixupWeapon();
 	
 	DECLARE_DATADESC();
+
+	string_t m_iszWeaponModelName;			// Path/filename of model to override weapon model.
 
 	string_t m_iszFearSound;			// Path/filename of WAV file to play.
 	string_t m_iszDeathSound;			// Path/filename of WAV file to play.
@@ -87,7 +93,8 @@ IMPLEMENT_CUSTOM_AI( npc_citizen,CNPC_ShadowWalker );
 //---------------------------------------------------------
 // Save/Restore
 //---------------------------------------------------------
-BEGIN_DATADESC( CNPC_ShadowWalker )
+BEGIN_DATADESC(CNPC_ShadowWalker)
+	DEFINE_KEYFIELD(m_iszWeaponModelName, FIELD_STRING, "WeaponModel"),
 	DEFINE_KEYFIELD(m_iHealth, FIELD_INTEGER, "Health"),
 	DEFINE_KEYFIELD(m_iszFearSound, FIELD_SOUNDNAME, "FearSound"),
 	DEFINE_KEYFIELD(m_iszDeathSound, FIELD_SOUNDNAME, "DeathSound"),
@@ -113,6 +120,18 @@ void CNPC_ShadowWalker::InitCustomSchedules(void)
 }
 
 //-----------------------------------------------------------------------------
+// Purpose: Inner class for default weapon
+// TODO: Merge this with the Matt weapon in npc_citizen
+//-----------------------------------------------------------------------------
+class CWeaponCustomMelee : public CWeaponCrowbar
+{
+	DECLARE_CLASS(CWeaponCustomMelee, CWeaponCrowbar);
+
+	const char *GetWorldModel() const { return GetModelName().ToCStr(); }
+	void SetPickupTouch(void) {	/* do nothing */ }
+};
+
+//-----------------------------------------------------------------------------
 // Purpose: 
 //
 //
@@ -125,14 +144,18 @@ void CNPC_ShadowWalker::Precache( void )
 		SetModelName(MAKE_STRING("models/monster/subject.mdl"));
 	}
 
+	if (&m_iszWeaponModelName && m_iszWeaponModelName != MAKE_STRING("")) {
+		PrecacheModel(STRING(m_iszWeaponModelName));
+	}
+
 	PrecacheModel(STRING(GetModelName()));
-	PrecacheNPCSoundScript(&m_iszFearSound, MAKE_STRING("NPC_Shadow_Walker.Fear"));
-	PrecacheNPCSoundScript(&m_iszIdleSound, MAKE_STRING("NPC_Shadow_Walker.Idle"));
-	PrecacheNPCSoundScript(&m_iszAlertSound, MAKE_STRING("NPC_Shadow_Walker.Alert"));
-	PrecacheNPCSoundScript(&m_iszPainSound, MAKE_STRING("NPC_Shadow_Walker.Pain"));
-	PrecacheNPCSoundScript(&m_iszLostEnemySound, MAKE_STRING("NPC_Shadow_Walker.LostEnemy"));
-	PrecacheNPCSoundScript(&m_iszFoundEnemySound, MAKE_STRING("NPC_Shadow_Walker.FoundEnemy"));
-	PrecacheNPCSoundScript(&m_iszDeathSound, MAKE_STRING("NPC_Shadow_Walker.Death"));
+	PrecacheNPCSoundScript(&m_iszFearSound, MAKE_STRING("NPC_ShadowWalker.Fear"));
+	PrecacheNPCSoundScript(&m_iszIdleSound, MAKE_STRING("NPC_ShadowWalker.Idle"));
+	PrecacheNPCSoundScript(&m_iszAlertSound, MAKE_STRING("NPC_ShadowWalker.Alert"));
+	PrecacheNPCSoundScript(&m_iszPainSound, MAKE_STRING("NPC_ShadowWalker.Pain"));
+	PrecacheNPCSoundScript(&m_iszLostEnemySound, MAKE_STRING("NPC_ShadowWalker.LostEnemy"));
+	PrecacheNPCSoundScript(&m_iszFoundEnemySound, MAKE_STRING("NPC_ShadowWalker.FoundEnemy"));
+	PrecacheNPCSoundScript(&m_iszDeathSound, MAKE_STRING("NPC_ShadowWalker.Death"));
 
 	m_bWanderToggle = false;
 
@@ -186,6 +209,40 @@ void CNPC_ShadowWalker::Spawn( void )
 
 	NPCInit();
 }
+
+//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+void CNPC_ShadowWalker::FixupWeapon()
+{
+	// If no weapons supplied, give a crowbar
+	CBaseCombatWeapon *pWeapon = GetActiveWeapon();
+	if (pWeapon == NULL) {
+		pWeapon = (CBaseCombatWeapon *)CREATE_UNSAVED_ENTITY(CWeaponCustomMelee, "weapon_crowbar");
+
+		// Apply weapon model override
+		if (&m_iszWeaponModelName && m_iszWeaponModelName != MAKE_STRING("")) {
+			pWeapon->SetModel(STRING(m_iszWeaponModelName));
+		}
+		else {
+			pWeapon->SetModel("models/props_canal/mattpipe.mdl");
+		}
+
+		DispatchSpawn(pWeapon);
+		Weapon_Equip(pWeapon);
+	}
+
+
+}
+
+//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+
+void CNPC_ShadowWalker::Activate()
+{
+	BaseClass::Activate();
+	FixupWeapon();
+}
+
 
 //-----------------------------------------------------------------------------
 // Purpose: Choose a schedule after schedule failed
@@ -464,8 +521,6 @@ bool CNPC_ShadowWalker::HasRangedWeapon()
 Activity CNPC_ShadowWalker::NPC_TranslateActivity(Activity activity)
 {
 	switch (activity) {
-	case ACT_MELEE_ATTACK1:
-		return ACT_MELEE_ATTACK_SWING;
 	case ACT_RUN_AIM_SHOTGUN:
 		return ACT_RUN_AIM_RIFLE;
 	case ACT_WALK_AIM_SHOTGUN:
