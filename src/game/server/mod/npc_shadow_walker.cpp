@@ -147,6 +147,9 @@ void CNPC_ShadowWalker::Precache( void )
 	if (&m_iszWeaponModelName && m_iszWeaponModelName != MAKE_STRING("")) {
 		PrecacheModel(STRING(m_iszWeaponModelName));
 	}
+	else {
+		PrecacheModel("models/props_canal/mattpipe.mdl");
+	}
 
 	PrecacheModel(STRING(GetModelName()));
 	PrecacheNPCSoundScript(&m_iszFearSound, MAKE_STRING("NPC_ShadowWalker.Fear"));
@@ -181,10 +184,10 @@ void CNPC_ShadowWalker::Spawn( void )
 	SetMoveType( MOVETYPE_STEP );
 	SetBloodColor( BLOOD_COLOR_RED );
 	
-	// If the health has not been set through Hammer, use a default health value of 50
+	// If the health has not been set through Hammer, use a default health value of 75
 	if (m_iHealth < 1) 
 	{
-		m_iHealth = 50;
+		m_iHealth = 75;
 	}
 
 	m_flFieldOfView		= 0.5;
