@@ -50,8 +50,11 @@ $Project "Server (MapLab)"
 
 		$Folder	"MapLab DLL"
 		{
-			$File	"mod\npc_lost_soul.cpp"
-			$File	"mod\npc_shadow_walker.cpp"
+			$Folder	"Shared"
+			{
+			}
+			$File	"lab\npc_lost_soul.cpp"
+			$File	"lab\npc_shadow_walker.cpp"
 		}
 
 		$Folder	"HL2 DLL"
