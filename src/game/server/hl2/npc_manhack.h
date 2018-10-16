@@ -170,6 +170,7 @@ public:
 		m_iHealth = 0;
 	}
 
+	virtual void ShowHostile(bool hostile = true);
 
 	DEFINE_CUSTOM_AI;
 
@@ -186,7 +187,7 @@ private:
 	void UpdatePanels( void );
 	void SetEyeState( int state );
 
-	void ShowHostile( bool hostile = true );
+
 
 	bool IsFlyingActivity( Activity baseAct );
 
