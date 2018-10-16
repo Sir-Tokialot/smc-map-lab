@@ -102,9 +102,10 @@ public:
 
 	virtual float	GetHeadTurnRate( void ) { return 45.0f; } // Degrees per second
 
-	virtual void			CheckCollisions(float flInterval);
+	virtual void	CheckCollisions(float flInterval);
 	virtual void	GatherEnemyConditions( CBaseEntity *pEnemy );
-	virtual void			PlayFlySound(void);
+	virtual void	PlayFlySound(void);
+	virtual void	PlayAttackSound(bool bHostile);
 	virtual void	StopLoopingSounds(void);
 
 	void			Precache(void);
@@ -126,7 +127,7 @@ public:
 
 	void			SpinBlades(float flInterval);
 
-	virtual void			Slice( CBaseEntity *pHitEntity, float flInterval, trace_t &tr );
+	virtual void	Slice( CBaseEntity *pHitEntity, float flInterval, trace_t &tr );
 	void			Bump( CBaseEntity *pHitEntity, float flInterval, trace_t &tr );
 	void			Splash( const Vector &vecSplashPos );
 
@@ -170,7 +171,7 @@ public:
 		m_iHealth = 0;
 	}
 
-	virtual void ShowHostile(bool hostile = true);
+	virtual void SetEyeState(int state);
 
 	DEFINE_CUSTOM_AI;
 
@@ -185,7 +186,6 @@ private:
 	void StopBurst( bool bInterruptSchedule = false );
 
 	void UpdatePanels( void );
-	void SetEyeState( int state );
 
 
 
@@ -206,6 +206,7 @@ private:
 	// Are we being held by the physcannon?
 	bool IsHeldByPhyscannon( );
 
+	void ShowHostile(bool hostile = true);
 	void StartLoitering( const Vector &vecLoiterPosition );
 	void StopLoitering() { m_vecLoiterPosition = vec3_invalid; m_fTimeNextLoiterPulse = gpGlobals->curtime; }
 	bool IsLoitering() { return m_vecLoiterPosition != vec3_invalid; }

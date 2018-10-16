@@ -3135,15 +3135,26 @@ void CNPC_Manhack::ShowHostile( bool hostile /*= true*/)
 	//TODO: Open the manhack panels or close them, depending on the state
 	m_bShowingHostile = hostile;
 
-	if ( hostile )
+	PlayAttackSound(hostile);
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: Play a sound before charging at the player
+// Input  : hostile - 
+//-----------------------------------------------------------------------------
+void CNPC_Manhack::PlayAttackSound(bool hostile /*= true*/)
+{
+	if (hostile)
 	{
-		EmitSound( "NPC_Manhack.ChargeAnnounce" );
+		EmitSound("NPC_Manhack.ChargeAnnounce");
 	}
 	else
 	{
-		EmitSound( "NPC_Manhack.ChargeEnd" );
+		EmitSound("NPC_Manhack.ChargeEnd");
 	}
 }
+
+
 
 //-----------------------------------------------------------------------------
 // Purpose: 
