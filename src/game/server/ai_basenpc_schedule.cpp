@@ -4394,11 +4394,7 @@ int CAI_BaseNPC::SelectIdleSchedule()
 	if ( nSched != SCHED_NONE )
 		return nSched;
 
-	if ( HasCondition ( COND_HEAR_DANGER ) ||
-		 HasCondition ( COND_HEAR_COMBAT ) ||
-		 HasCondition ( COND_HEAR_WORLD  ) ||
-		 HasCondition ( COND_HEAR_BULLET_IMPACT ) ||
-		 HasCondition ( COND_HEAR_PLAYER ) )
+	if ( HasCondition ( COND_HEAR_DANGER | COND_HEAR_COMBAT | COND_HEAR_WORLD | COND_HEAR_BULLET_IMPACT | COND_HEAR_PLAYER ) )
 	{
 		return SCHED_ALERT_FACE_BESTSOUND;
 	}
@@ -4433,13 +4429,9 @@ int CAI_BaseNPC::SelectAlertSchedule()
 		return SCHED_ALERT_REACT_TO_COMBAT_SOUND;
 	}
 
-	if ( HasCondition ( COND_HEAR_DANGER ) ||
-			  HasCondition ( COND_HEAR_PLAYER ) ||
-			  HasCondition ( COND_HEAR_WORLD  ) ||
-			  HasCondition ( COND_HEAR_BULLET_IMPACT ) ||
-			  HasCondition ( COND_HEAR_COMBAT ) )
+	if ( HasCondition ( COND_HEAR_DANGER | COND_HEAR_PLAYER | COND_HEAR_WORLD | COND_HEAR_BULLET_IMPACT | COND_HEAR_COMBAT ) )
 	{
-		return SCHED_ALERT_FACE_BESTSOUND;
+		return SCHED_INVESTIGATE_SOUND;
 	}
 
 	if ( gpGlobals->curtime - GetEnemies()->LastTimeSeen( AI_UNKNOWN_ENEMY ) < TIME_CARE_ABOUT_DAMAGE )
@@ -4484,9 +4476,7 @@ int CAI_BaseNPC::SelectCombatSchedule()
 	// If I'm scared of this enemy run away
 	if ( IRelationType( GetEnemy() ) == D_FR )
 	{
-		if (HasCondition( COND_SEE_ENEMY )	|| 
-			HasCondition( COND_LIGHT_DAMAGE )|| 
-			HasCondition( COND_HEAVY_DAMAGE ))
+		if (HasCondition( COND_SEE_ENEMY | COND_LIGHT_DAMAGE | COND_HEAVY_DAMAGE ))
 		{
 			FearSound();
 			//ClearCommandGoal();
@@ -4506,7 +4496,7 @@ int CAI_BaseNPC::SelectCombatSchedule()
 	}
 
 	// Check if need to reload
-	if ( HasCondition( COND_LOW_PRIMARY_AMMO ) || HasCondition( COND_NO_PRIMARY_AMMO ) )
+	if ( HasCondition( COND_LOW_PRIMARY_AMMO | COND_NO_PRIMARY_AMMO ) )
 	{
 		return SCHED_HIDE_AND_RELOAD;
 	}
@@ -4531,9 +4521,7 @@ int CAI_BaseNPC::SelectCombatSchedule()
 	if ( HasCondition(COND_TOO_CLOSE_TO_ATTACK) ) 
 		return SCHED_BACK_AWAY_FROM_ENEMY;
 	
-	if ( HasCondition( COND_WEAPON_PLAYER_IN_SPREAD ) || 
-			HasCondition( COND_WEAPON_BLOCKED_BY_FRIEND ) || 
-			HasCondition( COND_WEAPON_SIGHT_OCCLUDED ) )
+	if ( HasCondition( COND_WEAPON_PLAYER_IN_SPREAD | COND_WEAPON_BLOCKED_BY_FRIEND | COND_WEAPON_SIGHT_OCCLUDED ) )
 	{
 		return SCHED_ESTABLISH_LINE_OF_FIRE;
 	}
