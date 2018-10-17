@@ -92,7 +92,9 @@ public:
 
 	void			MoveToTarget(float flInterval, const Vector &MoveTarget);
 
-	void ShowHostile(bool hostile = true);
+	void PlayAttackSound(bool hostile = true);
+	void PlayDamagedSound(void);
+	void SetEyeState(int state);
 
 	DECLARE_DATADESC();
 
@@ -141,6 +143,7 @@ void CNPC_LostSoul::Precache( void )
 	PrecacheScriptSound("NPC_LostSoul.ChargeAnnounce");
 	PrecacheScriptSound("NPC_LostSoul.ChargeEnd");
 	PrecacheScriptSound("NPC_LostSoul.Stunned");
+	PrecacheScriptSound("NPC_LostSoul.Bat");
 
 	BaseClass::Precache();
 }
@@ -493,7 +496,7 @@ void CNPC_LostSoul::CheckCollisions(float flInterval)
 // Purpose: 
 // Input  : hostile - 
 //-----------------------------------------------------------------------------
-void CNPC_LostSoul::ShowHostile(bool hostile /*= true*/)
+void CNPC_LostSoul::PlayAttackSound(bool hostile /*= true*/)
 {
 	if (hostile)
 	{
@@ -503,6 +506,23 @@ void CNPC_LostSoul::ShowHostile(bool hostile /*= true*/)
 	{
 		EmitSound("NPC_LostSoul.ChargeEnd");
 	}
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CNPC_LostSoul::PlayDamagedSound(void)
+{
+	EmitSound("NPC_LostSoul.Bat");
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+// Input  : state - 
+//-----------------------------------------------------------------------------
+void CNPC_LostSoul::SetEyeState(int state)
+{
+	// Do nothing for now
 }
 
 //-----------------------------------------------------------------------------
