@@ -81,6 +81,7 @@ private:
 
 
 	bool		m_bUseBothSquadSlots;	// If true use two squad slots, if false use one squad slot
+	bool		m_bCannotOpenDoors;		// If true, this NPC cannot open doors. The condition is reversed because originally it could.
 	bool		m_bWanderToggle;		// Boolean to toggle wandering / standing every think cycle
 	float		m_flNextSoundTime;		// Next time at which this NPC is allowed to play an NPC sound
 };
@@ -104,6 +105,7 @@ BEGIN_DATADESC(CNPC_ShadowWalker)
 	DEFINE_KEYFIELD(m_iszLostEnemySound, FIELD_SOUNDNAME, "LostEnemySound"),
 	DEFINE_KEYFIELD(m_iszFoundEnemySound, FIELD_SOUNDNAME, "FoundEnemySound"),
 	DEFINE_KEYFIELD(m_bUseBothSquadSlots, FIELD_BOOLEAN, "UseBothSquadSlots"),
+	DEFINE_KEYFIELD(m_bCannotOpenDoors, FIELD_BOOLEAN, "CannotOpenDoors"),
 
 	DEFINE_FIELD(m_bWanderToggle, FIELD_BOOLEAN),
 	DEFINE_FIELD(m_flNextSoundTime, FIELD_TIME)
@@ -203,8 +205,12 @@ void CNPC_ShadowWalker::Spawn( void )
 		CapabilitiesAdd(bits_CAP_USE_WEAPONS | bits_CAP_AIM_GUN | bits_CAP_MOVE_SHOOT);
 		CapabilitiesAdd(bits_CAP_WEAPON_MELEE_ATTACK1 || bits_CAP_WEAPON_MELEE_ATTACK2);
 		CapabilitiesAdd(bits_CAP_INNATE_MELEE_ATTACK1 || bits_CAP_INNATE_MELEE_ATTACK2);
-		CapabilitiesAdd(bits_CAP_DUCK | bits_CAP_DOORS_GROUP);
+		CapabilitiesAdd(bits_CAP_DUCK);
 		CapabilitiesAdd(bits_CAP_USE_SHOT_REGULATOR);
+
+		if (!m_bCannotOpenDoors) {
+			CapabilitiesAdd(bits_CAP_DOORS_GROUP);
+		}
 	}
 
 	CapabilitiesAdd(bits_CAP_MOVE_GROUND);
