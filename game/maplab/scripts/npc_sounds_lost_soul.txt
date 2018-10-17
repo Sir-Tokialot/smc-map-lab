@@ -29,6 +29,17 @@
 	}
 }
 
+"NPC_LostSoul.Bat"
+{
+	"channel"		"CHAN_ITEM"
+	"volume"		"VOL_NORM"
+	"pitch"			"150, 175"
+
+	"soundlevel"	"SNDLVL_70dB"
+
+	"wave"			"npc\stalker\stalker_alert3b.wav"
+}
+
 
 "NPC_LostSoul.Float"
 {
@@ -53,7 +64,8 @@
 {
 	"channel"		"CHAN_WEAPON"
 	"volume"		"VOL_NORM"
-	"pitch"			"120, 125"
+	"pitch"			"150, 175"
+	//"pitch"			"120, 125"
 	"soundlevel"	"SNDLVL_70dB"
 	"rndwave"
 	{
@@ -66,7 +78,8 @@
 {
 	"channel"		"CHAN_WEAPON"
 	"volume"		"VOL_NORM"
-	"pitch"			"120, 125"
+	"pitch"			"150, 175"
+	//"pitch"			"120, 125"
 	"soundlevel"	"SNDLVL_70dB"
 	"rndwave"
 	{
@@ -81,6 +94,7 @@
 	"volume"		"0.80"
 	"pitch"			"145,150"
 	"soundlevel"	"SNDLVL_70dB"
-	"wave"			"npc/scanner/scanner_siren2.wav"
+	"wave"			"NPC_Antlion.PoisonBurstScream"
+	
 }
 
