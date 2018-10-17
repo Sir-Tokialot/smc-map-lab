@@ -106,6 +106,7 @@ public:
 	virtual void	GatherEnemyConditions( CBaseEntity *pEnemy );
 	virtual void	PlayFlySound(void);
 	virtual void	PlayAttackSound(bool bHostile);
+	virtual void	PlayDamagedSound(void);
 	virtual void	StopLoopingSounds(void);
 
 	void			Precache(void);

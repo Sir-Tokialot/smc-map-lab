@@ -93,6 +93,7 @@ public:
 	void			MoveToTarget(float flInterval, const Vector &MoveTarget);
 
 	void PlayAttackSound(bool hostile = true);
+	void PlayDamagedSound(void);
 	void SetEyeState(int state);
 
 	DECLARE_DATADESC();
@@ -142,6 +143,7 @@ void CNPC_LostSoul::Precache( void )
 	PrecacheScriptSound("NPC_LostSoul.ChargeAnnounce");
 	PrecacheScriptSound("NPC_LostSoul.ChargeEnd");
 	PrecacheScriptSound("NPC_LostSoul.Stunned");
+	PrecacheScriptSound("NPC_LostSoul.Bat");
 
 	BaseClass::Precache();
 }
@@ -504,6 +506,14 @@ void CNPC_LostSoul::PlayAttackSound(bool hostile /*= true*/)
 	{
 		EmitSound("NPC_LostSoul.ChargeEnd");
 	}
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CNPC_LostSoul::PlayDamagedSound(void)
+{
+	EmitSound("NPC_LostSoul.Bat");
 }
 
 //-----------------------------------------------------------------------------

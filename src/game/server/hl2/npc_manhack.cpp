@@ -764,7 +764,7 @@ int	CNPC_Manhack::OnTakeDamage_Alive( const CTakeDamageInfo &info )
 		m_vForceVelocity = vecBestDir * info.GetDamage() * 0.5f;
 		m_flBladeSpeed = 10.0;
 
-		EmitSound( "NPC_Manhack.Bat" );	
+		PlayDamagedSound();
 
 		// tdInfo.SetDamage( 1.0 );
 
@@ -3152,6 +3152,15 @@ void CNPC_Manhack::PlayAttackSound(bool hostile /*= true*/)
 	{
 		EmitSound("NPC_Manhack.ChargeEnd");
 	}
+}
+
+
+//-----------------------------------------------------------------------------
+// Purpose: Play a sound before charging at the player
+//-----------------------------------------------------------------------------
+void CNPC_Manhack::PlayDamagedSound(void)
+{
+	EmitSound("NPC_Manhack.Bat");
 }
 
 
