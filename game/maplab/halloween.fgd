@@ -45,6 +45,14 @@
 		0 : "Use One Squad Slot" 
 		1 : "Use Both Squad Slots" 
 	]
+	CannotOpenDoors(choices) : "Can Open Doors?" : 0 : "Is this NPC able to open doors? You can change this after spawning with EnableOpenDoors and DisableOpenDoors, but it doesn't always seem to work well with pathfinding." = 
+	[
+		0 : "Can Open Doors" 
+		1 : "Cannot Open Doors" 
+	]
+	input SetSpeedModifier(float) : "Set a float value to multiple distance traveled by."
+	input EnableOpenDoors(void) : "Allow this NPC to open doors. (Warning: Doesn't always seem to update pathfinding / AI)"
+	input DisableOpenDoors(void) : "Prevent this NPC from opening doors."
 ]
 
 @NPCClass base(npc_manhack) studio("models/skeleton/skeleton_torso3.mdl") = npc_lost_soul : "Lost Soul"

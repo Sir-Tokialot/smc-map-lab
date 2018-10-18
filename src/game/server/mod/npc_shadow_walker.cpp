@@ -46,6 +46,7 @@ public:
 	virtual int				SelectAlertSchedule();
 	virtual int				SelectCombatSchedule();
 	virtual bool			CanPickkUpWeapons() { return true;  }
+	virtual float			GetSequenceGroundSpeed(CStudioHdr *pStudioHdr, int iSequence);
 	Activity				NPC_TranslateActivity(Activity eNewActivity);
 
 	// Sounds
@@ -60,7 +61,12 @@ public:
 
 	void			Activate();
 	void			FixupWeapon();
-	
+
+	// Inputs
+	virtual void InputSetSpeedModifier(inputdata_t &inputdata);
+	virtual void InputEnableOpenDoors(inputdata_t &inputdata);
+	virtual void InputDisableOpenDoors(inputdata_t &inputdata);
+
 	DECLARE_DATADESC();
 
 	string_t m_iszWeaponModelName;			// Path/filename of model to override weapon model.
@@ -81,8 +87,10 @@ private:
 
 
 	bool		m_bUseBothSquadSlots;	// If true use two squad slots, if false use one squad slot
+	bool		m_bCannotOpenDoors;		// If true, this NPC cannot open doors. The condition is reversed because originally it could.
 	bool		m_bWanderToggle;		// Boolean to toggle wandering / standing every think cycle
 	float		m_flNextSoundTime;		// Next time at which this NPC is allowed to play an NPC sound
+	float		m_flSpeedModifier;		// Modifier to apply to move distance
 };
 
 
@@ -104,9 +112,15 @@ BEGIN_DATADESC(CNPC_ShadowWalker)
 	DEFINE_KEYFIELD(m_iszLostEnemySound, FIELD_SOUNDNAME, "LostEnemySound"),
 	DEFINE_KEYFIELD(m_iszFoundEnemySound, FIELD_SOUNDNAME, "FoundEnemySound"),
 	DEFINE_KEYFIELD(m_bUseBothSquadSlots, FIELD_BOOLEAN, "UseBothSquadSlots"),
+	DEFINE_KEYFIELD(m_bCannotOpenDoors, FIELD_BOOLEAN, "CannotOpenDoors"),
 
 	DEFINE_FIELD(m_bWanderToggle, FIELD_BOOLEAN),
-	DEFINE_FIELD(m_flNextSoundTime, FIELD_TIME)
+	DEFINE_FIELD(m_flNextSoundTime, FIELD_TIME),
+	DEFINE_FIELD(m_flSpeedModifier, FIELD_TIME),
+
+	DEFINE_INPUTFUNC(FIELD_FLOAT, "SetSpeedModifier", InputSetSpeedModifier),
+	DEFINE_INPUTFUNC(FIELD_VOID, "EnableOpenDoors", InputEnableOpenDoors),
+	DEFINE_INPUTFUNC(FIELD_VOID, "DisableOpenDoors", InputDisableOpenDoors)
 END_DATADESC()
 
 //-----------------------------------------------------------------------------
@@ -193,6 +207,7 @@ void CNPC_ShadowWalker::Spawn( void )
 	m_flFieldOfView		= 0.5;
 	m_flNextSoundTime = gpGlobals->curtime;
 	m_NPCState			= NPC_STATE_NONE;
+	m_flSpeedModifier = 1.0f;
 
 	CapabilitiesClear();
 
@@ -203,8 +218,12 @@ void CNPC_ShadowWalker::Spawn( void )
 		CapabilitiesAdd(bits_CAP_USE_WEAPONS | bits_CAP_AIM_GUN | bits_CAP_MOVE_SHOOT);
 		CapabilitiesAdd(bits_CAP_WEAPON_MELEE_ATTACK1 || bits_CAP_WEAPON_MELEE_ATTACK2);
 		CapabilitiesAdd(bits_CAP_INNATE_MELEE_ATTACK1 || bits_CAP_INNATE_MELEE_ATTACK2);
-		CapabilitiesAdd(bits_CAP_DUCK | bits_CAP_DOORS_GROUP);
+		CapabilitiesAdd(bits_CAP_DUCK);
 		CapabilitiesAdd(bits_CAP_USE_SHOT_REGULATOR);
+
+		if (!m_bCannotOpenDoors) {
+			CapabilitiesAdd(bits_CAP_DOORS_GROUP);
+		}
 	}
 
 	CapabilitiesAdd(bits_CAP_MOVE_GROUND);
@@ -559,6 +578,55 @@ void CNPC_ShadowWalker::PrecacheNPCSoundScript(string_t * SoundName, string_t de
 		*SoundName = defaultSoundName;
 	}
 	PrecacheScriptSound(STRING(*SoundName));
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: Get movement speed, multipled by modifier
+//-----------------------------------------------------------------------------
+float CNPC_ShadowWalker::GetSequenceGroundSpeed(CStudioHdr *pStudioHdr, int iSequence)
+{
+	float t = SequenceDuration(pStudioHdr, iSequence);
+
+	if (t > 0)
+	{
+		return (GetSequenceMoveDist(pStudioHdr, iSequence) * m_flSpeedModifier / t);
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: Hammer input to change the speed of the NPC
+//-----------------------------------------------------------------------------
+void CNPC_ShadowWalker::InputSetSpeedModifier(inputdata_t &inputdata)
+{
+	this->m_flSpeedModifier = inputdata.value.Float();
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: Hammer input to enable opening doors
+//-----------------------------------------------------------------------------
+void CNPC_ShadowWalker::InputEnableOpenDoors(inputdata_t &inputdata)
+{
+	m_bCannotOpenDoors = false;
+	if (!HasSpawnFlags(SF_NPC_START_EFFICIENT))
+	{
+		CapabilitiesAdd(bits_CAP_DOORS_GROUP);
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: Hammer input to enable opening doors
+//-----------------------------------------------------------------------------
+void CNPC_ShadowWalker::InputDisableOpenDoors(inputdata_t &inputdata)
+{
+	m_bCannotOpenDoors = true;
+	if (!HasSpawnFlags(SF_NPC_START_EFFICIENT))
+	{
+		CapabilitiesRemove(bits_CAP_DOORS_GROUP);
+	}
 }
 
 //-----------------------------------------------------------------------------
