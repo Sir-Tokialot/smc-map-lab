@@ -30,6 +30,8 @@ $Project "Server (MapLab)"
 		{
 			$Folder "Shared"
 			{
+				$File	"$SRCDIR\game\shared\lab\lab_gamerules.cpp"
+				$File	"$SRCDIR\game\shared\lab\lab_gamerules.h"
 		    }
 			$File   "lab\lab_client.cpp"
 			$File   "lab\lab_player.cpp"
