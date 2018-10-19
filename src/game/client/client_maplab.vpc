@@ -5,8 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		"..\.."
-$Macro GAMENAME 	"maplab" [!$SOURCESDK]
-$Macro GAMENAME 	"maplab" [$SOURCESDK]
+$Macro GAMENAME 	"maplab"
 
 $Include "$SRCDIR\game\client\client_episodic.vpc"
 
@@ -28,6 +27,8 @@ $Project "Client (MapLab)"
 			$Folder "Shared"
 			{
 		    }
+			$File   "lab\c_lab_player.cpp"
+			$File   "lab\c_lab_player.h"
 		}
 		
 	}

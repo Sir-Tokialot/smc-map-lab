@@ -5,8 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		"..\.."
-$Macro GAMENAME 	"maplab" [!$SOURCESDK]
-$Macro GAMENAME 	"maplab" [$SOURCESDK]
+$Macro GAMENAME 	"maplab"
 
 $Include "$SRCDIR\game\server\server_episodic.vpc"
 
@@ -23,11 +22,19 @@ $Project "Server (MapLab)"
 {
 	$Folder	"Source Files"
 	{
+		$Folder	"HL2 DLL"
+		{
+			-$File   "hl2\hl2_client.cpp"
+		}
 		$Folder	"MapLab DLL"
 		{
 			$Folder "Shared"
 			{
 		    }
+			$File   "lab\lab_client.cpp"
+			$File   "lab\lab_player.cpp"
+			$File   "lab\lab_player.h"
+
 			$File	"mod\npc_lost_soul.cpp"
 			$File	"mod\npc_shadow_walker.cpp"
 		}
