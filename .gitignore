@@ -19,6 +19,9 @@ ipch
 *.idb
 *.vcxproj
 *.sln
+*.filters
+
+*/.vs
 
 # OSX/Linux build products
 *.mak
@@ -54,3 +57,6 @@ config.cfg
 # shader files
 *.tmp
 
+*.vpc_crc
+
+*.sentinel
