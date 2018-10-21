@@ -32,6 +32,7 @@ $Project "Server (MapLab)"
 			{
 				$File	"$SRCDIR\game\shared\lab\lab_gamerules.cpp"
 				$File	"$SRCDIR\game\shared\lab\lab_gamerules.h"
+				$File	"$SRCDIR\game\shared\lab\handviewmodel_shared.cpp"
 		    }
 			$File   "lab\lab_client.cpp"
 			$File   "lab\lab_player.cpp"
