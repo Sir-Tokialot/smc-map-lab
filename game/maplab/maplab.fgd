@@ -7,11 +7,7 @@
 
 @include "base.fgd"
 @include "halflife2.fgd"
-
-@NPCClass base(npc_manhack) studio("models/skeleton/skeleton_torso3.mdl") = npc_lost_soul : "Lost Soul"
-[             
-	WeaponModel(studio) : "Weapon Model Override" : "models/props_canal/mattpipe.mdl" : "Model of the player's hands"
-]
+@include "halloween.fgd"
 
 @PointClass base(Targetname, DamageFilter) size(-8 -8 -8, 8 8 8) = logic_labplayerproxy :
 	"An entity that is used to relay inputs/ouputs to the player and back to the world."
