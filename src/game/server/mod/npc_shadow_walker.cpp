@@ -34,8 +34,10 @@
 //=========================================================
 enum
 {
-	SCHED_MELEE_ATTACK_NOINTERRUPT,
-	SCHED_HIDE
+	SCHED_MELEE_ATTACK_NOINTERRUPT = LAST_SHARED_SCHEDULE,
+	SCHED_HIDE,
+
+	LAST_SHADOW_WALKER_SCHED
 };
 
 //=========================================================
@@ -110,7 +112,7 @@ private:
 
 
 LINK_ENTITY_TO_CLASS( npc_shadow_walker, CNPC_ShadowWalker );
-IMPLEMENT_CUSTOM_AI( npc_citizen,CNPC_ShadowWalker );
+//IMPLEMENT_CUSTOM_AI( npc_citizen,CNPC_ShadowWalker );
 
 
 //---------------------------------------------------------
@@ -142,10 +144,12 @@ BEGIN_DATADESC(CNPC_ShadowWalker)
 	DEFINE_INPUTFUNC(FIELD_VOID, "DisablePickupWeapons", InputDisablePickupWeapons)
 END_DATADESC()
 
+
+AI_BEGIN_CUSTOM_NPC(npc_shadow_walker, CNPC_ShadowWalker)
 //=========================================================
 // > Melee_Attack_NoInterrupt
 //=========================================================
-AI_DEFINE_SCHEDULE
+DEFINE_SCHEDULE
 (
 	SCHED_MELEE_ATTACK_NOINTERRUPT,
 
@@ -163,7 +167,7 @@ AI_DEFINE_SCHEDULE
 //=========================================================
 // 	SCHED_HIDE
 //=========================================================
-AI_DEFINE_SCHEDULE
+DEFINE_SCHEDULE
 (
 	SCHED_HIDE,
 
@@ -181,6 +185,9 @@ AI_DEFINE_SCHEDULE
 	"		COND_NEW_ENEMY"
 	"		COND_ENEMY_DEAD"
 );
+AI_END_CUSTOM_NPC()
+
+
 
 //---------------------------------------------------------
 // Constants
@@ -189,16 +196,6 @@ const float MIN_TIME_NEXT_SOUND = 0.5f;
 const float MAX_TIME_NEXT_SOUND = 1.0f;
 const float MIN_TIME_NEXT_FOUNDENEMY_SOUND = 2.0f;
 const float MAX_TIME_NEXT_FOUNDENEMY_SOUND = 5.0f;
-
-//-----------------------------------------------------------------------------
-// Purpose: Initialize the custom schedules
-// Input  :
-// Output :
-//-----------------------------------------------------------------------------
-void CNPC_ShadowWalker::InitCustomSchedules(void) 
-{
-	INIT_CUSTOM_AI(CNPC_ShadowWalker);
-}
 
 //-----------------------------------------------------------------------------
 // Purpose: Inner class for default weapon
@@ -445,8 +442,9 @@ int CNPC_ShadowWalker::SelectIdleSchedule()
 	// no valid route! Wander instead
 	if (GetNavigator()->GetGoalType() == GOALTYPE_NONE) {
 		nSched = SelectScheduleWander();
-		if (nSched == SCHED_NONE)
-			return SCHED_IDLE_STAND;
+		if (nSched != SCHED_NONE)
+			return nSched;
+		return SCHED_IDLE_STAND;
 	}
 
 	// valid route. Get moving
@@ -552,7 +550,7 @@ int CNPC_ShadowWalker::SelectCombatSchedule()
 	}
 
 	// Reloading conditions are necessary just in case for some reason somebody gives the Shadow Walker a gun
-	if (HasCondition(COND_LOW_PRIMARY_AMMO) || HasCondition(COND_NO_PRIMARY_AMMO))
+	if (HasRangedWeapon() && (HasCondition(COND_LOW_PRIMARY_AMMO) || HasCondition(COND_NO_PRIMARY_AMMO)))
 	{
 		return SCHED_HIDE_AND_RELOAD;
 	}
