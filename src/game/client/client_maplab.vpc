@@ -28,6 +28,7 @@ $Project "Client (MapLab)"
 			{
 				$File	"$SRCDIR\game\shared\lab\lab_gamerules.cpp"
 				$File	"$SRCDIR\game\shared\lab\lab_gamerules.h"
+				$File	"$SRCDIR\game\shared\lab\handviewmodel_shared.cpp"
 		    }
 			$File   "lab\c_lab_player.cpp"
 			$File   "lab\c_lab_player.h"

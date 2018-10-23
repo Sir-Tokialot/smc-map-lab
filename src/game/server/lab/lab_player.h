@@ -4,6 +4,8 @@
 
 #include "hl2_player.h"
 
+class CLogicLabPlayerProxy;
+
 class CLabPlayer : public CHL2_Player
 {
 public:
@@ -20,6 +22,11 @@ public:
 	virtual void PostThink();
 	virtual void Spawn();
 	virtual void Precache();
+	virtual void CreateHandModel(int viewmodelindex = 1, int iOtherVm = 0);
+	CLogicLabPlayerProxy *GetLabPlayerProxy();
+private:
+	EHANDLE				m_hLabPlayerProxy;
+
 };
 
 
