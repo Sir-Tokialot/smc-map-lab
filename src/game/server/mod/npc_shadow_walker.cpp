@@ -21,6 +21,8 @@
 #include "entitylist.h"
 #include "activitylist.h"
 #include "ai_basenpc.h"
+#include "ai_blended_movement.h"
+#include "ai_behavior_actbusy.h"
 #include "engine/IEngineSound.h"
 #include "basehlcombatweapon_shared.h"
 #include "ai_squadslot.h"
@@ -42,9 +44,11 @@ enum
 
 //=========================================================
 //=========================================================
-class CNPC_ShadowWalker : public CAI_BaseNPC
+typedef CAI_BlendingHost< CAI_BehaviorHost<CAI_BaseNPC> > CAI_CustomNPCBase;
+
+class CNPC_ShadowWalker : public CAI_CustomNPCBase
 {
-	DECLARE_CLASS( CNPC_ShadowWalker, CAI_BaseNPC );
+	DECLARE_CLASS( CNPC_ShadowWalker, CAI_CustomNPCBase);
 
 public:
 	void	Precache( void );
@@ -57,9 +61,8 @@ public:
 	virtual int				SelectIdleSchedule();
 	virtual int				SelectAlertSchedule();
 	virtual int				SelectCombatSchedule();
-	virtual bool			CanPickkUpWeapons() { return m_bCanPickupWeapons;  }
 	virtual float			GetSequenceGroundSpeed(CStudioHdr *pStudioHdr, int iSequence);
-	Activity				NPC_TranslateActivity(Activity eNewActivity);
+	virtual Activity				NPC_TranslateActivity(Activity eNewActivity);
 	virtual int TranslateSchedule(int scheduleType);
 
 	// Sounds
@@ -360,7 +363,7 @@ int CNPC_ShadowWalker::SelectFailSchedule(int failedSchedule, int failedTask, AI
 //-----------------------------------------------------------------------------
 int CNPC_ShadowWalker::SelectScheduleRetrieveItem()
 {
-	if (HasCondition(COND_BETTER_WEAPON_AVAILABLE))
+	if (m_bCanPickupWeapons && HasCondition(COND_BETTER_WEAPON_AVAILABLE))
 	{
 		CBaseHLCombatWeapon *pWeapon = dynamic_cast<CBaseHLCombatWeapon *>(Weapon_FindUsable(WEAPON_SEARCH_DELTA));
 		if (pWeapon)
@@ -433,11 +436,9 @@ int CNPC_ShadowWalker::SelectIdleSchedule()
 		return SCHED_INVESTIGATE_SOUND;
 	}
 
-	if (CanPickkUpWeapons()) {
-		nSched = SelectScheduleRetrieveItem();
-		if (nSched != SCHED_NONE)
-			return nSched;
-	}
+	nSched = SelectScheduleRetrieveItem();
+	if (nSched != SCHED_NONE)
+		return nSched;
 
 	// no valid route! Wander instead
 	if (GetNavigator()->GetGoalType() == GOALTYPE_NONE) {
@@ -476,17 +477,16 @@ int CNPC_ShadowWalker::SelectAlertSchedule()
 		return SCHED_INVESTIGATE_SOUND;
 	}
 
-	if (CanPickkUpWeapons()) {
-		nSched = SelectScheduleRetrieveItem();
-		if (nSched != SCHED_NONE)
-			return nSched;
-	}
+	nSched = SelectScheduleRetrieveItem();
+	if (nSched != SCHED_NONE)
+		return nSched;
 
 	// no valid route! Wander instead
 	if (GetNavigator()->GetGoalType() == GOALTYPE_NONE) {
 		nSched = SelectScheduleWander();
-		if (nSched == SCHED_NONE)
-			return SCHED_IDLE_STAND;
+		if (nSched != SCHED_NONE)
+			return nSched;
+		return SCHED_IDLE_STAND;
 	}
 
 	// valid route. Get moving
@@ -640,8 +640,6 @@ int CNPC_ShadowWalker::TranslateSchedule(int scheduleType)
 Activity CNPC_ShadowWalker::NPC_TranslateActivity(Activity activity)
 {
 	switch (activity) {
-	case ACT_IDLE_MELEE:
-		return ACT_IDLE; // If the walker has a melee weapon but is in an idle state, don't raise the weapon
 	case ACT_RUN_AIM_SHOTGUN:
 		return ACT_RUN_AIM_RIFLE;
 	case ACT_WALK_AIM_SHOTGUN:
@@ -650,6 +648,10 @@ Activity CNPC_ShadowWalker::NPC_TranslateActivity(Activity activity)
 		return ACT_IDLE_ANGRY_SMG1;
 	case ACT_RANGE_ATTACK_SHOTGUN_LOW:
 		return ACT_RANGE_ATTACK_SMG1_LOW;
+	case ACT_IDLE_MELEE:
+	case ACT_IDLE_ANGRY_MELEE:  // If the walker has a melee weapon but is in an idle state, don't raise the weapon
+		if (m_NPCState == NPC_STATE_IDLE)
+			return ACT_IDLE_SUITCASE;
 	default:
 		return BaseClass::NPC_TranslateActivity(activity);
 	}

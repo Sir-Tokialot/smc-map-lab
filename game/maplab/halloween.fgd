@@ -50,16 +50,17 @@
 		0 : "Can Open Doors" 
 		1 : "Cannot Open Doors" 
 	]
-	CanPickupWeapons(choices) : "Can Pick Up Guns?" : 0 : "Is this NPC able to pick up guns? You can change this after spawning with EnablePickupWeapons and DisablePickupWeapons." = 
-	[
-		0 : "Cannot Pick Up Guns" 
-		1 : "Can Pick Up Guns" 
-	]
+	// // Weapon pickup feature not working yet
+	// CanPickupWeapons(choices) : "Can Pick Up Guns?" : 0 : "Is this NPC able to pick up guns? You can change this after spawning with EnablePickupWeapons and DisablePickupWeapons." = 
+	// [
+	// 	0 : "Cannot Pick Up Guns" 
+	// 	1 : "Can Pick Up Guns" 
+	// ]
 	input SetSpeedModifier(float) : "Set a float value to multiple distance traveled by."
 	input EnableOpenDoors(void) : "Allow this NPC to open doors. (Warning: Doesn't always seem to update pathfinding / AI)"
 	input DisableOpenDoors(void) : "Prevent this NPC from opening doors."
-	input EnablePickupWeapons(void) : "Allow this NPC to pick up any weapon off of the ground."
-	input DisablePickupWeapons(void) : "Prevent this NPC from picking up weapons."
+	// input EnablePickupWeapons(void) : "Allow this NPC to pick up any weapon off of the ground."
+	// input DisablePickupWeapons(void) : "Prevent this NPC from picking up weapons."
 	
 ]
 
