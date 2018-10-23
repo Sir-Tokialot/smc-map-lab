@@ -38,8 +38,10 @@ $Project "Server (MapLab)"
 			$File   "lab\lab_player.cpp"
 			$File   "lab\lab_player.h"
 
-			$File	"mod\npc_lost_soul.cpp"
-			$File	"mod\npc_shadow_walker.cpp"
+			$File "mod\npc_lost_soul.cpp"
+			$File "mod\npc_shadow_walker.h"
+			$File "mod\npc_shadow_walker.cpp"
+			$File "mod\weapon_custom_melee.h"
 		}
 		
 	}
