@@ -353,6 +353,9 @@ int CNPC_ShadowWalker::SelectFailSchedule(int failedSchedule, int failedTask, AI
 	case SCHED_RUN_FROM_ENEMY:
 		// I can't run away, so I will just run randomly!
 		return SCHED_RUN_RANDOM;
+	case SCHED_INVESTIGATE_SOUND:
+		// I can't investigate a sound I heard.
+		return SCHED_IDLE_WANDER;
 	}
 
 	return BaseClass::SelectFailSchedule(failedSchedule, failedTask, taskFailCode);
