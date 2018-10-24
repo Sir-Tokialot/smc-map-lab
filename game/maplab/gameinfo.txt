@@ -1,6 +1,6 @@
 "GameInfo"
 {
-	game 		"My First Episodic Mod"
+	game 		"Map Labs"
 	title 		"HALF-LIFE'"
 	title2		""
 	supportsvr	1
