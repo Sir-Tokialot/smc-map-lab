@@ -127,12 +127,13 @@ void CNPC_ShadowWalker::FixupWeapon()
 	// If no weapons supplied, give a crowbar
 	CBaseCombatWeapon *pWeapon = GetActiveWeapon();
 	if (pWeapon == NULL) {
-		CWeaponCustomMelee * pMeleeWeapon = (CWeaponCustomMelee *)CREATE_UNSAVED_ENTITY(CWeaponCustomMelee, "weapon_crowbar");
+		CWeaponCustomMelee *pMeleeWeapon = (CWeaponCustomMelee*)CreateEntityByName("weapon_custommelee");
 
 		// Apply weapon model override
 		if (&m_iszWeaponModelName && m_iszWeaponModelName != MAKE_STRING("")) {
 			pMeleeWeapon->m_iszWeaponModelName = this->m_iszWeaponModelName;
 		}
+		// Default custom weapon model
 		else {
 			pMeleeWeapon->m_iszWeaponModelName = MAKE_STRING("models/props_canal/mattpipe.mdl");
 		}

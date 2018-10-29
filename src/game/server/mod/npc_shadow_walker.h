@@ -40,19 +40,19 @@ class CNPC_ShadowWalker : public CAI_CustomNPCBase
 	DECLARE_CLASS(CNPC_ShadowWalker, CAI_CustomNPCBase);
 
 public:
-	void	Precache(void);
-	void	Spawn(void);
-	Class_T Classify(void);
-	virtual int				SelectFailSchedule(int failedSchedule, int failedTask, AI_TaskFailureCode_t taskFailCode);
-	virtual int 			SelectScheduleRetrieveItem();
-	virtual int 			SelectScheduleWander();
-	virtual int 			SelectSchedule();
-	virtual int				SelectIdleSchedule();
-	virtual int				SelectAlertSchedule();
-	virtual int				SelectCombatSchedule();
-	virtual float			GetSequenceGroundSpeed(CStudioHdr *pStudioHdr, int iSequence);
-	virtual Activity				NPC_TranslateActivity(Activity eNewActivity);
-	virtual int TranslateSchedule(int scheduleType);
+	void				Precache(void);
+	void				Spawn(void);
+	Class_T				Classify(void);
+	virtual int			SelectFailSchedule(int failedSchedule, int failedTask, AI_TaskFailureCode_t taskFailCode);
+	virtual int 		SelectScheduleRetrieveItem();
+	virtual int 		SelectScheduleWander();
+	virtual int 		SelectSchedule();
+	virtual int			SelectIdleSchedule();
+	virtual int			SelectAlertSchedule();
+	virtual int			SelectCombatSchedule();
+	virtual float		GetSequenceGroundSpeed(CStudioHdr *pStudioHdr, int iSequence);
+	virtual Activity	NPC_TranslateActivity(Activity eNewActivity);
+	virtual int			TranslateSchedule(int scheduleType);
 
 	// Sounds
 	virtual void		PlaySound(string_t soundname, bool optional);
@@ -64,42 +64,42 @@ public:
 	virtual void		LostEnemySound(void) { PlaySound(m_iszLostEnemySound, false); };
 	virtual void		FoundEnemySound(void);
 
-	void			Activate();
-	void			FixupWeapon();
+	void				Activate();
+	void				FixupWeapon();
 
 	// Inputs
-	virtual void InputSetSpeedModifier(inputdata_t &inputdata);
-	virtual void InputEnableOpenDoors(inputdata_t &inputdata);
-	virtual void InputDisableOpenDoors(inputdata_t &inputdata);
-	virtual void InputEnablePickupWeapons(inputdata_t &inputdata);
-	virtual void InputDisablePickupWeapons(inputdata_t &inputdata);
+	virtual void		InputSetSpeedModifier(inputdata_t &inputdata);
+	virtual void		InputEnableOpenDoors(inputdata_t &inputdata);
+	virtual void		InputDisableOpenDoors(inputdata_t &inputdata);
+	virtual void		InputEnablePickupWeapons(inputdata_t &inputdata);
+	virtual void		InputDisablePickupWeapons(inputdata_t &inputdata);
 
 	DECLARE_DATADESC();
 
-	string_t m_iszWeaponModelName;			// Path/filename of model to override weapon model.
+	string_t			m_iszWeaponModelName;			// Path/filename of model to override weapon model.
 
-	string_t m_iszFearSound;			// Path/filename of WAV file to play.
-	string_t m_iszDeathSound;			// Path/filename of WAV file to play.
-	string_t m_iszIdleSound;			// Path/filename of WAV file to play.
-	string_t m_iszPainSound;			// Path/filename of WAV file to play.
-	string_t m_iszAlertSound;			// Path/filename of WAV file to play.
-	string_t m_iszLostEnemySound;		// Path/filename of WAV file to play.
-	string_t m_iszFoundEnemySound;		// Path/filename of WAV file to play.
+	string_t			m_iszFearSound;			// Path/filename of WAV file to play.
+	string_t			m_iszDeathSound;			// Path/filename of WAV file to play.
+	string_t			m_iszIdleSound;			// Path/filename of WAV file to play.
+	string_t			m_iszPainSound;			// Path/filename of WAV file to play.
+	string_t			m_iszAlertSound;			// Path/filename of WAV file to play.
+	string_t			m_iszLostEnemySound;		// Path/filename of WAV file to play.
+	string_t			m_iszFoundEnemySound;		// Path/filename of WAV file to play.
 
 	DEFINE_CUSTOM_AI;
 
 private:
-	bool		HasRangedWeapon();
-	void		PrecacheNPCSoundScript(string_t* SoundName, string_t defaultSoundName);
+	bool				HasRangedWeapon();
+	void				PrecacheNPCSoundScript(string_t* SoundName, string_t defaultSoundName);
 
 
-	bool		m_bUseBothSquadSlots;	// If true use two squad slots, if false use one squad slot
-	bool		m_bCannotOpenDoors;		// If true, this NPC cannot open doors. The condition is reversed because originally it could.
-	bool		m_bCanPickupWeapons;			// If true, this NPC is able to pick up weapons off of the ground just like npc_citizen.
-	bool		m_bWanderToggle;		// Boolean to toggle wandering / standing every think cycle
-	float		m_flNextSoundTime;		// Next time at which this NPC is allowed to play an NPC sound
-	float		m_flNextFoundEnemySoundTime;	// Next time at which this NPC is allowed to play an NPC sound
-	float		m_flSpeedModifier;		// Modifier to apply to move distance
+	bool				m_bUseBothSquadSlots;	// If true use two squad slots, if false use one squad slot
+	bool				m_bCannotOpenDoors;		// If true, this NPC cannot open doors. The condition is reversed because originally it could.
+	bool				m_bCanPickupWeapons;			// If true, this NPC is able to pick up weapons off of the ground just like npc_citizen.
+	bool				m_bWanderToggle;		// Boolean to toggle wandering / standing every think cycle
+	float				m_flNextSoundTime;		// Next time at which this NPC is allowed to play an NPC sound
+	float				m_flNextFoundEnemySoundTime;	// Next time at which this NPC is allowed to play an NPC sound
+	float				m_flSpeedModifier;		// Modifier to apply to move distance
 };
 
 

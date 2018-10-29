@@ -15,14 +15,21 @@ class CWeaponCustomMelee : public CWeaponCrowbar
 	DECLARE_CLASS(CWeaponCustomMelee, CWeaponCrowbar);
 
 	const char *GetWorldModel() const { return m_iszWeaponModelName.ToCStr(); }
-	void SetPickupTouch(void) {	/* do nothing */ }
+	virtual void Drop(const Vector &vecVelocity);
 public:
 	string_t m_iszWeaponModelName;
 
 	DECLARE_DATADESC();
-
 };
 
+void CWeaponCustomMelee::Drop(const Vector &vecVelocity)
+{
+	BaseClass::Drop(vecVelocity);
+	AddSpawnFlags(SF_WEAPON_NO_PLAYER_PICKUP);
+}
+
+LINK_ENTITY_TO_CLASS(weapon_custommelee, CWeaponCustomMelee);
+
 BEGIN_DATADESC(CWeaponCustomMelee)
-DEFINE_FIELD(m_iszWeaponModelName, FIELD_STRING)
+	DEFINE_FIELD(m_iszWeaponModelName, FIELD_STRING)
 END_DATADESC()
