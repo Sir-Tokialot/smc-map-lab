@@ -62,6 +62,3 @@ config.cfg
 *.sentinel
 
 *.pdb
-
-*.vcxproj.vpc_crc
- 
