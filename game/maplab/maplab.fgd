@@ -8,6 +8,7 @@
 @include "base.fgd"
 @include "halflife2.fgd"
 @include "halloween.fgd"
+@include "flaregun.fgd"
 
 @PointClass base(Targetname, DamageFilter) size(-8 -8 -8, 8 8 8) = logic_labplayerproxy :
 	"An entity that is used to relay inputs/ouputs to the player and back to the world."

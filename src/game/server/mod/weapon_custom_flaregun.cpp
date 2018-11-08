@@ -26,7 +26,17 @@ class CFlareGunProjectile : public CFlare
 public:
 	DECLARE_CLASS(CFlareGunProjectile, CFlare);
 	static CFlareGunProjectile *Create(Vector vecOrigin, QAngle vecAngles, CBaseEntity *pOwner, float lifetime);
-	void FlareGunProjectileTouch(CBaseEntity *pOther);
+	void	IgniteOtherIfAllowed(CBaseEntity *pOther);
+	void	FlareGunProjectileTouch(CBaseEntity *pOther);
+	void	FlareGunProjectileBurnTouch(CBaseEntity *pOther);
+
+};
+
+class CFlaregunCustom : public CFlaregun
+{
+public:
+	DECLARE_CLASS(CFlaregunCustom, CFlaregun);
+	virtual bool			Reload(void);
 
 };
 
@@ -55,7 +65,7 @@ public:
 IMPLEMENT_SERVERCLASS_ST(CFlaregun, DT_Flaregun)
 END_SEND_TABLE()
 
-LINK_ENTITY_TO_CLASS( weapon_flaregun, CFlaregun );
+LINK_ENTITY_TO_CLASS( weapon_flaregun, CFlaregunCustom);
 PRECACHE_WEAPON_REGISTER( weapon_flaregun );
 
 //-----------------------------------------------------------------------------
@@ -150,6 +160,18 @@ void CFlaregun::SecondaryAttack( void )
 }
 
 //-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+bool CFlaregunCustom::Reload(void)
+{
+	bool fRet = DefaultReload(GetMaxClip1(), GetMaxClip2(), ACT_VM_RELOAD);
+	if (fRet)
+	{
+		WeaponSound(RELOAD);
+	}
+	return fRet;
+}
+
+//-----------------------------------------------------------------------------
 // Purpose: Create function for Flare Gun projectile
 // Input  : vecOrigin - 
 //			vecAngles - 
@@ -178,6 +200,10 @@ CFlareGunProjectile *CFlareGunProjectile::Create(Vector vecOrigin, QAngle vecAng
 
 	//Burn out time
 	pFlare->m_flTimeBurnOut = gpGlobals->curtime + lifetime;
+
+	// Time to next burn damage
+	pFlare->m_flNextDamage = gpGlobals->curtime;
+
 
 	pFlare->RemoveSolidFlags(FSOLID_NOT_SOLID);
 	pFlare->AddSolidFlags(FSOLID_NOT_STANDABLE);
@@ -212,29 +238,11 @@ void CFlareGunProjectile::FlareGunProjectileTouch(CBaseEntity *pOther)
 			Vector vecNewVelocity = GetAbsVelocity();
 			vecNewVelocity *= 0.1f;
 			SetAbsVelocity(vecNewVelocity);
-
 			SetMoveType(MOVETYPE_FLYGRAVITY, MOVECOLLIDE_FLY_BOUNCE);
 			SetGravity(1.0f);
-
 			Die(0.5);
-
-			// Don't burn the player
-			if (pOther->IsPlayer())
-				return;
-
-			// Don't burn friendly NPCs
-			CAI_BaseNPC *pNPC;
-			pNPC = dynamic_cast<CAI_BaseNPC*>(pOther);
-			if (pNPC && pNPC->IsPlayerAlly())
-				return;
-
-			// If this is an ignitable entity that isn't the player or an ally, ignite it!
-			CBaseAnimating *pAnim;
-			pAnim = dynamic_cast<CBaseAnimating*>(pOther);
-			if (pAnim)
-				pAnim->IgniteLifetime(30.0f);
-
-			
+			IgniteOtherIfAllowed(pOther);
+			m_nBounces++;
 			return;
 	}
 	else
@@ -267,7 +275,7 @@ void CFlareGunProjectile::FlareGunProjectileTouch(CBaseEntity *pOther)
 						SetAbsVelocity(vec3_origin);
 						SetMoveType(MOVETYPE_NONE);
 
-						SetTouch(&CFlare::FlareBurnTouch);
+						SetTouch(&CFlareGunProjectile::FlareGunProjectileBurnTouch);
 
 						int index = decalsystem->GetDecalIndexForName("SmallScorch");
 						if (index >= 0)
@@ -318,6 +326,40 @@ void CFlareGunProjectile::FlareGunProjectileTouch(CBaseEntity *pOther)
 			SetMoveType(MOVETYPE_NONE);
 			RemoveSolidFlags(FSOLID_NOT_SOLID);
 			AddSolidFlags(FSOLID_TRIGGER);
+			SetTouch(&CFlareGunProjectile::FlareGunProjectileBurnTouch);
 		}
 	}
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+// Input  : *pOther - 
+//-----------------------------------------------------------------------------
+void CFlareGunProjectile::FlareGunProjectileBurnTouch(CBaseEntity *pOther)
+{
+	if (pOther && pOther->m_takedamage && (m_flNextDamage < gpGlobals->curtime))
+	{
+		IgniteOtherIfAllowed(pOther);
+		pOther->TakeDamage(CTakeDamageInfo(this, m_pOwner, 1, (DMG_BULLET | DMG_BURN)));
+		m_flNextDamage = gpGlobals->curtime + 1.0f;
+	}
+}
+
+void CFlareGunProjectile::IgniteOtherIfAllowed(CBaseEntity * pOther)
+{
+	// Don't burn the player
+	if (pOther->IsPlayer())
+		return;
+
+	// Don't burn friendly NPCs
+	CAI_BaseNPC *pNPC;
+	pNPC = dynamic_cast<CAI_BaseNPC*>(pOther);
+	if (pNPC && pNPC->IsPlayerAlly())
+		return;
+
+	// If this is an ignitable entity that isn't the player or an ally, ignite it!
+	CBaseAnimating *pAnim;
+	pAnim = dynamic_cast<CBaseAnimating*>(pOther);
+	if (pAnim)
+		pAnim->IgniteLifetime(30.0f);
 }
