@@ -339,9 +339,9 @@ void CFlareGunProjectile::FlareGunProjectileBurnTouch(CBaseEntity *pOther)
 {
 	if (pOther && pOther->m_takedamage && (m_flNextDamage < gpGlobals->curtime))
 	{
-		IgniteOtherIfAllowed(pOther);
 		pOther->TakeDamage(CTakeDamageInfo(this, m_pOwner, 1, (DMG_BULLET | DMG_BURN)));
 		m_flNextDamage = gpGlobals->curtime + 1.0f;
+		IgniteOtherIfAllowed(pOther);
 	}
 }
 
@@ -351,15 +351,28 @@ void CFlareGunProjectile::IgniteOtherIfAllowed(CBaseEntity * pOther)
 	if (pOther->IsPlayer())
 		return;
 
-	// Don't burn friendly NPCs
 	CAI_BaseNPC *pNPC;
 	pNPC = dynamic_cast<CAI_BaseNPC*>(pOther);
-	if (pNPC && pNPC->IsPlayerAlly())
-		return;
+	if (pNPC) {
+		// Don't burn friendly NPCs
+		if (pNPC->IsPlayerAlly())
+			return;
 
-	// If this is an ignitable entity that isn't the player or an ally, ignite it!
-	CBaseAnimating *pAnim;
-	pAnim = dynamic_cast<CBaseAnimating*>(pOther);
-	if (pAnim)
-		pAnim->IgniteLifetime(30.0f);
+		// Don't burn boss enemies
+		if (FStrEq(STRING(pNPC->m_iClassname), "npc_combinegunship")
+		 || FStrEq(STRING(pNPC->m_iClassname), "npc_combinedropship")
+		 || FStrEq(STRING(pNPC->m_iClassname), "npc_strider")
+		 || FStrEq(STRING(pNPC->m_iClassname), "npc_helicopter")
+			)
+			return;
+
+		// Burn this NPC
+		pNPC->IgniteLifetime(30.0f);
+	}
+
+	// If this is a breakable prop, ignite it!
+	CBreakableProp *pBreakable;
+	pBreakable = dynamic_cast<CBreakableProp*>(pOther);
+	if (pBreakable)
+		pBreakable->IgniteLifetime(30.0f);
 }
