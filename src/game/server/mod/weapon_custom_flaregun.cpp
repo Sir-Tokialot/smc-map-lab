@@ -112,8 +112,10 @@ void CFlaregun::PrimaryAttack( void )
 
 	Vector forward;
 	pOwner->EyeVectors( &forward );
+	forward *= 1500;
 
-	pFlare->SetAbsVelocity( forward * 1500 );
+	// Add the player's velocity to the forward vector so that the flare follows the player's motion
+	pFlare->SetAbsVelocity(forward + pOwner->GetAbsVelocity());
 	pFlare->SetGravity(1.0f);
 	pFlare->SetFriction(0.85f);
 	pFlare->SetMoveType(MOVETYPE_FLYGRAVITY, MOVECOLLIDE_FLY_BOUNCE);
@@ -150,8 +152,10 @@ void CFlaregun::SecondaryAttack( void )
 
 	Vector forward;
 	pOwner->EyeVectors( &forward );
+	forward *=500;
 
-	pFlare->SetAbsVelocity( forward * 500 );
+	// Add the player's velocity to the forward vector so that the flare follows the player's motion
+	pFlare->SetAbsVelocity( forward + pOwner->GetAbsVelocity());
 	pFlare->SetGravity(1.0f);
 	pFlare->SetFriction( 0.85f );
 	pFlare->SetMoveType( MOVETYPE_FLYGRAVITY, MOVECOLLIDE_FLY_BOUNCE );
@@ -374,5 +378,5 @@ void CFlareGunProjectile::IgniteOtherIfAllowed(CBaseEntity * pOther)
 	CBreakableProp *pBreakable;
 	pBreakable = dynamic_cast<CBreakableProp*>(pOther);
 	if (pBreakable)
-		pBreakable->IgniteLifetime(30.0f);
+		pBreakable->IgniteLifetime(10.0f);
 }
