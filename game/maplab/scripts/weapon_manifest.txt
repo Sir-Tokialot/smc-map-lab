@@ -21,4 +21,5 @@ weapon_manifest
 	
 	// Custom
 	"file"		"scripts/weapon_custommelee.txt"	
+	"file"		"scripts/weapon_flaregun.txt"	
 }
