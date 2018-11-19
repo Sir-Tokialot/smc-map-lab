@@ -33,11 +33,15 @@ obj*/
 
 # Specific Source build products
 client.pdb
+client.dll
 client.lib
 server.pdb
+server.dll
 server.lib
 
+client.so
 client.so.dbg
+server.so
 server.so.dbg
 server_srv.so
 server_srv.so.dbg
