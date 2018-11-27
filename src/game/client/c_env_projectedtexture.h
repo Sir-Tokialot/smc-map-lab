@@ -33,6 +33,8 @@ public:
 	C_EnvProjectedTexture();
 	~C_EnvProjectedTexture();
 
+	static C_EnvProjectedTexture *Create( );
+
 private:
 
 	ClientShadowHandle_t m_LightHandle;
@@ -47,6 +49,11 @@ private:
 	bool		m_bLightOnlyTarget;
 	bool		m_bLightWorld;
 	bool		m_bCameraSpace;
+
+	float		m_flBrightnessScale;
+	//color32		m_LightColor;
+	//Vector		m_CurrentLinearFloatLightColor;
+
 	Vector		m_LinearFloatLightColor;
 	float		m_flAmbient;
 	float		m_flNearZ;

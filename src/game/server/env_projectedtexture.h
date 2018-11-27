@@ -5,6 +5,7 @@
 #endif
 
 #define ENV_PROJECTEDTEXTURE_STARTON			(1<<0)
+#define ENV_PROJECTEDTEXTURE_ALWAYSUPDATE		(1<<1)
 
 //-----------------------------------------------------------------------------
 // Purpose: 

@@ -31,6 +31,10 @@ IMPLEMENT_CLIENTCLASS_DT( C_EnvProjectedTexture, DT_EnvProjectedTexture, CEnvPro
 	RecvPropBool(	 RECVINFO( m_bLightOnlyTarget ) ),
 	RecvPropBool(	 RECVINFO( m_bLightWorld )		),
 	RecvPropBool(	 RECVINFO( m_bCameraSpace )		),
+	
+	RecvPropFloat(	 RECVINFO( m_flBrightnessScale )	),
+	//RecvPropInt(	 RECVINFO( m_LightColor ), 0, RecvProxy_Int32ToColor32 ),
+
 	RecvPropVector(	 RECVINFO( m_LinearFloatLightColor )		),
 	RecvPropFloat(	 RECVINFO( m_flAmbient )		),
 	RecvPropString(  RECVINFO( m_SpotlightTextureName ) ),
@@ -39,6 +43,30 @@ IMPLEMENT_CLIENTCLASS_DT( C_EnvProjectedTexture, DT_EnvProjectedTexture, CEnvPro
 	RecvPropFloat(	 RECVINFO( m_flFarZ )	),
 	RecvPropInt(	 RECVINFO( m_nShadowQuality )	),
 END_RECV_TABLE()
+
+C_EnvProjectedTexture *C_EnvProjectedTexture::Create( )
+{
+	C_EnvProjectedTexture *pEnt = new C_EnvProjectedTexture();
+
+	pEnt->m_flNearZ = 4.0f;
+	pEnt->m_flFarZ = 2000.0f;
+//	strcpy( pEnt->m_SpotlightTextureName, "particle/rj" );
+	pEnt->m_bLightWorld = true;
+	pEnt->m_bLightOnlyTarget = false;
+	pEnt->m_nShadowQuality = 1;
+	pEnt->m_flLightFOV = 10.0f;
+	/*pEnt->m_LightColor.r = 255;
+	pEnt->m_LightColor.g = 255;
+	pEnt->m_LightColor.b = 255;
+	pEnt->m_LightColor.a = 255;*/
+	pEnt->m_bEnableShadows = false;
+	//pEnt->m_flColorTransitionTime = 1.0f;
+	pEnt->m_bCameraSpace = false;
+	pEnt->SetAbsAngles( QAngle( 90, 0, 0 ) );
+	pEnt->m_bAlwaysUpdate = true;
+	pEnt->m_bState = true;
+	return pEnt;
+}
 
 C_EnvProjectedTexture::C_EnvProjectedTexture( void )
 {
@@ -174,6 +202,7 @@ void C_EnvProjectedTexture::UpdateLight( void )
 	state.m_fQuadraticAtten = 0.0;
 	state.m_fLinearAtten = 100;
 	state.m_fConstantAtten = 0.0f;
+	//state.m_FarZAtten = m_flFarZ;
 	state.m_Color[0] = m_LinearFloatLightColor.x;
 	state.m_Color[1] = m_LinearFloatLightColor.y;
 	state.m_Color[2] = m_LinearFloatLightColor.z;

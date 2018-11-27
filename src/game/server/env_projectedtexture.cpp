@@ -191,10 +191,12 @@ void CEnvProjectedTexture::InputSetSpotlightTexture( inputdata_t &inputdata )
 
 void CEnvProjectedTexture::Activate( void )
 {
-	if ( GetSpawnFlags() & ENV_PROJECTEDTEXTURE_STARTON )
+	/*if ( GetSpawnFlags() & ENV_PROJECTEDTEXTURE_STARTON )
 	{
 		m_bState = true;
-	}
+	}*/
+	m_bState = ( ( GetSpawnFlags() & ENV_PROJECTEDTEXTURE_STARTON ) != 0 );
+	m_bAlwaysUpdate = ( ( GetSpawnFlags() & ENV_PROJECTEDTEXTURE_ALWAYSUPDATE ) != 0 );
 
 	SetThink( &CEnvProjectedTexture::InitialThink );
 	SetNextThink( gpGlobals->curtime + 0.1f );

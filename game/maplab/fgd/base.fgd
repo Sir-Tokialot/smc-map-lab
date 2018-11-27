@@ -6428,6 +6428,7 @@
 	spawnflags(flags) =
 	[
 		1  : "Enabled"				: 1
+		2  : "Always Update (moving light)"	: 0
 	]
 
 	target(target_destination)	: "target" 	: 			: "target"	
