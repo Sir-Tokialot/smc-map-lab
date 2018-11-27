@@ -445,6 +445,7 @@ struct FlashlightState_t
 	float m_fQuadraticAtten;
 	float m_fLinearAtten;
 	float m_fConstantAtten;
+	//float m_FarZAtten;
 	float m_Color[4];
 	ITexture *m_pSpotlightTexture;
 	int m_nSpotlightTextureFrame;
