@@ -6422,7 +6422,7 @@
 	]
 ]
 
-@PointClass base(Targetname, Parentname, Angles) size(-2 -2 -2, 2 2 2) frustum(lightfov,nearz,farz,lightcolor,-1) studio("models/editor/cone_helper.mdl") = env_projectedtexture : 
+@PointClass base(Targetname, Parentname, Angles) studio("models/editor/cone_helper.mdl") frustum(lightfov,nearz,farz,lightcolor,-1) = env_projectedtexture : 
 	"Projected texture entity."
 [
 	spawnflags(flags) =
@@ -6460,9 +6460,19 @@
 	cameraspace(integer)		: "Camera Space" : 0 : "Angles are interpreted as being relative to camera."
 
 	// Inputs
-	input TurnOn(void)		: "Turn on the texture"
-	input TurnOff(void)		: "Turn off the texture"
-	input SetFOV(float)		: "Set FOV"
+	input TurnOn(void)				: "Turn on the texture"
+	input TurnOff(void)				: "Turn off the texture"
+	input AlwaysUpdateOn(void)		: "Turn on per frame updating (for moving lights)"
+	input AlwaysUpdateOff(void)		: "Turn off per frame updating (for moving lights)"
+	input SetFOV(float)				: "Set FOV"
+	input SpotlightTexture(string)	: "Set the spotlight texture"
+	input EnableShadows(bool)		: "Set the if shadows are enabled"
+	input LightWorld(bool)			: "Toggle whether to light the world or not"
+	input LightOnlyTarget(bool)		: ""
+	
+	//input CameraSpace(bool)			: ""
+	//input Target()		: ""
+	//input Ambient(float)			: ""
 ]
 
 

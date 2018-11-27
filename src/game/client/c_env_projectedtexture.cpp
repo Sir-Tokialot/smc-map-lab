@@ -5,6 +5,8 @@
 //=============================================================================
 
 #include "cbase.h"
+
+#include "c_env_projectedtexture.h"
 #include "shareddefs.h"
 #include "materialsystem/imesh.h"
 #include "materialsystem/imaterial.h"
@@ -20,49 +22,10 @@
 static ConVar mat_slopescaledepthbias_shadowmap( "mat_slopescaledepthbias_shadowmap", "4", FCVAR_CHEAT );
 static ConVar mat_depthbias_shadowmap(	"mat_depthbias_shadowmap", "0.00001", FCVAR_CHEAT  );
 
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-class C_EnvProjectedTexture : public C_BaseEntity
-{
-	DECLARE_CLASS( C_EnvProjectedTexture, C_BaseEntity );
-public:
-	DECLARE_CLIENTCLASS();
-
-	virtual void OnDataChanged( DataUpdateType_t updateType );
-	void	ShutDownLightHandle( void );
-
-	virtual void Simulate();
-
-	void	UpdateLight( bool bForceUpdate );
-
-	C_EnvProjectedTexture();
-	~C_EnvProjectedTexture();
-
-private:
-
-	ClientShadowHandle_t m_LightHandle;
-
-	EHANDLE	m_hTargetEntity;
-
-	bool	m_bState;
-	float	m_flLightFOV;
-	bool	m_bEnableShadows;
-	bool	m_bLightOnlyTarget;
-	bool	m_bLightWorld;
-	bool	m_bCameraSpace;
-	Vector	m_LinearFloatLightColor;
-	float	m_flAmbient;
-	float	m_flNearZ;
-	float	m_flFarZ;
-	char	m_SpotlightTextureName[ MAX_PATH ];
-	int		m_nSpotlightTextureFrame;
-	int		m_nShadowQuality;
-};
-
 IMPLEMENT_CLIENTCLASS_DT( C_EnvProjectedTexture, DT_EnvProjectedTexture, CEnvProjectedTexture )
 	RecvPropEHandle( RECVINFO( m_hTargetEntity )	),
 	RecvPropBool(	 RECVINFO( m_bState )			),
+	RecvPropBool(	 RECVINFO( m_bAlwaysUpdate )	),
 	RecvPropFloat(	 RECVINFO( m_flLightFOV )		),
 	RecvPropBool(	 RECVINFO( m_bEnableShadows )	),
 	RecvPropBool(	 RECVINFO( m_bLightOnlyTarget ) ),
@@ -80,6 +43,7 @@ END_RECV_TABLE()
 C_EnvProjectedTexture::C_EnvProjectedTexture( void )
 {
 	m_LightHandle = CLIENTSHADOW_INVALID_HANDLE;
+	m_bForceUpdate = true;
 }
 
 C_EnvProjectedTexture::~C_EnvProjectedTexture( void )
@@ -103,13 +67,27 @@ void C_EnvProjectedTexture::ShutDownLightHandle( void )
 //-----------------------------------------------------------------------------
 void C_EnvProjectedTexture::OnDataChanged( DataUpdateType_t updateType )
 {
-	UpdateLight( true );
+	m_bForceUpdate = true;
+	UpdateLight();
 	BaseClass::OnDataChanged( updateType );
 }
 
-void C_EnvProjectedTexture::UpdateLight( bool bForceUpdate )
+void C_EnvProjectedTexture::UpdateLight( void )
 {
-	if ( m_bState == false )
+	//VPROF("C_EnvProjectedTexture::UpdateLight");
+	//bool bVisible = true;
+
+	if ( m_bAlwaysUpdate )
+	{
+		m_bForceUpdate = true;
+	}
+
+	/*if ( !m_bForceUpdate )
+	{
+		bVisible = IsBBoxVisible();		
+	}*/
+
+	if ( m_bState == false /*|| !bVisible*/ )
 	{
 		if ( m_LightHandle != CLIENTSHADOW_INVALID_HANDLE )
 		{
@@ -213,13 +191,19 @@ void C_EnvProjectedTexture::UpdateLight( bool bForceUpdate )
 	if( m_LightHandle == CLIENTSHADOW_INVALID_HANDLE )
 	{
 		m_LightHandle = g_pClientShadowMgr->CreateFlashlight( state );
+
+		if ( m_LightHandle != CLIENTSHADOW_INVALID_HANDLE )
+		{
+			m_bForceUpdate = false;
+		}
 	}
 	else
 	{
-		if ( m_hTargetEntity != NULL || bForceUpdate == true )
+		if ( m_hTargetEntity != NULL || m_bForceUpdate == true )
 		{
 			g_pClientShadowMgr->UpdateFlashlightState( m_LightHandle, state );
 		}
+		m_bForceUpdate = false;
 	}
 
 	if( m_bLightOnlyTarget )
@@ -233,17 +217,15 @@ void C_EnvProjectedTexture::UpdateLight( bool bForceUpdate )
 
 	g_pClientShadowMgr->SetFlashlightLightWorld( m_LightHandle, m_bLightWorld );
 
-	// Very bad fix, backport fix from ASW
-	//if ( bForceUpdate == false )
-	//{
+	if ( !m_bForceUpdate )
+	{
 		g_pClientShadowMgr->UpdateProjectedTexture( m_LightHandle, true );
-	//}
+	}
 }
 
 void C_EnvProjectedTexture::Simulate( void )
 {
-	// Very bad fix, backport fix from ASW
-	UpdateLight(GetMoveParent() != NULL);
+	UpdateLight();
 
 	BaseClass::Simulate();
 }
