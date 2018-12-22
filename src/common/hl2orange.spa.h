@@ -287,6 +287,21 @@ extern "C" {
 
 #define ACHIEVEMENT_TF_LAST_ORANGEBOX				150
 
+// Maplab
+
+#define ACHIEVEMENT_MAPLAB01_1 0
+#define ACHIEVEMENT_MAPLAB01_2 1
+#define ACHIEVEMENT_MAPLAB01_3 2
+#define ACHIEVEMENT_MAPLAB01_4 3
+#define ACHIEVEMENT_MAPLAB01_5 4
+#define ACHIEVEMENT_MAPLAB01_6 5
+#define ACHIEVEMENT_MAPLAB01_7 6
+#define ACHIEVEMENT_MAPLAB01_8 7
+#define ACHIEVEMENT_MAPLAB01_ALL 8
+#define ACHIEVEMENT_JOIN_SMC 9
+
+// Maplab--, keep in mind that these epic defintions were put in by Toki.
+
 //
 // Stats view ids
 //
