@@ -5,7 +5,7 @@
 //=============================================================================
 #include "cbase.h"
 
-#ifdef GAME_DLL
+#ifdef MAPLAB
 #include "achievementmgr.h"
 #include "baseachievement.h"
 
@@ -115,4 +115,4 @@ DECLARE_MAP_EVENT_ACHIEVEMENT( ACHIEVEMENT_EVENT_TESTTUBE01_14, "TESTTUBE01_14",
 DECLARE_MAP_EVENT_ACHIEVEMENT( ACHIEVEMENT_EVENT_TESTTUBE01_15, "TESTTUBE01_15", 5);
 
 
-#endif GAME_DLL
+#endif MAPLAB
