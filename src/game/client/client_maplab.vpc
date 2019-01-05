@@ -1,0 +1,41 @@
+//-----------------------------------------------------------------------------
+//	CLIENT_MAPLAB.VPC
+//
+//	Project Script
+//-----------------------------------------------------------------------------
+
+$Macro SRCDIR		"..\.."
+$Macro GAMENAME 	"maplab"
+
+$Include "$SRCDIR\game\client\client_episodic.vpc"
+
+$Configuration
+{
+	$Compiler
+	{
+		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\game\shared\lab;.\lab;"
+		$PreprocessorDefinitions		"$BASE;MAPLAB;MAPLAB_CLIENT;"
+	}
+}
+
+$Project "Client (MapLab)"
+{
+	$Folder	"Source Files"
+	{	
+		$Folder	"MapLab DLL"
+		{
+			$Folder "Shared"
+			{
+				$File	"$SRCDIR\game\shared\lab\lab_gamerules.cpp"
+				$File	"$SRCDIR\game\shared\lab\lab_gamerules.h"
+				$File	"$SRCDIR\game\shared\lab\handviewmodel_shared.cpp"
+				$File	"$SRCDIR\game\shared\lab\achievements_maplab.cpp"
+		    }
+			$File   "lab\c_lab_player.cpp"
+			$File   "lab\c_lab_player.h"
+			$File   "lab\convars_maplab.cpp"
+			
+		}
+		
+	}
+}
