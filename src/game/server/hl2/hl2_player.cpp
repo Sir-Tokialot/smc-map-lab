@@ -291,8 +291,10 @@ void CC_ToggleDuck( void )
 
 static ConCommand toggle_duck("toggle_duck", CC_ToggleDuck, "Toggles duck" );
 
-#if !defined( HL2MP ) && !defined(PORTAL) && !defined(MAPLAB)
+#ifndef HL2MP
+#ifndef PORTAL
 LINK_ENTITY_TO_CLASS( player, CHL2_Player );
+#endif
 #endif
 
 PRECACHE_REGISTER(player);
@@ -2628,10 +2630,10 @@ int CHL2_Player::GiveAmmo( int nCount, int nAmmoIndex, bool bSuppressSound)
 bool CHL2_Player::Weapon_CanUse( CBaseCombatWeapon *pWeapon )
 {
 #ifndef HL2MP	
-	if (pWeapon->ClassMatches("weapon_stunstick") && this->Weapon_OwnsThisType("weapon_stunstick"))
+	if ( pWeapon->ClassMatches( "weapon_stunstick" ) )
 	{
-		if (ApplyBattery(0.5))
-			UTIL_Remove(pWeapon);
+		if ( ApplyBattery( 0.5 ) )
+			UTIL_Remove( pWeapon );
 		return false;
 	}
 #endif

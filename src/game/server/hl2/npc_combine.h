@@ -126,7 +126,7 @@ public:
 	// Sounds
 	// -------------
 	void			DeathSound( void );
-	void			PainSound( const CTakeDamageInfo &info );
+	void			PainSound( void );
 	void			IdleSound( void );
 	void			AlertSound( void );
 	void			LostEnemySound( void );
