@@ -7,7 +7,7 @@
 $Macro SRCDIR		"..\.."
 $Macro GAMENAME 	"maplab"
 
-$Include "$SRCDIR\game\client\client_episodic.vpc"
+$Include "$SRCDIR\game\client\client_hl2mp.vpc"
 
 $Configuration
 {

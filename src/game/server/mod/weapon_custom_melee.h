@@ -7,7 +7,7 @@
 //=============================================================================//
 #include "cbase.h"
 #include "basehlcombatweapon_shared.h"
-#include "weapon_crowbar.h"
+#include "hl2mp/weapon_crowbar.h"
 
 
 class CWeaponCustomMelee : public CWeaponCrowbar
