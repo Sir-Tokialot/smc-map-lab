@@ -5,11 +5,11 @@
 	title2		""
 	supportsvr	1
 
-	type		singleplayer_only
+	type		multiplayer_only
 
 	FileSystem
 	{
-		SteamAppId				243730		// This sets the app ID in Steam
+		SteamAppId				243750
 		
 		//
 		// The code that loads this file automatically does a few things here:
@@ -37,8 +37,7 @@
 			// folder.
 			//
 			// Note that this folder is scanned only when the game is booted.
-			game+mod			ep2/custom/*
-			game+mod			episodic/custom/*
+			game+mod			hl2mp/custom/*
 			game+mod			hl2/custom/*
 
 			// Now search loose files.  We'll set the directory containing the gameinfo.txt file
@@ -52,10 +51,8 @@
 			// in folders where they don't exist.  (Searching a VPK is much faster than making an operating
 			// system call.)
 			game_lv				hl2/hl2_lv.vpk
-			game+mod			ep2/ep2_english.vpk
-			game+mod			ep2/ep2_pak.vpk
-			game				|all_source_engine_paths|episodic/ep1_english.vpk
-			game				|all_source_engine_paths|episodic/ep1_pak.vpk
+			game+mod			hl2mp/hl2mp_english.vpk
+			game+mod			hl2mp/hl2mp_pak.vpk
 			game				|all_source_engine_paths|hl2/hl2_english.vpk
 			game				|all_source_engine_paths|hl2/hl2_pak.vpk
 			game				|all_source_engine_paths|hl2/hl2_textures.vpk
@@ -66,13 +63,13 @@
 
 			// Add the HL2 directory as a game search path.  This is also where where writes
 			// to the "game" path go.
-			game+game_write		ep2
+			game+game_write		hl2mp
 
 			// Where the game's binaries are
-			gamebin				episodic/bin
+			gamebin				hl2mp/bin
 
 			// Last, mount in shared HL2 loose files
-			game				|all_source_engine_paths|episodic
+			game				|all_source_engine_paths|hl2mp
 			game				|all_source_engine_paths|hl2
 			platform			|all_source_engine_paths|platform
 		}
