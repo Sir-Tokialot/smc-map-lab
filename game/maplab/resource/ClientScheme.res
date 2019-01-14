@@ -631,13 +631,14 @@ Scheme
 		{
 			"1"
 			{
-				"name"  "HL2EP2"
+				//"name"  		"HL2EP2"
+				"name"  		"Trebuchet MS"
 				"tall"			"34"
 				"tall_hidef"	"48"
-				"weight" "0"
-				"additive" "0"
-				"antialias" "1"
-				"custom"	"1" [$OSX]
+				"weight" 		"0"
+				"additive" 		"0"
+				"antialias" 	"1"
+				"custom"		"1" [$OSX]
 			}
 		}
 		CreditsLogo

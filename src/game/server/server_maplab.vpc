@@ -7,7 +7,7 @@
 $Macro SRCDIR		"..\.."
 $Macro GAMENAME 	"maplab"
 
-$Include "$SRCDIR\game\server\server_hl2mp.vpc"
+$Include "$SRCDIR\game\server\server_episodic.vpc"
 
 $Configuration
 {
@@ -22,9 +22,9 @@ $Project "Server (MapLab)"
 {
 	$Folder	"Source Files"
 	{
-		$Folder	"HL2MP"
+		$Folder	"HL2 DLL"
 		{
-			-$File	"hl2mp\hl2mp_client.cpp"
+			-$File   "hl2\hl2_client.cpp"
 		}
 		$Folder	"MapLab DLL"
 		{
