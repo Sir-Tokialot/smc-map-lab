@@ -1,8 +1,8 @@
 "GameInfo"
 {
 	game 		"Map Labs"
-	title 		"HALF-LIFE'"
-	title2		""
+	title 		"Map Labs"
+	title2		"mp-dev branch"
 	supportsvr	1
 
 	type		multiplayer_only
@@ -37,7 +37,9 @@
 			// folder.
 			//
 			// Note that this folder is scanned only when the game is booted.
-			game+mod			hl2mp/custom/*
+			game+mod			custom/*
+			game+mod			ep2/custom/*
+			game+mod			episodic/custom/*
 			game+mod			hl2/custom/*
 
 			// Now search loose files.  We'll set the directory containing the gameinfo.txt file
@@ -51,8 +53,14 @@
 			// in folders where they don't exist.  (Searching a VPK is much faster than making an operating
 			// system call.)
 			game_lv				hl2/hl2_lv.vpk
-			game+mod			hl2mp/hl2mp_english.vpk
-			game+mod			hl2mp/hl2mp_pak.vpk
+			
+			// uh ok why does this work
+			// hacky mount for episodic content, should find a different way to do this
+			game				"../Source SDK Base 2013 Singleplayer/ep2/ep2_english.vpk"		
+			game				"../Source SDK Base 2013 Singleplayer/ep2/ep2_pak.vpk"
+			game				"../Source SDK Base 2013 Singleplayer/episodic/ep1_english.vpk"
+			game				"../Source SDK Base 2013 Singleplayer/episodic/ep1_pak.vpk"
+			
 			game				|all_source_engine_paths|hl2/hl2_english.vpk
 			game				|all_source_engine_paths|hl2/hl2_pak.vpk
 			game				|all_source_engine_paths|hl2/hl2_textures.vpk
@@ -63,13 +71,11 @@
 
 			// Add the HL2 directory as a game search path.  This is also where where writes
 			// to the "game" path go.
-			game+game_write		hl2mp
-
-			// Where the game's binaries are
-			gamebin				hl2mp/bin
+			game+game_write		maplab
 
 			// Last, mount in shared HL2 loose files
-			game				|all_source_engine_paths|hl2mp
+			game				|all_source_engine_paths|ep2
+			game				|all_source_engine_paths|episodic
 			game				|all_source_engine_paths|hl2
 			platform			|all_source_engine_paths|platform
 		}

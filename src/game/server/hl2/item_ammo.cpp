@@ -606,6 +606,7 @@ enum
 	AMMOCRATE_CROSSBOW,
 	AMMOCRATE_AR2_ALTFIRE,
 	AMMOCRATE_SMG_ALTFIRE,
+	AMMOCRATE_FLAREROUND,
 	NUM_AMMO_CRATE_TYPES,
 };
 
@@ -693,6 +694,7 @@ const char *CItem_AmmoCrate::m_lpzModelNames[NUM_AMMO_CRATE_TYPES] =
 	//FIXME: This model is incorrect!
 	"models/items/ammocrate_ar2.mdl",		// Combine Ball 
 	"models/items/ammocrate_smg2.mdl",	    // smg grenade
+	"models/items/ammocrate_pistol.mdl",	// Flareround
 };
 
 // Ammo type names
@@ -708,6 +710,7 @@ const char *CItem_AmmoCrate::m_lpzAmmoNames[NUM_AMMO_CRATE_TYPES] =
 	"XBowBolt",
 	"AR2AltFire",
 	"SMG1_Grenade",
+	"FlareRound",
 };
 
 // Ammo amount given per +use
@@ -723,6 +726,7 @@ int CItem_AmmoCrate::m_nAmmoAmounts[NUM_AMMO_CRATE_TYPES] =
 	50,		// Crossbow
 	3,		// AR2 alt-fire
 	5,
+	3
 };
 
 const char *CItem_AmmoCrate::m_pGiveWeapon[NUM_AMMO_CRATE_TYPES] =
@@ -737,6 +741,7 @@ const char *CItem_AmmoCrate::m_pGiveWeapon[NUM_AMMO_CRATE_TYPES] =
 	NULL,		// Crossbow
 	NULL,		// AR2 alt-fire
 	NULL,		// SMG alt-fire
+	NULL
 };
 
 #define	AMMO_CRATE_CLOSE_DELAY	1.5f
