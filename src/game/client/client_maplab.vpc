@@ -7,7 +7,7 @@
 $Macro SRCDIR		"..\.."
 $Macro GAMENAME 	"maplab"
 
-$Include "$SRCDIR\game\client\client_hl2mp.vpc"
+$Include "$SRCDIR\game\client\client_episodic.vpc"
 
 $Configuration
 {
@@ -29,6 +29,8 @@ $Project "Client (MapLab)"
 				$File	"$SRCDIR\game\shared\lab\lab_gamerules.cpp"
 				$File	"$SRCDIR\game\shared\lab\lab_gamerules.h"
 				$File	"$SRCDIR\game\shared\lab\handviewmodel_shared.cpp"
+				$File	"$SRCDIR\game\shared\lab\weapon_slam.cpp"
+				$File	"$SRCDIR\game\shared\lab\weapon_slam.h"
 				$File	"$SRCDIR\game\shared\lab\achievements_maplab.cpp"
 		    }
 			$File   "lab\c_lab_player.cpp"
