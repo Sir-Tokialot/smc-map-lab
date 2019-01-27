@@ -25,7 +25,6 @@ void OpenInvite_f()
 	IGameEvent *event = gameeventmanager->CreateEvent("joined_smc");
 	if (event)
 		gameeventmanager->FireEvent(event);
-	else
-		DevMsg("Missing Steam API context, failed to execute: maplab_openinvite\n");
+	
 }
 ConCommand maplab_openinvite("maplab_openinvite", OpenInvite_f, "Open the SMC Discord invite link.", 0);

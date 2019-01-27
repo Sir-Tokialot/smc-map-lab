@@ -178,8 +178,6 @@ void C_NPC_Manhack::SoundShutdown(void)
 		CSoundEnvelopeController::GetController().SoundDestroy( m_pBladeSound );
 		m_pBladeSound = NULL;
 	}
-	IGameEvent *event = gameeventmanager->CreateEvent("manhack_killed"); // call the game event when the manhack dies!
-	if (event)
-		gameeventmanager->FireEvent(event);
+
 }
 

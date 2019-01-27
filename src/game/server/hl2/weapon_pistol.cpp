@@ -17,6 +17,7 @@
 #include "game.h"
 #include "vstdlib/random.h"
 #include "gamestats.h"
+#include "particle_parse.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -172,6 +173,7 @@ CWeaponPistol::CWeaponPistol( void )
 void CWeaponPistol::Precache( void )
 {
 	BaseClass::Precache();
+	PrecacheParticleSystem("weapon_muzzle_smoke");
 }
 
 //-----------------------------------------------------------------------------
@@ -247,7 +249,11 @@ void CWeaponPistol::PrimaryAttack( void )
 		// great for a feature we're evaluating. (sjb)
 		pOwner->ViewPunchReset();
 	}
-
+	if (m_nNumShotsFired >= 5)
+	{
+		//We shot >5, clean up and start the muzzle smoking effect (like l4d)
+		DispatchParticleEffect("weapon_muzzle_smoke", PATTACH_POINT_FOLLOW, pOwner->GetViewModel(), "muzzle", true);
+	}
 	BaseClass::PrimaryAttack();
 
 	// Add an accuracy penalty which can move past our maximum penalty time if we're really spastic

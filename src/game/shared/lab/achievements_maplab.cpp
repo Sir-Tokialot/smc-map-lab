@@ -5,7 +5,7 @@
 //=============================================================================
 #include "cbase.h"
 
-#ifdef MAPLAB
+#ifdef CLIENT_DLL
 #include "achievementmgr.h"
 #include "baseachievement.h"
 
@@ -37,52 +37,54 @@ protected:
 		}
 	}
 };
-DECLARE_ACHIEVEMENT(CAchievementMaplabMenu, ACHIEVEMENT_EVENT_JOIN_SMC, "JOIN_SMC", 5);
+DECLARE_ACHIEVEMENT(CAchievementMaplabMenu, ACHIEVEMENT_EVENT_JOIN_SMC, "JOIN_SMC", 5); // remember to join SMC :)
 
 class CAchievementMaplab01Completed : public CBaseAchievement
 {
-protected:
-
-	void Init()
+	virtual void Init()
 	{
-		SetFlags(ACH_LISTEN_MAP_EVENTS | ACH_SAVE_WITH_GAME);
-		m_bStoreProgressInSteam = true;
-		SetGoal(8);
+		static const char *szComponents[] =
+		{
+			"MAPLAB01_1", "MAPLAB01_2", "MAPLAB01_3", "MAPLAB01_4",
+			"MAPLAB01_5", "MAPLAB01_6", "MAPLAB01_7", "MAPLAB01_8"
+		};
+		SetFlags(ACH_HAS_COMPONENTS | ACH_LISTEN_COMPONENT_EVENTS | ACH_SAVE_GLOBAL);
+		m_pszComponentNames = szComponents;
+		m_iNumComponents = ARRAYSIZE(szComponents);
+		SetComponentPrefix("MAPLAB01");
+		SetGoal(m_iNumComponents);
 	}
 
-	// Don't show a notification on every map completion
+	// don't show progress notifications for this achievement, it's distracting
 	virtual bool ShouldShowProgressNotification() { return false; }
 };
 DECLARE_ACHIEVEMENT(CAchievementMaplab01Completed, ACHIEVEMENT_EVENT_MAPLAB01_ALL, "MAPLAB01_ALL", 5);
 
-
-class CAchievementMaplabManHack : public CBaseAchievement
+class CAchievementTesttube01Completed : public CBaseAchievement
 {
-protected:
-
-	void Init()
+	virtual void Init()
 	{
-		SetFlags(ACH_SAVE_GLOBAL);
-		m_bStoreProgressInSteam = true;
-		SetGoal(50);
-		SetMapNameFilter("herecomethehacks"); // SOMEONE didn't follow the rules and made a map that isn't completable so gotta make this achievement instead
-	}
-
-	// Listen for this event (event must be defined in :/resource/modevents.res)
-	virtual void ListenForEvents()
-	{
-		ListenForGameEvent("manhack_killed"); 
-	}
-
-	void FireGameEvent_Internal(IGameEvent *event)
-	{
-		if (0 == Q_strcmp(event->GetName(), "manhack_killed"))
+		static const char *szComponents[] =
 		{
-			IncrementCount();
-		}
+			"TESTTUBE01_1", "TESTTUBE01_2", "TESTTUBE01_3", "TESTTUBE01_4",
+			"TESTTUBE01_5", "TESTTUBE01_6", "TESTTUBE01_7", "TESTTUBE01_8",
+			"TESTTUBE01_10", "TESTTUBE01_11", "TESTTUBE01_12", "TESTTUBE01_13",
+			"TESTTUBE01_14", "TESTTUBE01_15"
+		};
+		SetFlags(ACH_HAS_COMPONENTS | ACH_LISTEN_COMPONENT_EVENTS | ACH_SAVE_GLOBAL);
+		m_pszComponentNames = szComponents;
+		m_iNumComponents = ARRAYSIZE(szComponents);
+		SetComponentPrefix("TESTTUBE01");
+		SetGoal(m_iNumComponents);
 	}
+
+	// don't show progress notifications for this achievement, it's distracting
+	virtual bool ShouldShowProgressNotification() { return false; }
 };
-DECLARE_ACHIEVEMENT( CAchievementMaplabManHack, ACHIEVEMENT_EVENT_TESTTUBE01_9, "TESTTUBE01_9", 5);
+DECLARE_ACHIEVEMENT(CAchievementTesttube01Completed, ACHIEVEMENT_EVENT_TESTTUBE01_ALL, "TESTTUBE01_ALL", 5);
+
+
+
 
 // map logic achievements
 
