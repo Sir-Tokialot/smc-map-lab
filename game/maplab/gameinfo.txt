@@ -3,7 +3,7 @@
 	game 		"Map Labs"
 	title 		"Map Labs"
 	title2		"mp-dev branch"
-	supportsvr	1
+	supportsvr	0
 
 	type		multiplayer_only
 
