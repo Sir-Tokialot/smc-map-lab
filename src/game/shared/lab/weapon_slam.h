@@ -15,7 +15,7 @@
 #define	WEAPONSLAM_H
 
 #include "basegrenade_shared.h"
-#include "basehlcombatweapon_shared.h"
+#include "weapon_hl2mpbasehlmpcombatweapon.h"
 
 enum
 {
@@ -28,10 +28,10 @@ enum
 #define CWeapon_SLAM C_Weapon_SLAM
 #endif
 
-class CWeapon_SLAM : public CBaseHLCombatWeapon
+class CWeapon_SLAM : public CBaseHL2MPCombatWeapon
 {
 public:
-	DECLARE_CLASS( CWeapon_SLAM, CBaseHLCombatWeapon );
+	DECLARE_CLASS( CWeapon_SLAM, CBaseHL2MPCombatWeapon );
 
 	DECLARE_NETWORKCLASS(); 
 	DECLARE_PREDICTABLE();
@@ -77,10 +77,9 @@ public:
 
 
 	CWeapon_SLAM();
-	
-	DECLARE_ACTTABLE();
 
 #ifndef CLIENT_DLL
+	DECLARE_ACTTABLE();
 	DECLARE_DATADESC();
 #endif
 

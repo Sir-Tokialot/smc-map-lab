@@ -4,7 +4,7 @@
 #pragma once
 #endif
 
-#include "hl2_gamerules.h"
+#include "teamplay_gamerules.h"
 
 #ifdef CLIENT_DLL
 	#define CLabGameRules C_LabGameRules
@@ -18,10 +18,10 @@ public:
 	DECLARE_NETWORKCLASS();
 };
 
-class CLabGameRules : public CHalfLife2
+class CLabGameRules : public CTeamplayRules
 {
 public:
-	DECLARE_CLASS( CLabGameRules, CHalfLife2 );
+	DECLARE_CLASS( CLabGameRules, CTeamplayRules );
 	DECLARE_NETWORKCLASS_NOBASE();
 
 	CLabGameRules();
@@ -32,6 +32,9 @@ public:
 #else
 	virtual void Think();
 #endif
+private:
+	CNetworkVar(bool, m_bMegaPhysgun);
+	
 };
 
 inline CLabGameRules* LabGameRules()

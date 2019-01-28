@@ -10,20 +10,17 @@
 #include "in_buttons.h"
 #include "engine/IEngineSound.h"
 
-#ifdef HL2CE_PORTAL
-#include "portal_player_shared.h"
+#if defined( CLIENT_DLL )
+	#include "c_hl2mp_player.h"
 #else
-#include "hl2_player_shared.h"
-#endif
-
-#if !defined( CLIENT_DLL )
-	#include "lab/grenade_tripmine.h"
-	#include "lab/grenade_satchel.h"
+	#include "hl2mp_player.h"
+	#include "grenade_tripmine.h"
+	#include "grenade_satchel.h"
 	#include "entitylist.h"
 	#include "eventqueue.h"
 #endif
 
-#include "lab/weapon_slam.h"
+#include "weapon_slam.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -94,7 +91,6 @@ BEGIN_DATADESC( CWeapon_SLAM )
 	DEFINE_FUNCTION( SlamTouch ),
 
 END_DATADESC()
-#endif
 
 acttable_t	CWeapon_SLAM::m_acttable[] = 
 {
@@ -106,19 +102,10 @@ acttable_t	CWeapon_SLAM::m_acttable[] =
 	{ ACT_HL2MP_GESTURE_RANGE_ATTACK,	ACT_HL2MP_GESTURE_RANGE_ATTACK_SLAM,	false },
 	{ ACT_HL2MP_GESTURE_RELOAD,			ACT_HL2MP_GESTURE_RELOAD_SLAM,		false },
 	{ ACT_HL2MP_JUMP,					ACT_HL2MP_JUMP_SLAM,					false },
-
-	{ ACT_MP_STAND_IDLE,				ACT_DOD_STAND_IDLE_TNT,					false },
-	{ ACT_MP_CROUCH_IDLE,				ACT_DOD_CROUCH_IDLE_TNT,				false },
-	{ ACT_MP_RUN,						ACT_DOD_WALK_IDLE_TNT,					false },
-	{ ACT_MP_CROUCHWALK,				ACT_DOD_CROUCHWALK_IDLE_TNT,			false },
-	{ ACT_MP_ATTACK_STAND_PRIMARYFIRE,	ACT_DOD_PRIMARYATTACK_GREN_FRAG,		false },
-	{ ACT_MP_ATTACK_CROUCH_PRIMARYFIRE,	ACT_DOD_PRIMARYATTACK_GREN_FRAG,		false },
-	//{ ACT_MP_RELOAD_STAND,			ACT_DOD_RELOAD_MP40,					false },
-	//{ ACT_MP_RELOAD_CROUCH,			ACT_DOD_RELOAD_CROUCH_MP40,				false },
-	{ ACT_MP_JUMP,						ACT_MP_JUMP,							false },
 };
 
 IMPLEMENT_ACTTABLE(CWeapon_SLAM);
+#endif
 
 
 void CWeapon_SLAM::Spawn( )
@@ -127,9 +114,7 @@ void CWeapon_SLAM::Spawn( )
 
 	Precache( );
 
-#ifndef CLIENT_DLL
 	FallInit();// get ready to fall down
-#endif
 
 	m_tSlamState		= (int)SLAM_SATCHEL_THROW;
 	m_flWallSwitchTime	= 0;
@@ -354,7 +339,7 @@ void CWeapon_SLAM::StartSatchelDetonate()
 //-----------------------------------------------------------------------------
 void CWeapon_SLAM::TripmineAttach( void )
 {
-	CBasePlayer *pOwner  = ToBasePlayer( GetOwner() );
+	CHL2MP_Player *pOwner  = ToHL2MPPlayer( GetOwner() );
 	if (!pOwner)
 	{
 		return;
@@ -436,10 +421,6 @@ void CWeapon_SLAM::StartTripmineAttach( void )
 			// player "shoot" animation
 			pPlayer->SetAnimation( PLAYER_ATTACK1 );
 
-#ifdef HL2CE_PORTAL
-			((CPortal_Player *)pPlayer)->DoAnimationEvent(PLAYERANIMEVENT_ATTACK_PRIMARY, 0);
-#endif
-
 			// -----------------------------------------
 			//  Play attach animation
 			// -----------------------------------------
@@ -512,10 +493,6 @@ void CWeapon_SLAM::SatchelThrow( void )
 
 	pPlayer->RemoveAmmo( 1, m_iSecondaryAmmoType );
 	pPlayer->SetAnimation( PLAYER_ATTACK1 );
-
-#ifdef HL2CE_PORTAL
-	((CPortal_Player *)pPlayer)->DoAnimationEvent(PLAYERANIMEVENT_ATTACK_PRIMARY, 0);
-#endif
 
 #endif
 
@@ -632,11 +609,7 @@ void CWeapon_SLAM::StartSatchelAttach( void )
 			CBasePlayer *pPlayer = ToBasePlayer( pOwner );
 
 			// player "shoot" animation
-			pPlayer->SetAnimation( PLAYER_ATTACK1 );	
-
-#ifdef HL2CE_PORTAL
-			((CPortal_Player *)pPlayer)->DoAnimationEvent(PLAYERANIMEVENT_ATTACK_PRIMARY, 0);
-#endif
+			pPlayer->SetAnimation( PLAYER_ATTACK1 );
 
 			// -----------------------------------------
 			//  Play attach animation
@@ -725,7 +698,7 @@ void CWeapon_SLAM::SLAMThink( void )
 //-----------------------------------------------------------------------------
 bool CWeapon_SLAM::CanAttachSLAM( void )
 {
-	CBasePlayer *pOwner = ToBasePlayer( GetOwner() );
+	CHL2MP_Player *pOwner = ToHL2MPPlayer( GetOwner() );
 
 	if (!pOwner)
 	{
