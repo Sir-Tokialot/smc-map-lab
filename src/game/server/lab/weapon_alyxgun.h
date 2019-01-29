@@ -7,17 +7,17 @@
 #ifndef WEAPON_ALYXGUN_H
 #define WEAPON_ALYXGUN_H
 
-#include "basehlcombatweapon.h"
+#include "weapon_hl2mpbase_machinegun.h"
 
 #if defined( _WIN32 )
 #pragma once
 #endif
 
-class CWeaponAlyxGun : public CHLSelectFireMachineGun
+class CWeaponAlyxGun : public CHL2MPMachineGun
 {
 	DECLARE_DATADESC();
 public:
-	DECLARE_CLASS( CWeaponAlyxGun, CHLSelectFireMachineGun );
+	DECLARE_CLASS( CWeaponAlyxGun, CHL2MPMachineGun);
 
 	CWeaponAlyxGun();
 	~CWeaponAlyxGun();

@@ -10,7 +10,6 @@
 #include "game.h"
 #include "gamerules.h"
 #include "trains.h"
-#include "basehlcombatweapon_shared.h"
 #include "vcollide_parse.h"
 #include "in_buttons.h"
 #include "ai_interactions.h"

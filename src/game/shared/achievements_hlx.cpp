@@ -16,7 +16,7 @@
 #include "prop_combine_ball.h"
 #include "combine_mine.h"
 #include "basegrenade_shared.h"
-#include "basehlcombatweapon_shared.h"
+#include "weapon_hl2mpbasehlmpcombatweapon.h"
 #include "ammodef.h"
 
 class CAchievementHLXKillWithPhysicsObjects : public CBaseAchievement
@@ -230,7 +230,7 @@ int CalcPlayerAttacks( bool bBulletOnly )
 	int iWeapons = pPlayer->WeaponCount();
 	for ( int i = 0; i < iWeapons; i++ )
 	{
-		CBaseHLCombatWeapon *pWeapon = dynamic_cast<CBaseHLCombatWeapon *>( pPlayer->GetWeapon( i ) );
+		CBaseHL2MPCombatWeapon *pWeapon = dynamic_cast<CBaseHL2MPCombatWeapon *>( pPlayer->GetWeapon( i ) );
 		if ( pWeapon )
 		{
 			// add primary attacks if we were asked for all attacks, or only if it uses bullet ammo if we were asked to count bullet attacks

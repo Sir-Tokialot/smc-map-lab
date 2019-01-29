@@ -7,12 +7,12 @@
 #include "cbase.h"
 #include "hud.h"
 #include "hudelement.h"
-#include "c_hl2mp_player.h"
+#include "c_lab_player.h"
 #include "c_playerresource.h"
 #include "vgui_entitypanel.h"
 #include "iclientmode.h"
 #include "vgui/ILocalize.h"
-#include "hl2mp_gamerules.h"
+#include "lab_gamerules.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -106,7 +106,7 @@ void CTargetID::Paint()
 	wchar_t sIDString[ MAX_ID_STRING ];
 	sIDString[0] = 0;
 
-	C_HL2MP_Player *pPlayer = C_HL2MP_Player::GetLocalHL2MPPlayer();
+	C_LabPlayer *pPlayer = C_LabPlayer::GetLocalLabPlayer();
 
 	if ( !pPlayer )
 		return;
@@ -158,7 +158,7 @@ void CTargetID::Paint()
 			bShowPlayerName = true;
 			g_pVGuiLocalize->ConvertANSIToUnicode( pPlayer->GetPlayerName(),  wszPlayerName, sizeof(wszPlayerName) );
 			
-			if ( HL2MPRules()->IsTeamplay() == true && pPlayer->InSameTeam(pLocalPlayer) )
+			if ( LabGameRules()->IsTeamplay() == true && pPlayer->InSameTeam(pLocalPlayer) )
 			{
 				printFormatString = "#Playerid_sameteam";
 				bShowHealth = true;

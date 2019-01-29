@@ -6,9 +6,9 @@
 #endif
 
 #ifdef CLIENT_DLL
-	#include "c_hl2mp_player.h"
+	#include "c_lab_player.h"
 #else
-	#include "hl2mp_player.h"
+	#include "lab_player.h"
 #endif
 
 #include "weapon_hl2mpbase.h"
@@ -48,6 +48,9 @@ public:
 	static const	WeaponProficiencyInfo_t *GetDefaultProficiencyValues();
 
 	virtual void	ItemHolsterFrame( void );
+
+	int m_iPrimaryAttacks;
+	int m_iSecondaryAttacks;
 
 protected:
 

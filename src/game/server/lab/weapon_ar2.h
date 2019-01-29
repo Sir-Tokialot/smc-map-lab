@@ -15,12 +15,12 @@
 #define	WEAPONAR2_H
 
 #include "basegrenade_shared.h"
-#include "basehlcombatweapon.h"
+#include "weapon_hl2mpbase_machinegun.h"
 
-class CWeaponAR2 : public CHLMachineGun
+class CWeaponAR2 : public CHL2MPMachineGun
 {
 public:
-	DECLARE_CLASS( CWeaponAR2, CHLMachineGun );
+	DECLARE_CLASS( CWeaponAR2, CHL2MPMachineGun );
 
 	CWeaponAR2();
 

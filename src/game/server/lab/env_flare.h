@@ -4,11 +4,10 @@
 //
 //=============================================================================//
 
-#include "basehlcombatweapon.h"
 #include "soundenvelope.h"
 
-#ifndef WEAPON_FLAREGUN_H
-#define WEAPON_FLAREGUN_H
+#ifndef ENV_FLARE_H
+#define ENV_FLARE_H
 #ifdef _WIN32
 #pragma once
 #endif
@@ -85,21 +84,6 @@ public:
 
 	void		RemoveFromActiveFlares( void );
 	void		AddToActiveFlares( void );
-};
-
-//---------------------
-// Flaregun
-//---------------------
-class CFlaregun:public CBaseHLCombatWeapon
-{
-public:
-	DECLARE_CLASS( CFlaregun, CBaseHLCombatWeapon );
-
-	DECLARE_SERVERCLASS();
-
-	void Precache( void );
-	void PrimaryAttack( void );
-	void SecondaryAttack( void );
 };
 
 #endif // WEAPON_FLAREGUN_H

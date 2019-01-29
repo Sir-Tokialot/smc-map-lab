@@ -14,7 +14,9 @@
 #include "physics_saverestore.h"
 #include "world.h"
 
-#ifdef HL2MP
+#ifdef MAPLAB
+#include "lab_gamerules.h"
+#elif defined( HL2MP )
 #include "hl2mp_gamerules.h"
 #endif
 
@@ -284,7 +286,7 @@ void CItem::FallThink ( void )
 {
 	SetNextThink( gpGlobals->curtime + 0.1f );
 
-#if defined( HL2MP )
+#if defined( HL2MP ) || defined( MAPLAB )
 	bool shouldMaterialize = false;
 	IPhysicsObject *pPhysics = VPhysicsGetObject();
 	if ( pPhysics )
@@ -302,8 +304,11 @@ void CItem::FallThink ( void )
 
 		m_vOriginalSpawnOrigin = GetAbsOrigin();
 		m_vOriginalSpawnAngles = GetAbsAngles();
-
-		HL2MPRules()->AddLevelDesignerPlacedObject( this );
+#ifdef MAPLAB
+		LabGameRules()->AddLevelDesignerPlacedObject( this );
+#else
+		HL2MPRules()->AddLevelDesignerPlacedObject(this);
+#endif
 	}
 #endif // HL2MP
 
@@ -447,8 +452,10 @@ void CItem::ItemTouch( CBaseEntity *pOther )
 		{
 			UTIL_Remove( this );
 
-#ifdef HL2MP
-			HL2MPRules()->RemoveLevelDesignerPlacedObject( this );
+#ifdef MAPLAB
+			LabGameRules()->RemoveLevelDesignerPlacedObject(this);
+#elif defined( HL2MP )
+			HL2MPRules()->RemoveLevelDesignerPlacedObject(this);
 #endif
 		}
 	}

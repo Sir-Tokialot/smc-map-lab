@@ -31,10 +31,10 @@
 #include "scripted.h"
 #include "hl2_player.h"
 #include "env_alyxemp_shared.h"
-#include "basehlcombatweapon.h"
+#include "weapon_hl2mpbasehlmpcombatweapon.h"
 #include "basegrenade_shared.h"
 #include "ai_interactions.h"
-#include "weapon_flaregun.h"
+#include "env_flare.h"
 #include "env_debughistory.h"
 
 extern Vector PointOnLineNearestPoint(const Vector& vStartPos, const Vector& vEndPos, const Vector& vPoint);
@@ -1738,7 +1738,7 @@ int CNPC_Alyx::SelectSchedule( void )
 		}
 		else
 		{
-			CBaseHLCombatWeapon *pWeapon = dynamic_cast<CBaseHLCombatWeapon *>(Weapon_FindUsable( WEAPON_SEARCH_DELTA ));
+			CBaseHL2MPCombatWeapon *pWeapon = dynamic_cast<CBaseHL2MPCombatWeapon *>(Weapon_FindUsable( WEAPON_SEARCH_DELTA ));
 			if ( pWeapon )
 			{
 				m_flNextWeaponSearchTime = gpGlobals->curtime + 10.0;

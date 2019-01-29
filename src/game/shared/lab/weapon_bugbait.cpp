@@ -6,40 +6,47 @@
 //=============================================================================//
 
 #include "cbase.h"
-#include "basehlcombatweapon.h"
+#include "weapon_hl2mpbasehlmpcombatweapon.h"
 #include "engine/IEngineSound.h"
 #include "npcevent.h"
 #include "in_buttons.h"
+#ifndef CLIENT_DLL
 #include "antlion_maker.h"
 #include "grenade_bugbait.h"
+#endif
 #include "gamestats.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
+#ifdef CLIENT_DLL
+#define CWeaponBugBait C_WeaponBugBait
+#endif
+
 //
 // Bug Bait Weapon
 //
 
-class CWeaponBugBait : public CBaseHLCombatWeapon
+class CWeaponBugBait : public CBaseHL2MPCombatWeapon
 {
-	DECLARE_CLASS( CWeaponBugBait, CBaseHLCombatWeapon );
+	DECLARE_CLASS( CWeaponBugBait, CBaseHL2MPCombatWeapon);
 public:
 
-	DECLARE_SERVERCLASS();
+	DECLARE_NETWORKCLASS();
 
 	CWeaponBugBait( void );
 
 	void	Spawn( void );
+#ifndef CLIENT_DLL
 	void	FallInit( void );
-
 	int		CapabilitiesGet( void ) { return bits_CAP_WEAPON_RANGE_ATTACK1; }
-	
-	void	Operator_HandleAnimEvent( animevent_t *pEvent, CBaseCombatCharacter *pOperator );
-
 	void	Drop( const Vector &vecVelocity );
 	void	BugbaitStickyTouch( CBaseEntity *pOther );
 	void	OnPickedUp( CBaseCombatCharacter *pNewOwner );
+	void	Operator_HandleAnimEvent( animevent_t *pEvent, CBaseCombatCharacter *pOperator );
+	void	ThrowGrenade( CBasePlayer *pPlayer );
+#endif // !CLIENT_DLL
+
 	bool	Deploy( void );
 	bool	Holster( CBaseCombatWeapon *pSwitchingTo );
 
@@ -47,7 +54,6 @@ public:
 	void	Precache( void );
 	void	PrimaryAttack( void );
 	void	SecondaryAttack( void );
-	void	ThrowGrenade( CBasePlayer *pPlayer );
 	
 	bool	HasAnyAmmo( void ) { return true; }
 	
@@ -67,13 +73,13 @@ protected:
 	EHANDLE		m_hSporeTrail;
 };
 
-IMPLEMENT_SERVERCLASS_ST(CWeaponBugBait, DT_WeaponBugBait)
-END_SEND_TABLE()
+IMPLEMENT_NETWORKCLASS_ALIASED( WeaponBugBait, DT_WeaponBugBait )
+
+BEGIN_NETWORK_TABLE(CWeaponBugBait, DT_WeaponBugBait)
+END_NETWORK_TABLE()
 
 LINK_ENTITY_TO_CLASS( weapon_bugbait, CWeaponBugBait );
-#ifndef HL2MP
 PRECACHE_WEAPON_REGISTER( weapon_bugbait );
-#endif
 
 BEGIN_DATADESC( CWeaponBugBait )
 
@@ -81,9 +87,9 @@ BEGIN_DATADESC( CWeaponBugBait )
 	DEFINE_FIELD( m_bRedraw,			FIELD_BOOLEAN ),
 	DEFINE_FIELD( m_bEmitSpores,		FIELD_BOOLEAN ),
 	DEFINE_FIELD( m_bDrawBackFinished,	FIELD_BOOLEAN ),
-
+#ifndef CLIENT_DLL
 	DEFINE_FUNCTION( BugbaitStickyTouch ),
-
+#endif
 END_DATADESC()
 
 //-----------------------------------------------------------------------------
@@ -109,6 +115,7 @@ void CWeaponBugBait::Spawn( void )
 	CollisionProp()->UseTriggerBounds( true, 100 );
 }
 
+#ifndef CLIENT_DLL
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
@@ -124,23 +131,9 @@ void CWeaponBugBait::FallInit( void )
 	AddSolidFlags( FSOLID_TRIGGER );
 
 	SetPickupTouch();
-	
 	SetThink( &CBaseCombatWeapon::FallThink );
 
 	SetNextThink( gpGlobals->curtime + 0.1f );
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-void CWeaponBugBait::Precache( void )
-{
-	BaseClass::Precache();
-
-	UTIL_PrecacheOther( "npc_grenade_bugbait" );
-
-	PrecacheScriptSound( "Weapon_Bugbait.Splat" );
-
 }
 
 //-----------------------------------------------------------------------------
@@ -204,59 +197,7 @@ void CWeaponBugBait::OnPickedUp( CBaseCombatCharacter *pNewOwner )
 	{
 		UTIL_Remove( m_hSporeTrail );
 	}
-}
 
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-void CWeaponBugBait::PrimaryAttack( void )
-{
-	if ( m_bRedraw )
-		return;
-
-	CBaseCombatCharacter *pOwner  = GetOwner();
-	
-	if ( pOwner == NULL )
-		return;
-
-	CBasePlayer *pPlayer = ToBasePlayer( GetOwner() );
-	
-	if ( pPlayer == NULL )
-		return;
-
-	SendWeaponAnim( ACT_VM_HAULBACK );
-	
-	m_flTimeWeaponIdle		= FLT_MAX;
-	m_flNextPrimaryAttack	= FLT_MAX;
-
-	m_iPrimaryAttacks++;
-	gamestats->Event_WeaponFired( pPlayer, true, GetClassname() );
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-void CWeaponBugBait::SecondaryAttack( void )
-{
-	// Squeeze!
-	CPASAttenuationFilter filter( this );
-
-	EmitSound( filter, entindex(), "Weapon_Bugbait.Splat" );
-
-	if ( CGrenadeBugBait::ActivateBugbaitTargets( GetOwner(), GetAbsOrigin(), true ) == false )
-	{
-		g_AntlionMakerManager.BroadcastFollowGoal( GetOwner() );
-	}
-
-	SendWeaponAnim( ACT_VM_SECONDARYATTACK );
-	m_flNextSecondaryAttack = gpGlobals->curtime + SequenceDuration();
-
-	CBasePlayer *pOwner = ToBasePlayer( GetOwner() );
-	if ( pOwner )
-	{
-		m_iSecondaryAttacks++;
-		gamestats->Event_WeaponFired( pOwner, false, GetClassname() );
-	}
 }
 
 //-----------------------------------------------------------------------------
@@ -316,6 +257,78 @@ void CWeaponBugBait::Operator_HandleAnimEvent( animevent_t *pEvent, CBaseCombatC
 			BaseClass::Operator_HandleAnimEvent( pEvent, pOperator );
 			break;
 	}
+}
+#endif
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CWeaponBugBait::Precache(void)
+{
+	BaseClass::Precache();
+
+	UTIL_PrecacheOther("npc_grenade_bugbait");
+
+	PrecacheScriptSound("Weapon_Bugbait.Splat");
+
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CWeaponBugBait::PrimaryAttack( void )
+{
+	if ( m_bRedraw )
+		return;
+
+	CBaseCombatCharacter *pOwner  = GetOwner();
+	
+	if ( pOwner == NULL )
+		return;
+
+	CBasePlayer *pPlayer = ToBasePlayer( GetOwner() );
+	
+	if ( pPlayer == NULL )
+		return;
+
+	SendWeaponAnim( ACT_VM_HAULBACK );
+	
+	m_flTimeWeaponIdle		= FLT_MAX;
+	m_flNextPrimaryAttack	= FLT_MAX;
+
+	m_iPrimaryAttacks++;
+#ifndef CLIENT_DLL
+	gamestats->Event_WeaponFired( pPlayer, true, GetClassname() );
+#endif
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CWeaponBugBait::SecondaryAttack( void )
+{
+	// Squeeze!
+	CPASAttenuationFilter filter( this );
+
+	EmitSound( filter, entindex(), "Weapon_Bugbait.Splat" );
+
+#ifndef CLIENT_DLL
+	if ( CGrenadeBugBait::ActivateBugbaitTargets( GetOwner(), GetAbsOrigin(), true ) == false )
+	{
+		g_AntlionMakerManager.BroadcastFollowGoal( GetOwner() );
+	}
+#endif
+	SendWeaponAnim( ACT_VM_SECONDARYATTACK );
+	m_flNextSecondaryAttack = gpGlobals->curtime + SequenceDuration();
+
+#ifndef CLIENT_DLL
+	CBasePlayer *pOwner = ToBasePlayer( GetOwner() );
+	if ( pOwner )
+	{
+		//m_iSecondaryAttacks++;
+		gamestats->Event_WeaponFired( pOwner, false, GetClassname() );
+	}
+#endif
 }
 
 //-----------------------------------------------------------------------------

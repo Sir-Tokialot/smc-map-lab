@@ -4,7 +4,7 @@
 //
 //=============================================================================//
 
-#include "basehlcombatweapon.h"
+#include "weapon_hl2mpbasehlmpcombatweapon.h"
 
 #ifndef WEAPON_GAUSS_H
 #define WEAPON_GAUSS_H

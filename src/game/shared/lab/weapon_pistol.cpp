@@ -9,9 +9,9 @@
 #include "in_buttons.h"
 
 #ifdef CLIENT_DLL
-	#include "c_hl2mp_player.h"
+	#include "c_lab_player.h"
 #else
-	#include "hl2mp_player.h"
+	#include "lab_player.h"
 #endif
 
 #include "weapon_hl2mpbasehlmpcombatweapon.h"

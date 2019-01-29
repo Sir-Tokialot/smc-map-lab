@@ -5,8 +5,8 @@
 // $NoKeywords: $
 //
 //=============================================================================//
-#ifndef HL2MP_PLAYER_SHARED_H
-#define HL2MP_PLAYER_SHARED_H
+#ifndef LAB_PLAYER_SHARED_H
+#define LAB_PLAYER_SHARED_H
 #pragma once
 
 #define HL2MP_PUSHAWAY_THINK_INTERVAL		(1.0f / 20.0f)
@@ -21,7 +21,7 @@ enum
 	PLAYER_SOUNDS_MAX,
 };
 
-enum HL2MPPlayerState
+enum LabPlayerState
 {
 	// Happily running around in the game.
 	STATE_ACTIVE=0,
@@ -31,8 +31,9 @@ enum HL2MPPlayerState
 
 
 #if defined( CLIENT_DLL )
-#define CHL2MP_Player C_HL2MP_Player
+#define CLabPlayer C_LabPlayer
 #endif
+class CLabPlayer;
 
 class CPlayerAnimState
 {
@@ -44,7 +45,7 @@ public:
 		TURN_RIGHT
 	};
 
-	CPlayerAnimState( CHL2MP_Player *outer );
+	CPlayerAnimState( CLabPlayer *outer );
 
 	Activity			BodyYawTranslateActivity( Activity activity );
 
@@ -54,7 +55,7 @@ public:
 				
 	void				GetPoseParameters( CStudioHdr *pStudioHdr, float poseParameter[MAXSTUDIOPOSEPARAM] );
 
-	CHL2MP_Player		*GetOuter();
+	CLabPlayer		*GetOuter();
 
 private:
 	void				GetOuterAbsVelocity( Vector& vel );
@@ -68,7 +69,7 @@ private:
 
 	void				ComputePlaybackRate();
 
-	CHL2MP_Player		*m_pOuter;
+	CLabPlayer		*m_pOuter;
 
 	float				m_flGaitYaw;
 	float				m_flStoredCycle;
@@ -94,4 +95,4 @@ private:
 	float				m_flTurnCorrectionTime;
 };
 
-#endif //HL2MP_PLAYER_SHARED_h
+#endif //LAB_PLAYER_SHARED_h

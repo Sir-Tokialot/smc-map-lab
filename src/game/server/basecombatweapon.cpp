@@ -27,7 +27,9 @@
 #include "iservervehicle.h"
 #include "func_break.h"
 
-#ifdef HL2MP
+#ifdef MAPLAB
+	#include "lab_gamerules.h"
+#elif defined( HL2MP )
 	#include "hl2mp_gamerules.h"
 #endif
 
@@ -576,15 +578,18 @@ void CBaseCombatWeapon::Materialize( void )
 		RemoveEffects( EF_NODRAW );
 		DoMuzzleFlash();
 	}
-#ifdef HL2MP
+#if defined( HL2MP ) || defined( MAPLAB )
 	if ( HasSpawnFlags( SF_NORESPAWN ) == false )
 	{
 		VPhysicsInitNormal( SOLID_BBOX, GetSolidFlags() | FSOLID_TRIGGER, false );
 		SetMoveType( MOVETYPE_VPHYSICS );
-
-		HL2MPRules()->AddLevelDesignerPlacedObject( this );
-	}
+#ifdef MAPLAB
+		LabGameRules()->AddLevelDesignerPlacedObject(this);
 #else
+		HL2MPRules()->AddLevelDesignerPlacedObject( this );
+#endif
+	}
+
 	SetSolid( SOLID_BBOX );
 	AddSolidFlags( FSOLID_TRIGGER );
 #endif

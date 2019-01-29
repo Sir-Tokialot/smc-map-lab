@@ -32,7 +32,9 @@
 #include "fmtstr.h"
 #include "gameweaponmanager.h"
 
-#ifdef HL2MP
+#ifdef MAPLAB
+	#include "lab_gamerules.h"
+#elif defined( HL2MP )
 	#include "hl2mp_gamerules.h"
 #endif
 
@@ -767,7 +769,9 @@ void CBaseCombatWeapon::OnPickedUp( CBaseCombatCharacter *pNewOwner )
 		m_OnNPCPickup.FireOutput(pNewOwner, this);
 	}
 
-#ifdef HL2MP
+#ifdef MAPLAB
+	LabGameRules()->RemoveLevelDesignerPlacedObject(this);
+#elif defined( HL2MP )
 	HL2MPRules()->RemoveLevelDesignerPlacedObject( this );
 #endif
 

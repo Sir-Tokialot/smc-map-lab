@@ -17,7 +17,7 @@
 #include "game.h"
 #include "npcevent.h"
 #include "engine/IEngineSound.h"
-#include "basehlcombatweapon_shared.h"
+#include "weapon_hl2mpbasehlmpcombatweapon.h"
 #include "ai_squadslot.h"
 #include "weapon_custom_melee.h"
 
@@ -190,7 +190,7 @@ int CNPC_ShadowWalker::SelectScheduleRetrieveItem()
 {
 	if (m_bCanPickupWeapons && HasCondition(COND_BETTER_WEAPON_AVAILABLE))
 	{
-		CBaseHLCombatWeapon *pWeapon = dynamic_cast<CBaseHLCombatWeapon *>(Weapon_FindUsable(WEAPON_SEARCH_DELTA));
+		CBaseHL2MPCombatWeapon *pWeapon = dynamic_cast<CBaseHL2MPCombatWeapon *>(Weapon_FindUsable(WEAPON_SEARCH_DELTA));
 		if (pWeapon)
 		{
 			m_flNextWeaponSearchTime = gpGlobals->curtime + 10.0;

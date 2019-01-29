@@ -8,11 +8,11 @@
 #include "cbase.h"
 
 #ifdef CLIENT_DLL
-#include "c_hl2mp_player.h"
+#include "c_lab_player.h"
 #include "prediction.h"
 #define CRecipientFilter C_RecipientFilter
 #else
-#include "hl2mp_player.h"
+#include "lab_player.h"
 #endif
 
 #include "engine/IEngineSound.h"
@@ -27,12 +27,12 @@ const char *g_ppszPlayerSoundPrefixNames[PLAYER_SOUNDS_MAX] =
 	"NPC_MetroPolice",
 };
 
-const char *CHL2MP_Player::GetPlayerModelSoundPrefix( void )
+const char *CLabPlayer::GetPlayerModelSoundPrefix( void )
 {
 	return g_ppszPlayerSoundPrefixNames[m_iPlayerSoundType];
 }
 
-void CHL2MP_Player::PrecacheFootStepSounds( void )
+void CLabPlayer::PrecacheFootStepSounds( void )
 {
 	int iFootstepSounds = ARRAYSIZE( g_ppszPlayerSoundPrefixNames );
 	int i;
@@ -54,7 +54,7 @@ void CHL2MP_Player::PrecacheFootStepSounds( void )
 // the weapon, and the status of the target. Use this information to determine
 // how accurately to shoot at the target.
 //-----------------------------------------------------------------------------
-Vector CHL2MP_Player::GetAttackSpread( CBaseCombatWeapon *pWeapon, CBaseEntity *pTarget )
+Vector CLabPlayer::GetAttackSpread( CBaseCombatWeapon *pWeapon, CBaseEntity *pTarget )
 {
 	if ( pWeapon )
 		return pWeapon->GetBulletSpread( WEAPON_PROFICIENCY_PERFECT );
@@ -68,7 +68,7 @@ Vector CHL2MP_Player::GetAttackSpread( CBaseCombatWeapon *pWeapon, CBaseEntity *
 //			fvol - 
 //			force - force sound to play
 //-----------------------------------------------------------------------------
-void CHL2MP_Player::PlayStepSound( Vector &vecOrigin, surfacedata_t *psurface, float fvol, bool force )
+void CLabPlayer::PlayStepSound( Vector &vecOrigin, surfacedata_t *psurface, float fvol, bool force )
 {
 	if ( gpGlobals->maxClients > 1 && !sv_footsteps.GetFloat() )
 		return;
@@ -140,7 +140,7 @@ extern ConVar mp_feetyawrate;
 extern ConVar mp_facefronttime;
 extern ConVar mp_ik;
 
-CPlayerAnimState::CPlayerAnimState( CHL2MP_Player *outer )
+CPlayerAnimState::CPlayerAnimState( CLabPlayer *outer )
 	: m_pOuter( outer )
 {
 	m_flGaitYaw = 0.0f;
@@ -207,7 +207,7 @@ void CPlayerAnimState::ComputePlaybackRate()
 // Purpose: 
 // Output : CBasePlayer
 //-----------------------------------------------------------------------------
-CHL2MP_Player *CPlayerAnimState::GetOuter()
+CLabPlayer *CPlayerAnimState::GetOuter()
 {
 	return m_pOuter;
 }

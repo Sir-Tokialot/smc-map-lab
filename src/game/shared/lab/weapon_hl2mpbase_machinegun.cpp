@@ -7,9 +7,9 @@
 #include "cbase.h"
 
 #if defined( CLIENT_DLL )
-	#include "c_hl2mp_player.h"
+	#include "c_lab_player.h"
 #else
-	#include "hl2mp_player.h"
+	#include "lab_player.h"
 #endif
 
 #include "weapon_hl2mpbase_machinegun.h"
@@ -91,14 +91,14 @@ void CHL2MPMachineGun::PrimaryAttack( void )
 		m_iClip1 -= iBulletsToFire;
 	}
 
-	CHL2MP_Player *pHL2MPPlayer = ToHL2MPPlayer( pPlayer );
+	CLabPlayer *pLabPlayer = ToLabPlayer( pPlayer );
 
 		// Fire the bullets
 	FireBulletsInfo_t info;
 	info.m_iShots = iBulletsToFire;
-	info.m_vecSrc = pHL2MPPlayer->Weapon_ShootPosition( );
+	info.m_vecSrc = pLabPlayer->Weapon_ShootPosition( );
 	info.m_vecDirShooting = pPlayer->GetAutoaimVector( AUTOAIM_5DEGREES );
-	info.m_vecSpread = pHL2MPPlayer->GetAttackSpread( this );
+	info.m_vecSpread = pLabPlayer->GetAttackSpread( this );
 	info.m_flDistance = MAX_TRACE_LENGTH;
 	info.m_iAmmoType = m_iPrimaryAmmoType;
 	info.m_iTracerFreq = 2;

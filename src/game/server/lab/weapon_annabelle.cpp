@@ -6,7 +6,7 @@
 
 #include	"cbase.h"
 #include	"npcevent.h"
-#include	"basehlcombatweapon_shared.h"
+#include	"weapon_hl2mpbasehlmpcombatweapon.h"
 #include	"basecombatcharacter.h"
 #include	"ai_basenpc.h"
 #include	"player.h"
@@ -20,11 +20,11 @@
 
 extern ConVar sk_auto_reload_time;
 
-class CWeaponAnnabelle : public CBaseHLCombatWeapon
+class CWeaponAnnabelle : public CBaseHL2MPCombatWeapon
 {
 	DECLARE_DATADESC();
 public:
-	DECLARE_CLASS( CWeaponAnnabelle, CBaseHLCombatWeapon );
+	DECLARE_CLASS( CWeaponAnnabelle, CBaseHL2MPCombatWeapon );
 
 	DECLARE_SERVERCLASS();
 

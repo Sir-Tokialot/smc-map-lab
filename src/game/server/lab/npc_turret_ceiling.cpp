@@ -17,7 +17,7 @@
 #include "explode.h"
 #include "IEffects.h"
 #include "animation.h"
-#include "basehlcombatweapon_shared.h"
+#include "weapon_hl2mpbasehlmpcombatweapon.h"
 #include "iservervehicle.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
@@ -143,7 +143,7 @@ public:
 
 	Vector	GetAttackSpread( CBaseCombatWeapon *pWeapon, CBaseEntity *pTarget ) 
 	{
-		return VECTOR_CONE_5DEGREES * ((CBaseHLCombatWeapon::GetDefaultProficiencyValues())[ WEAPON_PROFICIENCY_PERFECT ].spreadscale);
+		return VECTOR_CONE_5DEGREES * ((CBaseHL2MPCombatWeapon::GetDefaultProficiencyValues())[ WEAPON_PROFICIENCY_PERFECT ].spreadscale);
 	}
 
 protected:

@@ -1986,7 +1986,7 @@ void CNPC_Hunter::Activate()
 		GlobalEntity_SetCounter( s_iszHuntersToRunOver, 0 );
 	}
 
-	CMissile::AddCustomDetonator( this, ( GetHullMaxs().AsVector2D() - GetHullMins().AsVector2D() ).Length() * 0.5, GetHullHeight() );
+	//CMissile::AddCustomDetonator( this, ( GetHullMaxs().AsVector2D() - GetHullMins().AsVector2D() ).Length() * 0.5, GetHullHeight() );
 
 	SetupGlobalModelData();
 	
@@ -2017,7 +2017,7 @@ void CNPC_Hunter::Activate()
 //-----------------------------------------------------------------------------
 void CNPC_Hunter::UpdateOnRemove()
 {
-	CMissile::RemoveCustomDetonator( this );
+	//CMissile::RemoveCustomDetonator( this );
 	BaseClass::UpdateOnRemove();
 }
 

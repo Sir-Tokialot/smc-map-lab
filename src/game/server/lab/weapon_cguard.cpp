@@ -6,7 +6,7 @@
 //=============================================================================//
 
 #include "cbase.h"
-#include "basehlcombatweapon.h"
+//#include "basehlcombatweapon.h"
 #include "basecombatcharacter.h"
 #include "player.h"
 #include "grenade_ar2.h"

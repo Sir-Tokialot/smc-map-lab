@@ -10,8 +10,8 @@
 #include "hl2mpclientscoreboard.h"
 #include "c_team.h"
 #include "c_playerresource.h"
-#include "c_hl2mp_player.h"
-#include "hl2mp_gamerules.h"
+#include "c_lab_player.h"
+#include "lab_gamerules.h"
 
 #include <KeyValues.h>
 
@@ -332,7 +332,7 @@ void CHL2MPClientScoreBoardDialog::InitScoreboardSections()
 	// fill out the structure of the scoreboard
 	AddHeader();
 
-	if ( HL2MPRules()->IsTeamplay() )
+	if ( LabGameRules()->IsTeamplay() )
 	{
 		// add the team sections
 		AddSection( TYPE_TEAM, TEAM_COMBINE );
@@ -379,7 +379,7 @@ void CHL2MPClientScoreBoardDialog::UpdateTeamInfo()
 			wchar_t string1[1024];
 			wchar_t wNumPlayers[6];
 
-			if ( HL2MPRules()->IsTeamplay() == false )
+			if ( LabGameRules()->IsTeamplay() == false )
 			{
 				_snwprintf( wNumPlayers, ARRAYSIZE(wNumPlayers), L"%i", iNumPlayersInGame );
 #ifdef WIN32

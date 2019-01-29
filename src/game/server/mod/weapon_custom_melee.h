@@ -6,7 +6,6 @@
 //
 //=============================================================================//
 #include "cbase.h"
-#include "basehlcombatweapon_shared.h"
 #include "weapon_crowbar.h"
 
 

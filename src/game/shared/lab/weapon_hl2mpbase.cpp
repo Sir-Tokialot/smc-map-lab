@@ -9,7 +9,7 @@
 #include "in_buttons.h"
 #include "takedamageinfo.h"
 #include "ammodef.h"
-#include "hl2mp_gamerules.h"
+#include "lab_gamerules.h"
 
 
 #ifdef CLIENT_DLL
@@ -23,12 +23,12 @@ extern IVModelInfo* modelinfo;
 
 	#include "vgui/ISurface.h"
 	#include "vgui_controls/Controls.h"
-	#include "c_hl2mp_player.h"
+	#include "c_lab_player.h"
 	#include "hud_crosshair.h"
 
 #else
 
-	#include "hl2mp_player.h"
+	#include "lab_player.h"
 	#include "vphysics/constraints.h"
 
 #endif
@@ -131,9 +131,9 @@ CBasePlayer* CWeaponHL2MPBase::GetPlayerOwner() const
 	return dynamic_cast< CBasePlayer* >( GetOwner() );
 }
 
-CHL2MP_Player* CWeaponHL2MPBase::GetHL2MPPlayerOwner() const
+CLabPlayer* CWeaponHL2MPBase::GetLabPlayerOwner() const
 {
-	return dynamic_cast< CHL2MP_Player* >( GetOwner() );
+	return dynamic_cast< CLabPlayer* >( GetOwner() );
 }
 
 #ifdef CLIENT_DLL
@@ -182,7 +182,7 @@ void CWeaponHL2MPBase::Materialize( void )
 		VPhysicsInitNormal( SOLID_BBOX, GetSolidFlags() | FSOLID_TRIGGER, false );
 		SetMoveType( MOVETYPE_VPHYSICS );
 
-		HL2MPRules()->AddLevelDesignerPlacedObject( this );
+		LabGameRules()->AddLevelDesignerPlacedObject( this );
 	}
 
 	if ( HasSpawnFlags( SF_NORESPAWN ) == false )

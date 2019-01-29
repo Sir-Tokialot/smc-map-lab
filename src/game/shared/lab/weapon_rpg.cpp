@@ -10,7 +10,7 @@
 #include "weapon_rpg.h"
 
 #ifdef CLIENT_DLL
-	#include "c_hl2mp_player.h"
+	#include "c_lab_player.h"
 	#include "model_types.h"
 	#include "beamdraw.h"
 	#include "fx_line.h"
@@ -2226,7 +2226,7 @@ int CLaserDot::DrawModel( int flags )
 	float	scale;
 	Vector	endPos;
 
-	C_HL2MP_Player *pOwner = ToHL2MPPlayer( GetOwnerEntity() );
+	C_LabPlayer *pOwner = ToLabPlayer( GetOwnerEntity() );
 
 	if ( pOwner != NULL && pOwner->IsDormant() == false )
 	{

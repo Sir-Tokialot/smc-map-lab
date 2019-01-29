@@ -7,7 +7,7 @@
 #include "cbase.h"
 
 #ifdef CLIENT_DLL
-	#include "c_hl2mp_player.h"
+	#include "c_lab_player.h"
 	#include "vcollide_parse.h"
 	#include "engine/ivdebugoverlay.h"
 	#include "iviewrender_beams.h"
@@ -17,7 +17,7 @@
 	#include "clienteffectprecachesystem.h"
 	#include "fx_interpvalue.h"
 #else
-	#include "hl2mp_player.h"
+	#include "lab_player.h"
 	#include "soundent.h"
 	#include "ndebugoverlay.h"
 	#include "ai_basenpc.h"
@@ -760,7 +760,7 @@ void CPlayerPickupController::Init( CBasePlayer *pPlayer, CBaseEntity *pObject )
 	}
 
 
-	CHL2MP_Player *pOwner = (CHL2MP_Player *)ToBasePlayer( pPlayer );
+	CLabPlayer *pOwner = (CLabPlayer *)ToBasePlayer( pPlayer );
 	if ( pOwner )
 	{
 		pOwner->EnableSprint( false );
@@ -813,7 +813,7 @@ void CPlayerPickupController::Shutdown( bool bThrown )
 
 	if ( m_pPlayer )
 	{
-		CHL2MP_Player *pOwner = (CHL2MP_Player *)ToBasePlayer( m_pPlayer );
+		CLabPlayer *pOwner = (CLabPlayer *)ToBasePlayer( m_pPlayer );
 		if ( pOwner )
 		{
 			pOwner->EnableSprint( true );
@@ -2015,7 +2015,7 @@ bool CWeaponPhysCannon::AttachObject( CBaseEntity *pObject, const Vector &vPosit
 	if ( !pPhysics )
 		return false;
 
-	CHL2MP_Player *pOwner = (CHL2MP_Player *)ToBasePlayer( GetOwner() );
+	CLabPlayer *pOwner = (CLabPlayer *)ToBasePlayer( GetOwner() );
 
 	m_bActive = true;
 	if( pOwner )
@@ -2375,7 +2375,7 @@ void CWeaponPhysCannon::DetachObject( bool playSound, bool wasLaunched )
 	if ( m_bActive == false )
 		return;
 
-	CHL2MP_Player *pOwner = (CHL2MP_Player *)ToBasePlayer( GetOwner() );
+	CLabPlayer *pOwner = (CLabPlayer *)ToBasePlayer( GetOwner() );
 	if( pOwner != NULL )
 	{
 		pOwner->EnableSprint( true );

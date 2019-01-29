@@ -7,7 +7,7 @@
 #include "cbase.h"
 #include "weapon_hl2mpbasehlmpcombatweapon.h"
 
-#include "hl2mp_player_shared.h"
+#include "lab_player_shared.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -49,7 +49,8 @@ ConVar sk_auto_reload_time("sk_auto_reload_time", "3", FCVAR_REPLICATED);
 
 CBaseHL2MPCombatWeapon::CBaseHL2MPCombatWeapon( void )
 {
-
+	m_iPrimaryAttacks = 0;
+	m_iSecondaryAttacks = 0;
 }
 
 //-----------------------------------------------------------------------------
@@ -115,7 +116,7 @@ bool CBaseHL2MPCombatWeapon::Deploy( void )
 	// We have to ask the player if the last time it checked, the weapon was lowered
 	if ( GetOwner() && GetOwner()->IsPlayer() )
 	{
-		CHL2MP_Player *pPlayer = assert_cast<CHL2MP_Player*>( GetOwner() );
+		CLabPlayer *pPlayer = assert_cast<CLabPlayer*>( GetOwner() );
 		if ( pPlayer->IsWeaponLowered() )
 		{
 			if ( SelectWeightedSequence( ACT_VM_IDLE_LOWERED ) != ACTIVITY_NOT_AVAILABLE )

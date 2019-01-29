@@ -15,7 +15,7 @@
 #include "soundenvelope.h"
 #include "physics_saverestore.h"
 #include "IEffects.h"
-#include "basehlcombatweapon_shared.h"
+#include "weapon_hl2mpbasehlmpcombatweapon.h"
 #include "phys_controller.h"
 #include "ai_interactions.h"
 #include "Sprite.h"
@@ -1956,7 +1956,7 @@ Vector CNPC_FloorTurret::GetAttackSpread( CBaseCombatWeapon *pWeapon, CBaseEntit
 		}
 	}
 
-	return VECTOR_CONE_10DEGREES * ((CBaseHLCombatWeapon::GetDefaultProficiencyValues())[ weaponProficiency ].spreadscale);
+	return VECTOR_CONE_10DEGREES * ((CBaseHL2MPCombatWeapon::GetDefaultProficiencyValues())[ weaponProficiency ].spreadscale);
 }
 
 //------------------------------------------------------------------------------
