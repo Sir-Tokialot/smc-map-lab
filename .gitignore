@@ -62,3 +62,12 @@ config.cfg
 *.sentinel
 
 *.pdb
+*.dt
+
+*.dat
+
+stats.txt
+
+*.cache
+
+*.ain
