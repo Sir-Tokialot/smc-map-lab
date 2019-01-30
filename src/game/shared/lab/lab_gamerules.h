@@ -75,9 +75,26 @@ public:
 	CLabGameRules();
 	virtual ~CLabGameRules();
 	
-	virtual void Precache( void );
 	virtual bool ShouldCollide( int collisionGroup0, int collisionGroup1 );
-	virtual bool ClientCommand( CBaseEntity *pEdict, const CCommand &args );
+
+	// derive this function if you mod uses encrypted weapon info files
+	virtual const unsigned char *GetEncryptionKey( void ) { return (unsigned char *)"x9Ke0BY7"; }
+	virtual const CViewVectors* GetViewVectors() const;
+	const LabViewVectors* GetLabViewVectors() const;
+
+	bool	IsTeamplay(void) { return m_bTeamPlayEnabled; }
+
+	virtual bool IsConnectedUserInfoChangeAllowed(CBasePlayer *pPlayer);
+
+#ifndef CLIENT_DLL
+
+	virtual void Precache(void);
+	virtual bool ClientCommand(CBaseEntity *pEdict, const CCommand &args);
+
+	virtual void			InitDefaultAIRelationships( void );
+	virtual const char*		AIClassText(int classType);
+	virtual float			GetAmmoDamage( CBaseEntity *pAttacker, CBaseEntity *pVictim, int nAmmoType );
+	bool AllowDamage( CBaseEntity *pVictim, const CTakeDamageInfo &info );
 
 	virtual float FlWeaponRespawnTime( CBaseCombatWeapon *pWeapon );
 	virtual float FlWeaponTryRespawn( CBaseCombatWeapon *pWeapon );
@@ -90,17 +107,12 @@ public:
 	virtual void GoToIntermission( void );
 	virtual void DeathNotice( CBasePlayer *pVictim, const CTakeDamageInfo &info );
 	virtual const char *GetGameDescription( void );
-	// derive this function if you mod uses encrypted weapon info files
-	virtual const unsigned char *GetEncryptionKey( void ) { return (unsigned char *)"x9Ke0BY7"; }
-	virtual const CViewVectors* GetViewVectors() const;
-	const LabViewVectors* GetLabViewVectors() const;
 
 	float GetMapRemainingTime();
 	void CleanUpMap();
 	void CheckRestartGame();
 	void RestartGame();
 	
-#ifndef CLIENT_DLL
 	virtual Vector VecItemRespawnSpot( CItem *pItem );
 	virtual QAngle VecItemRespawnAngles( CItem *pItem );
 	virtual float	FlItemRespawnTime( CItem *pItem );
@@ -122,36 +134,32 @@ public:
 	
 	virtual bool IsAlyxInDarknessMode();
 
-#endif
 	virtual void ClientDisconnected( edict_t *pClient );
 
 	bool CheckGameOver( void );
 	bool IsIntermission( void );
 
 	void PlayerKilled( CBasePlayer *pVictim, const CTakeDamageInfo &info );
+	void	CheckAllPlayersReady(void);
 
+#endif
 	
-	bool	IsTeamplay( void ) { return m_bTeamPlayEnabled;	}
-	void	CheckAllPlayersReady( void );
-
-	virtual bool IsConnectedUserInfoChangeAllowed( CBasePlayer *pPlayer );
 	
 
 private:
 
-	float	m_flLastHealthDropTime;
-	float	m_flLastGrenadeDropTime;
 	CNetworkVar( bool, m_bTeamPlayEnabled );
 	CNetworkVar( float, m_flGameStartTime );
+#ifndef CLIENT_DLL
 	CUtlVector<EHANDLE> m_hRespawnableItemsAndWeapons;
 	float m_tmNextPeriodicThink;
 	float m_flRestartGameTime;
 	bool m_bCompleteReset;
 	bool m_bAwaitingReadyRestart;
 	bool m_bHeardAllPlayersReady;
-
-#ifndef CLIENT_DLL
 	bool m_bChangelevelDone;
+	float	m_flLastHealthDropTime;
+	float	m_flLastGrenadeDropTime;
 #endif
 
 private:
