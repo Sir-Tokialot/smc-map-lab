@@ -23,51 +23,51 @@ Scheme
 	// controls use these to determine their settings
 	BaseSettings
 	{
-		"FgColor"			"255 220 0 100"
-		"BgColor"			"0 0 0 76"
+		"FgColor"				"255 220 0 100"
+		"BgColor"				"0 0 0 76"
 
 		"Panel.FgColor"			"255 220 0 100"
 		"Panel.BgColor"			"0 0 0 76"
 		
-		"BrightFg"		"255 220 0 255"
+		"BrightFg"				"255 220 0 255"
 
-		"DamagedBg"			"180 0 0 200"
-		"DamagedFg"			"180 0 0 230"
-		"BrightDamagedFg"		"255 0 0 255"
+		"DamagedBg"				"180 0 0 200"
+		"DamagedFg"				"180 0 0 230"
+		"BrightDamagedFg"			"255 0 0 255"
 
 		// weapon selection colors
 		"SelectionNumberFg"		"255 220 0 255"
-		"SelectionTextFg"		"255 220 0 255"
-		"SelectionEmptyBoxBg" 	"0 0 0 80"
-		"SelectionBoxBg" 		"0 0 0 80"
-		"SelectionSelectedBoxBg" "0 0 0 80"
+		"SelectionTextFg"			"255 220 0 255"
+		"SelectionEmptyBoxBg" 		"0 0 0 80"
+		"SelectionBoxBg" 			"0 0 0 80"
+		"SelectionSelectedBoxBg" 	"0 0 0 80"
 		
-		"ZoomReticleColor"	"255 220 0 255"
+		"ZoomReticleColor"		"255 220 0 255"
 
 		// HL1-style HUD colors
-		"Yellowish"			"255 160 0 255"
-		"Normal"			"255 208 64 255"
-		"Caution"			"255 48 0 255"
+		"Yellowish"				"255 160 0 255"
+		"Normal"					"255 208 64 255"
+		"Caution"				"255 48 0 255"
 
 		// Top-left corner of the "Half-Life 2" on the main screen
-		"Main.Title1.X"				"76"
-		"Main.Title1.Y"				"145"
+		"Main.Title1.X"			"52"
+		"Main.Title1.Y"			"170"
 		"Main.Title1.Y_hidef"		"130"
-		"Main.Title1.Color"	"255 255 255 255"
+		"Main.Title1.Color"		"255 255 255 255"
 
 		// Top-left corner of secondary title e.g. "DEMO" on the main screen
-		"Main.Title2.X"				"76"
-		"Main.Title2.Y"				"190"
+		"Main.Title2.X"			"52"
+		"Main.Title2.Y"			"204"
 		"Main.Title2.Y_hidef"		"174"
-		"Main.Title2.Color"	"255 255 255 200"
+		"Main.Title2.Color"		"255 255 255 200"
 
 		// Top-left corner of the menu on the main screen
-		"Main.Menu.X"			"53"
+		"Main.Menu.X"				"53"
 		"Main.Menu.X_hidef"		"76"
-		"Main.Menu.Y"			"240"
+		"Main.Menu.Y"				"240"
 
 		// Blank space to leave beneath the menu on the main screen
-		"Main.BottomBorder"	"32"
+		"Main.BottomBorder"		"32"
 	}
 
 	//////////////////////// BITMAP FONT FILES /////////////////////////////
@@ -624,20 +624,20 @@ Scheme
 			{
 				"name"		"Trebuchet MS"
 				"tall"		"18"
-				"weight"	"900"
+				"weight"		"900"
 			}
 		}
 		ClientTitleFont
 		{
 			"1"
 			{
-				"name"  "HL2EP2"
+				"name"  			"AlteDIN"
 				"tall"			"34"
-				"tall_hidef"	"48"
-				"weight" "0"
-				"additive" "0"
-				"antialias" "1"
-				"custom"	"1" [$OSX]
+				"tall_hidef"		"48"
+				"weight" 		"0"
+				"additive" 		"0"
+				"antialias" 		"1"
+				"custom"			"1" [$OSX]
 			}
 		}
 		CreditsLogo
@@ -793,7 +793,8 @@ Scheme
 	{
 		"1"		"resource/HALFLIFE2.ttf"
 		"2"		"resource/HL2crosshairs.ttf"
-		"3"	"resource/HL2EP2.ttf"		
+		"3"		"resource/HL2EP2.ttf"		
+		"4"		"resource/AlteDIN.ttf"		
 	}
 
 }
