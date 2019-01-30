@@ -1,0 +1,17 @@
+// load the base configuration
+//exec default.cfg
+
+// Setup custom controller
+exec joystick.cfg
+
+// run a user script file if present
+exec autoexec.cfg
+
+//
+// stuff command line statements
+//
+stuffcmds
+
+// display the startup level
+// for some reason this file isnt working in mp, even though there is no change from sp
+startupmenu
