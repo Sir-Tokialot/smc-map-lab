@@ -235,7 +235,7 @@ void CLabPlayer::GiveDefaultItems( void )
 
 void CLabPlayer::PickDefaultSpawnTeam( void )
 {
-	if ( GetTeamNumber() == 0 )
+	if ( GetTeamNumber() == 0)
 	{
 		if ( LabGameRules()->IsTeamplay() == false )
 		{
@@ -290,12 +290,15 @@ void CLabPlayer::Spawn(void)
 {
 	m_flNextModelChangeTime = 0.0f;
 	m_flNextTeamChangeTime = 0.0f;
-
-	PickDefaultSpawnTeam();
+	
+	if(LabGameRules()->IsMultiplayer())
+		PickDefaultSpawnTeam();
+	else
+		SetModel("models/humans/group03/male_08.mdl");//Gordon Freeman is not the protagonist Brandon Willis is 
 
 	BaseClass::Spawn();
 	
-	if ( !IsObserver() )
+	if ( !IsObserver() && LabGameRules()->IsMultiplayer() )
 	{
 		pl.deadflag = false;
 		RemoveSolidFlags( FSOLID_NOT_SOLID );
@@ -1316,28 +1319,38 @@ CBaseEntity* CLabPlayer::EntSelectSpawnPoint( void )
 	CBaseEntity *pSpot = NULL;
 	CBaseEntity *pLastSpawnPoint = g_pLastSpawn;
 	edict_t		*player = edict();
-	const char *pSpawnpointName = "info_player_deathmatch";
-
-	if (  LabGameRules()->IsTeamplay() == true )
+	const char *pSpawnpointName = "info_player_start";
+	
+	if (LabGameRules()->IsMultiplayer())
 	{
-		if ( GetTeamNumber() == TEAM_COMBINE )
+		if (LabGameRules()->IsDeathmatch())
 		{
-			pSpawnpointName = "info_player_combine";
-			pLastSpawnPoint = g_pLastCombineSpawn;
-		}
-		else if ( GetTeamNumber() == TEAM_REBELS )
-		{
-			pSpawnpointName = "info_player_rebel";
-			pLastSpawnPoint = g_pLastRebelSpawn;
-		}
+			if (LabGameRules()->IsTeamplay())
+			{
+				if (GetTeamNumber() == TEAM_COMBINE)
+				{
+					pSpawnpointName = "info_player_combine";
+					pLastSpawnPoint = g_pLastCombineSpawn;
+				}
+				else if (GetTeamNumber() == TEAM_REBELS)
+				{
+					pSpawnpointName = "info_player_rebel";
+					pLastSpawnPoint = g_pLastRebelSpawn;
+				}
 
-		if ( gEntList.FindEntityByClassname( NULL, pSpawnpointName ) == NULL )
-		{
-			pSpawnpointName = "info_player_deathmatch";
-			pLastSpawnPoint = g_pLastSpawn;
+				if (gEntList.FindEntityByClassname(NULL, pSpawnpointName) == NULL)
+				{
+					pSpawnpointName = "info_player_deathmatch";
+					pLastSpawnPoint = g_pLastSpawn;
+				}
+			}
+			else
+				pSpawnpointName = "info_player_deathmatch";
 		}
+		else if (LabGameRules()->IsCoOp())
+			pSpawnpointName = "info_player_coop";
+
 	}
-
 	pSpot = pLastSpawnPoint;
 	// Randomize the start spot
 	for ( int i = random->RandomInt(1,5); i > 0; i-- )

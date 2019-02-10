@@ -5,7 +5,7 @@
 //=============================================================================
 #include "cbase.h"
 
-#ifdef MAPLAB
+#ifdef CLIENT_DLL
 #include "achievementmgr.h"
 #include "baseachievement.h"
 

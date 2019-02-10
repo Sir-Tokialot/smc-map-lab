@@ -267,7 +267,9 @@ void CWeaponBugBait::Precache(void)
 {
 	BaseClass::Precache();
 
+#ifndef CLIENT_DLL
 	UTIL_PrecacheOther("npc_grenade_bugbait");
+#endif
 
 	PrecacheScriptSound("Weapon_Bugbait.Splat");
 

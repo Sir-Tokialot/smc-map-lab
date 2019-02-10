@@ -43,7 +43,10 @@
 #include "NextBot/NextBotManager.h"
 #endif
 
-#ifdef HL2_DLL
+#ifdef MAPLAB
+#include "weapon_physcannon.h"
+#include "lab_gamerules.h"
+#elif defined( HL2_DLL)
 #include "weapon_physcannon.h"
 #include "hl2_gamerules.h"
 #endif
@@ -1529,9 +1532,13 @@ bool CBaseCombatCharacter::BecomeRagdoll( const CTakeDamageInfo &info, const Vec
 	CTakeDamageInfo newinfo = info;
 	newinfo.SetDamageForce( forceVector );
 
-#ifdef HL2_EPISODIC
+#if defined( HL2_EPISODIC ) || defined( MAPLAB ) 
 	// Burning corpses are server-side in episodic, if we're in darkness mode
+#ifdef MAPLAB
+	if ( IsOnFire() && LabGameRules()->IsAlyxInDarknessMode() )
+#else
 	if ( IsOnFire() && HL2GameRules()->IsAlyxInDarknessMode() )
+#endif
 	{
 		CBaseEntity *pRagdoll = CreateServerRagdoll( this, m_nForceBone, newinfo, COLLISION_GROUP_DEBRIS );
 		FixupBurningServerRagdoll( pRagdoll );
@@ -1540,11 +1547,13 @@ bool CBaseCombatCharacter::BecomeRagdoll( const CTakeDamageInfo &info, const Vec
 	}
 #endif
 
-#ifdef HL2_DLL	
+#if defined( HL2_DLL ) || defined( MAPLAB ) 
 
 	bool bMegaPhyscannonActive = false;
 #if !defined( HL2MP )
 	bMegaPhyscannonActive = HL2GameRules()->MegaPhyscannonActive();
+#elif defined( MAPLAB )
+	bMegaPhyscannonActive = LabGameRules()->MegaPhyscannonActive();
 #endif // !HL2MP
 
 	// Mega physgun requires everything to be a server-side ragdoll
@@ -3107,6 +3116,9 @@ void CBaseCombatCharacter::VPhysicsShadowCollision( int index, gamevcollisioneve
 	{
 		flOtherAttackerTime = 1.0f;
 	}
+#elif defined( MAPLAB )
+	if ( LabGameRules()->MegaPhyscannonActive() )
+		flOtherAttackerTime = 1.0f;
 #endif // HL2_DLL && !HL2MP
 
 	if ( this == pOther->HasPhysicsAttacker( flOtherAttackerTime ) )

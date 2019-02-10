@@ -21,6 +21,9 @@ class CLabGameRulesProxy : public CGameRulesProxy
 public:
 	DECLARE_CLASS( CLabGameRulesProxy, CGameRulesProxy );
 	DECLARE_NETWORKCLASS();
+#ifndef CLIENT_DLL
+	virtual void Spawn();
+#endif
 };
 
 class LabViewVectors : public CViewVectors
@@ -82,11 +85,16 @@ public:
 	virtual const CViewVectors* GetViewVectors() const;
 	const LabViewVectors* GetLabViewVectors() const;
 
-	bool	IsTeamplay(void) { return m_bTeamPlayEnabled; }
+	bool	     IsTeamplay(void) { return m_bTeamPlayEnabled; }
 
 	virtual bool IsConnectedUserInfoChangeAllowed(CBasePlayer *pPlayer);
 
 #ifndef CLIENT_DLL
+
+	virtual bool IsDeathmatch(void);
+	virtual bool IsCoOp(void);
+	virtual bool IsSingleplayer(void);
+	virtual bool IsMultiplayer(void);
 
 	virtual void Precache(void);
 	virtual bool ClientCommand(CBaseEntity *pEdict, const CCommand &args);
@@ -130,7 +138,7 @@ public:
 	bool	NPC_ShouldDropHealth( CBasePlayer *pRecipient );
 	void	NPC_DroppedHealth( void );
 	void	NPC_DroppedGrenade( void );
-	bool	MegaPhyscannonActive( void ) { return m_bMegaPhysgun;	}
+	bool	MegaPhyscannonActive( void ) { return m_bMegaPhysgun; } //might want to move this around since if one player has the megaphyscannon all players have it
 	
 	virtual bool IsAlyxInDarknessMode();
 

@@ -18,8 +18,12 @@
 #include "ndebugoverlay.h"
 #include "ai_senses.h"
 
-#ifdef HL2_EPISODIC
+#if defined( HL2_EPISODIC ) || defined( MAPLAB )
 	#include "info_darknessmode_lightsource.h"
+#endif
+
+#ifdef MAPLAB
+#include "lab_gamerules.h"
 #endif
 
 // memdbgon must be the last include file in a .cpp file!!!
@@ -762,9 +766,13 @@ void CAI_FollowBehavior::GatherConditions( void )
 	}
 #endif
 
-#ifdef HL2_EPISODIC
+#if defined( HL2_EPISODIC ) || defined( MAPLAB )
 	// Let followers know if the player is lit in the darkness
+#ifdef MAPLAB
+	if ( GetFollowTarget()->IsPlayer() && LabGameRules()->IsAlyxInDarknessMode() )
+#else
 	if ( GetFollowTarget()->IsPlayer() && HL2GameRules()->IsAlyxInDarknessMode() )
+#endif
 	{
 		if ( LookerCouldSeeTargetInDarkness( GetOuter(), GetFollowTarget() ) )
 		{
@@ -847,8 +855,13 @@ bool CAI_FollowBehavior::ShouldMoveToFollowTarget()
 	if( m_bTargetUnreachable )
 		return false;
 
-#ifdef HL2_EPISODIC
+#if defined( HL2_EPISODIC ) || defined( MAPLAB )
+
+#ifdef MAPLAB
+	if ( LabGameRules()->IsAlyxInDarknessMode() )
+#else
 	if ( HL2GameRules()->IsAlyxInDarknessMode() )
+#endif
 	{
 		// If we're in darkness mode, the player needs to be lit by
 		// darkness, but we don't need line of sight to him.
@@ -1940,7 +1953,7 @@ void CAI_FollowBehavior::BuildScheduleTestBits()
 		   IsCurSchedule(SCHED_ALERT_STAND) ) ||
 		   IsCurSchedule(SCHED_ALERT_FACE_BESTSOUND ) )
 	{
-#ifdef HL2_EPISODIC
+#if defined( HL2_EPISODIC ) || defined( MAPLAB ) 
 		if( IsCurSchedule(SCHED_RELOAD, false) && GetOuter()->Classify() == CLASS_PLAYER_ALLY_VITAL )
 		{
 			// Alyx and Barney do not stop reloading because the player has moved. 
@@ -1966,9 +1979,13 @@ void CAI_FollowBehavior::BuildScheduleTestBits()
 			GetOuter()->SetCustomInterruptCondition( COND_CAN_RANGE_ATTACK1 );
 		}
 
-#ifdef HL2_EPISODIC
+#if defined( HL2_EPISODIC ) || defined( MAPLAB )
 		// In Alyx darkness mode, break on the player turning their flashlight off
+#ifdef MAPLAB
+		if ( LabGameRules()->IsAlyxInDarknessMode() )
+#else
 		if ( HL2GameRules()->IsAlyxInDarknessMode() )
+#endif
 		{
 			if ( IsCurSchedule(SCHED_FOLLOW, false) || IsCurSchedule(SCHED_MOVE_TO_FACE_FOLLOW_TARGET, false) ||
 				 IsCurSchedule(SCHED_FACE_FOLLOW_TARGET, false) )

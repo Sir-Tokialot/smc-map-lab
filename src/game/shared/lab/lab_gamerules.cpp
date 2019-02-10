@@ -79,6 +79,14 @@ BEGIN_NETWORK_TABLE_NOBASE( CLabGameRules, DT_LabGameRules )
 END_NETWORK_TABLE()
 
 LINK_ENTITY_TO_CLASS( lab_gamerules, CLabGameRulesProxy );
+//just incase for compatibility 
+#ifndef CLIENT_DLL 
+//clients hate it 
+//watch how this one simple ifdef fixed two errors
+LINK_ENTITY_TO_CLASS( hl2_gamerules, CLabGameRulesProxy );
+LINK_ENTITY_TO_CLASS( hl2mp_gamerules, CLabGameRulesProxy );
+#endif
+
 IMPLEMENT_NETWORKCLASS_ALIASED( LabGameRulesProxy, DT_LabGameRulesProxy )
 
 
@@ -110,16 +118,25 @@ IMPLEMENT_NETWORKCLASS_ALIASED( LabGameRulesProxy, DT_LabGameRulesProxy )
 
 #ifndef CLIENT_DLL
 
-	class CVoiceGameMgrHelper : public IVoiceGameMgrHelper
+void CLabGameRulesProxy::Spawn()
+{
+	if (!FClassnameIs(this, "lab_gamerules"))
 	{
-	public:
-		virtual bool CanPlayerHearPlayer( CBasePlayer *pListener, CBasePlayer *pTalker, bool &bProximity )
-		{
-			return ( pListener->GetTeamNumber() == pTalker->GetTeamNumber() );
-		}
-	};
-	CVoiceGameMgrHelper g_VoiceGameMgrHelper;
-	IVoiceGameMgrHelper *g_pVoiceGameMgrHelper = &g_VoiceGameMgrHelper;
+		SetClassname("lab_gamerules");
+	}
+	BaseClass::Spawn();
+}
+
+class CVoiceGameMgrHelper : public IVoiceGameMgrHelper
+{
+public:
+	virtual bool CanPlayerHearPlayer( CBasePlayer *pListener, CBasePlayer *pTalker, bool &bProximity )
+	{
+		return ( pListener->GetTeamNumber() == pTalker->GetTeamNumber() );
+	}
+};
+CVoiceGameMgrHelper g_VoiceGameMgrHelper;
+IVoiceGameMgrHelper *g_pVoiceGameMgrHelper = &g_VoiceGameMgrHelper;
 
 #endif
 
@@ -269,6 +286,7 @@ const LabViewVectors* CLabGameRules::GetLabViewVectors()const
 {
 	return &g_LabViewVectors;
 }
+
 	
 CLabGameRules::~CLabGameRules( void )
 {
@@ -303,6 +321,26 @@ bool CLabGameRules::IsConnectedUserInfoChangeAllowed( CBasePlayer *pPlayer )
 }
 
 #ifndef CLIENT_DLL
+
+bool CLabGameRules::IsDeathmatch(void)
+{
+	return gpGlobals->deathmatch;
+}
+
+bool CLabGameRules::IsCoOp(void)
+{
+	return gpGlobals->coop;
+}
+
+bool CLabGameRules::IsSingleplayer(void)
+{
+	return gpGlobals->maxClients == 1;
+}
+
+bool CLabGameRules::IsMultiplayer(void)
+{
+	return gpGlobals->maxClients > 1;
+}
 
 //------------------------------------------------------------------------------
 // Purpose : Initialize all default class relationships
@@ -1275,22 +1313,6 @@ const char* CLabGameRules::AIClassText(int classType)
 }
 
 
-
-void CLabGameRules::Think( void )
-{
-	BaseClass::Think();
-
-	if( physcannon_mega_enabled.GetBool() == true )
-	{
-		m_bMegaPhysgun = true;
-	}
-	else
-	{
-		// FIXME: Is there a better place for this?
-		m_bMegaPhysgun = ( GlobalEntity_GetState("super_phys_gun") == GLOBAL_ON );
-	}
-}
-
 //-----------------------------------------------------------------------------
 // Purpose: Returns how much damage the given ammo type should do to the victim
 //			when fired by the attacker.
@@ -1391,7 +1413,7 @@ void CLabGameRules::CreateStandardEntities( void )
 #ifdef DBGFLAG_ASSERT
 	CBaseEntity *pEnt = 
 #endif
-	CBaseEntity::Create( "hl2mp_gamerules", vec3_origin, vec3_angle );
+	CBaseEntity::Create( "lab_gamerules", vec3_origin, vec3_angle );
 	Assert( pEnt );
 }
 
@@ -1416,7 +1438,10 @@ float CLabGameRules::FlWeaponRespawnTime( CBaseCombatWeapon *pWeapon )
 
 bool CLabGameRules::IsIntermission( void )
 {
-	return m_flIntermissionEndTime > gpGlobals->curtime;
+	if (IsSingleplayer())
+		return false;
+	else
+		return m_flIntermissionEndTime > gpGlobals->curtime;
 }
 
 void CLabGameRules::PlayerKilled( CBasePlayer *pVictim, const CTakeDamageInfo &info )
@@ -1430,8 +1455,21 @@ void CLabGameRules::PlayerKilled( CBasePlayer *pVictim, const CTakeDamageInfo &i
 void CLabGameRules::Think( void )
 {
 
-	
 	CGameRules::Think();
+
+	
+	if( physcannon_mega_enabled.GetBool() == true )
+	{
+		m_bMegaPhysgun = true;
+	}
+	else
+	{
+		// FIXME: Is there a better place for this?
+		m_bMegaPhysgun = ( GlobalEntity_GetState("super_phys_gun") == GLOBAL_ON );
+	}
+
+	if (IsSingleplayer())
+		return; // the rest of this isn't needed as it is for things like map and frag limits
 
 	if ( g_fGameOver )   // someone else quit the game already
 	{
@@ -1599,6 +1637,9 @@ const char *CLabGameRules::GetGameDescription( void )
 
 float CLabGameRules::GetMapRemainingTime()
 {
+	if (IsSingleplayer())
+		return 0;
+
 	// if timelimit is disabled, return 0
 	if ( mp_timelimit.GetInt() <= 0 )
 		return 0;
@@ -1778,6 +1819,8 @@ bool CLabGameRules::CanHavePlayerItem( CBasePlayer *pPlayer, CBaseCombatWeapon *
 //=========================================================
 int CLabGameRules::WeaponShouldRespawn( CBaseCombatWeapon *pWeapon )
 {
+	if (gpGlobals->maxClients == 1 || gpGlobals->coop)
+		return GR_WEAPON_RESPAWN_NO;
 	if ( pWeapon->HasSpawnFlags( SF_NORESPAWN ) )
 	{
 		return GR_WEAPON_RESPAWN_NO;
