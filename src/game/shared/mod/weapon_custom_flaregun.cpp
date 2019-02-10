@@ -289,8 +289,9 @@ void CFlaregun::Precache( void )
 	PrecacheScriptSound( "Flare.Touch" );
 
 	PrecacheScriptSound( "Weapon_FlareGun.Burn" );
-
+#ifndef CLIENT_DLL
 	UTIL_PrecacheOther( "env_flare" );
+#endif
 }
 
 

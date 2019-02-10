@@ -71,3 +71,13 @@ stats.txt
 *.dat
 *.cache
 *.ain
+
+*.sav
+
+*.HL1
+
+*.HL2
+
+*.HL3
+save/
+screenshots/
