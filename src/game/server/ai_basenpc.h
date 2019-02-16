@@ -3062,7 +3062,8 @@ public:
 #define	DEFINE_BASENPCINTERACTABLE_DATADESC() \
 	DEFINE_OUTPUT( m_OnAlyxStartedInteraction,				"OnAlyxStartedInteraction" ),	\
 	DEFINE_OUTPUT( m_OnAlyxFinishedInteraction,				"OnAlyxFinishedInteraction" ),  \
-	DEFINE_INPUTFUNC( FIELD_VOID, "InteractivePowerDown", InputPowerdown )
+	DEFINE_INPUTFUNC( FIELD_VOID, "InteractivePowerDown", InputPowerdown ), \
+	DEFINE_INPUTFUNC( FIELD_VOID, "Hack", InputDoInteraction )
 
 template <class NPC_CLASS>
 class CNPCBaseInteractive : public NPC_CLASS, public INPCInteractive
@@ -3076,6 +3077,11 @@ public:
 	virtual void	InputPowerdown( inputdata_t &inputdata )
 	{
 
+	}
+	
+	virtual void	InputDoInteraction( inputdata_t &inputdata )
+	{
+		NotifyInteraction(inputdata.pActivator ? inputdata.pActivator->MyNPCPointer() : NULL);
 	}
 
 	// Alyx specific interactions
