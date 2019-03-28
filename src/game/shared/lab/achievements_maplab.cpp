@@ -1,8 +1,8 @@
-//========= Copyright Valve Corporation, All rights reserved. ============//
+//========= Copyright TOKI, All rights reserved. ==============================//
 //
 // Purpose: Maplab achievements.
 //
-//=============================================================================
+//=============================================================================//
 #include "cbase.h"
 
 #ifdef CLIENT_DLL
@@ -37,23 +37,23 @@ protected:
 		}
 	}
 };
-DECLARE_ACHIEVEMENT(CAchievementMaplabMenu, ACHIEVEMENT_EVENT_JOIN_SMC, "JOIN_SMC", 5); // remember to join SMC :)
+DECLARE_ACHIEVEMENT(CAchievementMaplabMenu, ACHIEVEMENT_EVENT_JOIN_SMC, "JOIN_SMC", 5); // remember to join Map Labs Discord :)
 
-// remember!!!! components are to be the same as the map's name with a _c affixed at the end!!!!
-//
+// C stands for component. used to differentiate between achievements and their respective component.
+
 class CAchievementMaplab01Completed : public CBaseAchievement
 {
 	virtual void Init()
 	{
 		static const char *szComponents[] =
 		{
-			"MAPLAB01_1_c", "MAPLAB01_2_c", "MAPLAB01_3_c", "MAPLAB01_4_c",
-			"MAPLAB01_5_c", "MAPLAB01_6_c", "MAPLAB01_7_c", "MAPLAB01_8_c"
+			"CMAPLAB01_1", "CMAPLAB01_2", "CMAPLAB01_3", "CMAPLAB01_4",
+			"CMAPLAB01_5", "CMAPLAB01_6", "CMAPLAB01_7", "CMAPLAB01_8"
 		};
 		SetFlags(ACH_HAS_COMPONENTS | ACH_LISTEN_COMPONENT_EVENTS | ACH_SAVE_GLOBAL);
 		m_pszComponentNames = szComponents;
 		m_iNumComponents = ARRAYSIZE(szComponents);
-		SetComponentPrefix("MAPLAB01");
+		SetComponentPrefix("CMAPLAB01");
 		SetGoal(m_iNumComponents);
 	}
 
@@ -68,15 +68,15 @@ class CAchievementTesttube01Completed : public CBaseAchievement
 	{
 		static const char *szComponents[] =
 		{
-			"TESTTUBE01_1_c", "TESTTUBE01_2_c", "TESTTUBE01_3_c", "TESTTUBE01_4_c",
-			"TESTTUBE01_5_c", "TESTTUBE01_6_c", "TESTTUBE01_7_c", "TESTTUBE01_8_c",
-			"TESTTUBE01_10_c", "TESTTUBE01_11_c", "TESTTUBE01_12_c", "TESTTUBE01_13_c",
-			"TESTTUBE01_14_c", "TESTTUBE01_15_c"
+			"CTESTTUBE01_1", "CTESTTUBE01_2", "CTESTTUBE01_3", "CTESTTUBE01_4",
+			"CTESTTUBE01_5", "CTESTTUBE01_6", "CTESTTUBE01_7", "CTESTTUBE01_8",
+			"CTESTTUBE01_10", "CTESTTUBE01_11", "CTESTTUBE01_12", "CTESTTUBE01_13",
+			"CTESTTUBE01_14", "CTESTTUBE01_15"
 		};
 		SetFlags(ACH_HAS_COMPONENTS | ACH_LISTEN_COMPONENT_EVENTS | ACH_SAVE_GLOBAL);
 		m_pszComponentNames = szComponents;
 		m_iNumComponents = ARRAYSIZE(szComponents);
-		SetComponentPrefix("TESTTUBE01");
+		SetComponentPrefix("CTESTTUBE01");
 		SetGoal(m_iNumComponents);
 	}
 
@@ -92,14 +92,14 @@ class CAchievementMaplab02Completed : public CBaseAchievement
 	{
 		static const char *szComponents[] =
 		{
-			"MAPLAB02_1_c", "MAPLAB02_2_c", "MAPLAB02_3_c", "MAPLAB02_4_c",
-			"MAPLAB02_5_c", "MAPLAB02_6_c", "MAPLAB02_7_c"
+			"CMAPLAB02_1", "CMAPLAB02_2", "CMAPLAB02_3", "CMAPLAB02_4",
+			"CMAPLAB02_5", "CMAPLAB02_6", "CMAPLAB02_7"
 
 		};
 		SetFlags(ACH_HAS_COMPONENTS | ACH_LISTEN_COMPONENT_EVENTS | ACH_SAVE_GLOBAL);
 		m_pszComponentNames = szComponents;
 		m_iNumComponents = ARRAYSIZE(szComponents);
-		SetComponentPrefix("MAPLAB02");
+		SetComponentPrefix("CMAPLAB02");
 		SetGoal(m_iNumComponents);
 	}
 
@@ -115,13 +115,13 @@ class CAchievementTesttube02Completed : public CBaseAchievement
 	{
 		static const char *szComponents[] =
 		{
-			"TESTTUBE02_1_c", "TESTTUBE02_2_c", "TESTTUBE02_3_c", "TESTTUBE02_4_c",
-			"TESTTUBE02_5_c", "TESTTUBE02_6_c", "TESTTUBE02_7_c", "TESTTUBE02_8_c"
+			"CTESTTUBE02_1", "CTESTTUBE02_2", "CTESTTUBE02_3", "CTESTTUBE02_4",
+			"CTESTTUBE02_5", "CTESTTUBE02_6", "CTESTTUBE02_7", "CTESTTUBE02_8"
 		};
 		SetFlags(ACH_HAS_COMPONENTS | ACH_LISTEN_COMPONENT_EVENTS | ACH_SAVE_GLOBAL);
 		m_pszComponentNames = szComponents;
 		m_iNumComponents = ARRAYSIZE(szComponents);
-		SetComponentPrefix("TESTTUBE02");
+		SetComponentPrefix("CTESTTUBE02");
 		SetGoal(m_iNumComponents);
 	}
 	virtual bool ShouldShowProgressNotification() { return false; }
@@ -133,7 +133,7 @@ DECLARE_ACHIEVEMENT(CAchievementTesttube02Completed, ACHIEVEMENT_EVENT_TESTTUBE0
 //
 //
 // halloween horror
-DECLARE_MAP_EVENT_ACHIEVEMENT( ACHIEVEMENT_EVENT_MAPLAB01_1, "MAPLAB01_1", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT( ACHIEVEMENT_MAPLAB01_1, "MAPLAB01_1", 5);
 DECLARE_MAP_EVENT_ACHIEVEMENT( ACHIEVEMENT_EVENT_MAPLAB01_2, "MAPLAB01_2", 5);
 DECLARE_MAP_EVENT_ACHIEVEMENT( ACHIEVEMENT_EVENT_MAPLAB01_3, "MAPLAB01_3", 5);
 DECLARE_MAP_EVENT_ACHIEVEMENT( ACHIEVEMENT_EVENT_MAPLAB01_4, "MAPLAB01_4", 5);
@@ -152,7 +152,7 @@ DECLARE_MAP_EVENT_ACHIEVEMENT( ACHIEVEMENT_EVENT_TESTTUBE01_5, "TESTTUBE01_5", 5
 DECLARE_MAP_EVENT_ACHIEVEMENT( ACHIEVEMENT_EVENT_TESTTUBE01_6, "TESTTUBE01_6", 5);
 DECLARE_MAP_EVENT_ACHIEVEMENT( ACHIEVEMENT_EVENT_TESTTUBE01_7, "TESTTUBE01_7", 5);
 DECLARE_MAP_EVENT_ACHIEVEMENT( ACHIEVEMENT_EVENT_TESTTUBE01_8, "TESTTUBE01_8", 5);
-// map9 achievement not called by map logic
+//DECLARE_MAP_EVENT_ACHIEVEMENT( ACHIEVEMENT_EVENT_TESTTUBE01_9, "TESTTUBE01_9", 5);
 DECLARE_MAP_EVENT_ACHIEVEMENT( ACHIEVEMENT_EVENT_TESTTUBE01_10, "TESTTUBE01_10", 5);
 DECLARE_MAP_EVENT_ACHIEVEMENT( ACHIEVEMENT_EVENT_TESTTUBE01_11, "TESTTUBE01_11", 5);
 DECLARE_MAP_EVENT_ACHIEVEMENT( ACHIEVEMENT_EVENT_TESTTUBE01_12, "TESTTUBE01_12", 5);
@@ -180,4 +180,7 @@ DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_TESTTUBE02_5, "TESTTUBE02_5", 5)
 DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_TESTTUBE02_6, "TESTTUBE02_6", 5);
 DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_TESTTUBE02_7, "TESTTUBE02_7", 5);
 DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_TESTTUBE02_8, "TESTTUBE02_8", 5);
+
+
+
 #endif MAPLAB
