@@ -4,7 +4,7 @@
 // give it to themselves without foregoing achievements.
 #include "cbase.h"
 
-ConVar has_wallclimb("maplabs_wallclimb", 0, FCVAR_CHEAT, "Turns wall climbing on or off.");
+static ConVar has_wallclimb("maplab_wallclimb", 0, FCVAR_CHEAT, "Turns wall climbing on or off.");
 
 class CPlayerWallclimb : public CLogicalEntity {
 public:

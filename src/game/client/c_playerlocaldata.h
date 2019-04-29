@@ -42,6 +42,10 @@ public:
 	
 	float					m_flFOVRate;		// rate at which the FOV changes
 	
+	// !! dot's additions - wallclimb, longjump
+	bool					bShouldTryMantle;
+	//EHANDLE					m_pAssassinateTarget;
+	//bool					m_fLongJump;
 
 	bool					m_bDucked;
 	bool					m_bDucking;

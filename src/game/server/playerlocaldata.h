@@ -43,6 +43,12 @@ public:
 		
 	Vector				m_vecOverViewpoint;			// Viewpoint overriding the real player's viewpoint
 	
+
+	CNetworkVar(bool, bShouldTryMantle);
+	//CNetworkVar(EHANDLE, m_pAssassinateTarget);
+	// !! vanSulli - long jump
+	//CNetworkVar(bool, m_fLongJump);
+
 	// Fully ducked
 	CNetworkVar( bool, m_bDucked );
 	// In process of ducking
