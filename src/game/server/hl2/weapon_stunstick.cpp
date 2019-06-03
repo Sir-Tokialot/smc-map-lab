@@ -76,6 +76,9 @@ void CWeaponStunStick::Precache()
 
 	PrecacheScriptSound( "Weapon_StunStick.Activate" );
 	PrecacheScriptSound( "Weapon_StunStick.Deactivate" );
+	PrecacheScriptSound("Weapon_StunStick.Melee_Hit");
+	PrecacheScriptSound("Weapon_StunStick.Melee_HitWorld");
+
 
 }
 
