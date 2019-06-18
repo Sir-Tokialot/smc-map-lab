@@ -1,6 +1,6 @@
 //========= Copyright Valve Corporation, All rights reserved. ============//
 //
-// Purpose: Maplab ConVars
+// Purpose: Map Labs ConVars
 //
 //=============================================================================
 
@@ -15,7 +15,7 @@ void OpenAchievements_f()
 	else
 		DevMsg("Missing Steam API context, failed to execute: maplab_openachievements\n");
 }
-ConCommand maplab_openachievements("maplab_openachievements", OpenAchievements_f, "Open Maplab Achievements in Steam Overlay.", 0);
+ConCommand maplab_openachievements("maplab_openachievements", OpenAchievements_f, "Open Map labs Achievements in Steam Overlay.", 0);
 
 
 void OpenInvite_f()
@@ -27,7 +27,7 @@ void OpenInvite_f()
 		gameeventmanager->FireEvent(event);
 	
 }
-ConCommand maplab_openinvite("maplab_openinvite", OpenInvite_f, "Open the SMC Discord invite link.", 0);
+ConCommand maplab_openinvite("maplab_openinvite", OpenInvite_f, "Open the Map Labs Discord invite link.", 0);
 
 //reset all achievements & stats for testing purposes
 void ResetAchievements_f()

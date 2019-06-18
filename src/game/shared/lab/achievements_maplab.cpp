@@ -37,7 +37,7 @@ protected:
 		}
 	}
 };
-DECLARE_ACHIEVEMENT(CAchievementMaplabMenu, ACHIEVEMENT_EVENT_JOIN_SMC, "JOIN_SMC", 5); // remember to join Map Labs Discord :)
+DECLARE_ACHIEVEMENT(CAchievementMaplabMenu, ACHIEVEMENT_EVENT_JOIN_SMC, "JOIN_SMC", 5); // yeah not gonna fuck around with renaming smc artifacts
 
 // C stands for component. used to differentiate between achievements and their respective component.
 
@@ -195,7 +195,36 @@ class CAchievementMaplab04Completed : public CBaseAchievement
 };
 DECLARE_ACHIEVEMENT(CAchievementMaplab04Completed, ACHIEVEMENT_EVENT_MAPLAB04_ALL, "MAPLAB04_ALL", 5);
 
+class CAchievementAtom01Completed : public CBaseAchievement
+{
+
+	virtual void Init()
+	{
+		static const char *szComponents[] =
+		{
+			"CATOM01_1", "CATOM01_2", "CATOM01_3", "CATOM01_4",
+			"CATOM01_5", "CATOM01_6", "CATOM01_7", "CATOM01_8",
+			"CATOM01_9", "CATOM01_10", "CATOM01_11", "CATOM01_12"
+			"CATOM01_13", "CATOM01_14", "CATOM01_15"
+		};
+		SetFlags(ACH_HAS_COMPONENTS | ACH_LISTEN_COMPONENT_EVENTS | ACH_SAVE_GLOBAL);
+		m_pszComponentNames = szComponents;
+		m_iNumComponents = ARRAYSIZE(szComponents);
+		SetComponentPrefix("CATOM01");
+		SetGoal(m_iNumComponents);
+	}
+	virtual bool ShouldShowProgressNotification() { return false; }
+};
+DECLARE_ACHIEVEMENT(CAchievementAtom01Completed, ACHIEVEMENT_EVENT_ATOM01_ALL, "ATOM01_ALL", 5);
+
 // map logic achievements
+//
+// DECLARE_MAP_EVENT_ACHIEVEMENT( ACHIEVEMENT_EVENT_EXAMPLE, "EXAMPLE", 5);
+//"DECLARE_MAP_EVENT_ACHIEVEMENT" is what declares what type the achievement is. In this case a map triggered one.
+//"ACHIEVEMENT_EVENT_EXAMPLE" is the name of the achievement itself, needs to be defined in hl2orange.spa.h                                       
+//"EXAMPLE" is what actually gets sent to steamworks. Keep in mind that ACHIEVEMENT_EVENT will get automatically filtered away.                                       
+// So if you made it say "ACHIEVEMENT_EVENT_MAPLAB89_5" then only "MAPLAB89_5" would be sent to steamworks.
+// The last number is apparently the Xbox 360 Gamer Score you would get rewarded for completing the achievement, completely useless but AFAIK required.
 //
 //
 //
@@ -301,4 +330,23 @@ DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_MAPLAB04_8, "MAPLAB04_8", 5);
 DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_MAPLAB04_9, "MAPLAB04_9", 5);
 DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_MAPLAB04_10, "MAPLAB04_10", 5);
 DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_MAPLAB04_11, "MAPLAB04_11", 5);
+//
+//
+//
+// Blade
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_ATOM01_1, "ATOM01_1", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_ATOM01_2, "ATOM01_2", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_ATOM01_3, "ATOM01_3", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_ATOM01_4, "ATOM01_4", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_ATOM01_5, "ATOM01_5", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_ATOM01_6, "ATOM01_6", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_ATOM01_7, "ATOM01_7", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_ATOM01_8, "ATOM01_8", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_ATOM01_9, "ATOM01_9", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_ATOM01_10, "ATOM01_10", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_ATOM01_11, "ATOM01_11", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_ATOM01_12, "ATOM01_12", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_ATOM01_13, "ATOM01_13", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_ATOM01_14, "ATOM01_14", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_ATOM01_15, "ATOM01_15", 5);
 #endif MAPLAB
