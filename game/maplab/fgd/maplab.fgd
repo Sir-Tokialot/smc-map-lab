@@ -15,3 +15,11 @@
 	input SetHandModel(string) : "Set the player's hand model"
 	
 ]
+@PointClass base(Targetname) = player_wallclimb :
+	"Automatically grants the player the ability to wallclimb/mantle. Use inputs to enable/disable/toggle."
+[
+	input Toggle(void) : "Toggle wallclimb ability on/off"
+	input TurnOff(void) : "Turn wallclimb ability off"
+	input TurnOn(void) : "Turn wallclimb ability on"
+	
+]

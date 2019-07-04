@@ -2359,6 +2359,13 @@ bool CGameMovement::CheckJumpButton( void )
 		return false;
 	}
 
+	// !! dotop
+	ConVar *has_wallclimb = cvar->FindVar("maplab_wallclimb");
+	if (has_wallclimb) {
+		if (has_wallclimb->GetInt() > 0 && TryStartMantling())
+			return false;
+	}
+
 	// See if we are waterjumping.  If so, decrement count and return.
 	if (player->m_flWaterJumpTime)
 	{
@@ -2531,7 +2538,7 @@ bool CGameMovement::CheckJumpButton( void )
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose: dotop's stealth moveset from JD
 //-----------------------------------------------------------------------------
 void CGameMovement::FullLadderMove()
 {
@@ -2551,6 +2558,117 @@ void CGameMovement::FullLadderMove()
 	VectorAdd (mv->m_vecVelocity, player->GetBaseVelocity(), mv->m_vecVelocity);
 	TryPlayerMove();
 	VectorSubtract (mv->m_vecVelocity, player->GetBaseVelocity(), mv->m_vecVelocity);
+}
+
+bool CGameMovement::TryStartMantling()
+{
+	trace_t tr;
+	Vector traceEnd;
+	AngleVectors(mv->m_vecAbsViewAngles, &traceEnd);
+	traceEnd.z = 0.f;
+	traceEnd.NormalizeInPlace();
+	traceEnd *= 40.f; // Player hull + extra.
+	Vector originNotch = player->GetAbsOrigin();
+	originNotch.z += 1.f;
+	UTIL_TraceLine(originNotch, originNotch + traceEnd, MASK_PLAYERSOLID, player, COLLISION_GROUP_NONE, &tr);
+	if (tr.DidHit() && tr.plane.normal.z < 0.5f)
+	{
+		// Don't climb NPCs
+		if (tr.DidHitNonWorldEntity()) {
+			EHANDLE ent = tr.GetEntityIndex();
+			if (ent.Get() && ent.Get()->IsNPC()) {
+				return false;
+			}
+		}
+
+		float moveHeight = GAMEMOVEMENT_MANTLE_HEIGHT;
+		if (player->m_Local.m_bDucked)
+			moveHeight += 32.f;
+
+		// Check if we can climb on top.
+		originNotch.z += moveHeight;
+		AngleVectors(player->EyeAngles(), &traceEnd);
+		traceEnd.z = 0.f;
+		traceEnd.NormalizeInPlace();
+		traceEnd *= 48.f;
+		UTIL_TraceLine(originNotch, originNotch + traceEnd, MASK_PLAYERSOLID, player, COLLISION_GROUP_NONE, &tr);
+		if (!tr.DidHit()) {
+			DevMsg("This is a good mantle target\n");
+
+			// In the air now.
+			SetGroundEntity(NULL);
+
+			// player->PlayStepSound((Vector &)mv->GetAbsOrigin(), player->m_pSurfaceData, 1.0, true); // be sneaky
+			m_fMantleTime = 0.f;
+			m_vecMantleStart = player->GetAbsOrigin();
+			m_vecMantleEnd = player->GetAbsOrigin();
+			m_vecMantleEnd.z += moveHeight;
+			m_vecMantleEnd += traceEnd;
+
+			AngleVectors(mv->m_vecAbsViewAngles, &m_vecMantleAngle); // Record the direction we're looking so we can keep using it for ledge grab checks even after we look away while we're being pulled up.
+			m_vecMantleAngle.z = 0.f;
+			m_vecMantleAngle.NormalizeInPlace();
+
+			player->m_Local.m_bDucked = true;
+			player->m_Local.m_bDucking = true;
+			player->m_Local.m_flDucktime = 0.0f;
+
+			MoveHelper()->PlayerSetAnimation(PLAYER_JUMP);
+			player->SetMoveType(MOVETYPE_MANTLE);
+
+			return true;
+		}
+		else DevMsg("At a mantle point but the top of the ledge seems blocked.\n");
+	}
+	return false;
+}
+//-----------------------------------------------------------------------------
+// Purpose: Mantling; climbing up a ledge (!! vanSulli)
+//-----------------------------------------------------------------------------
+void CGameMovement::FullMantleMove()
+{
+	//VectorAngles(m_vecMantleAngle, mv->m_vecAbsViewAngles);
+	trace_t tr;
+	Vector traceEnd = m_vecMantleAngle;
+	// AngleVectors(mv->m_vecViewAngles, &traceEnd); // was view angles, but we can turn the camera while we're moving up so it's not a good idea.
+	traceEnd *= 38.f; // Check the actual player hull instead of bullshitting, please.
+	Vector originNotch = mv->GetAbsOrigin();
+	originNotch.z -= 2.5f;
+	UTIL_TraceLine(originNotch, originNotch + traceEnd, MASK_PLAYERSOLID, player, COLLISION_GROUP_NONE, &tr);
+	if (!tr.DidHitWorld())
+	{
+		traceEnd.Init(0.f, 0.f, -5.f);
+		UTIL_TraceLine(mv->GetAbsOrigin(), mv->GetAbsOrigin() + traceEnd, MASK_PLAYERSOLID, player, COLLISION_GROUP_NONE, &tr);
+		if (tr.DidHitWorld() && m_fMantleTime > 125.f) {
+			// We're ready to stand on the surface.
+			mv->m_vecVelocity.Zero();
+			player->SetMoveType(MOVETYPE_WALK);
+			player->SetMoveCollide(MOVECOLLIDE_DEFAULT);
+			DevMsg("Finished ledge grab normally.\n");
+		}
+		else {
+			// we should be high enough to climb onto the surface
+			mv->m_vecVelocity = (m_vecMantleEnd - m_vecMantleStart);
+			mv->m_vecVelocity.NormalizeInPlace();
+			mv->m_vecVelocity.z = 0.f;
+			mv->m_vecVelocity *= 150.f; // slightly increased for maplabs
+			mv->m_vecVelocity.z = 10.f;
+			m_fMantleTime += gpGlobals->frametime * 1000.f;
+			if (m_fMantleTime >= GAMEMOVEMENT_MANTLE_TIME) {
+				m_fMantleTime = 0.f;
+				player->SetMoveType(MOVETYPE_WALK);
+				player->SetMoveCollide(MOVECOLLIDE_DEFAULT);
+				mv->m_vecVelocity.Zero();
+				DevMsg("Ledge grab timed out.\n");
+			}
+		}
+	}
+	else {
+		mv->m_vecVelocity.Zero();
+		mv->m_vecVelocity.z = 164.f;
+	}
+
+	TryPlayerMove();
 }
 
 //-----------------------------------------------------------------------------
@@ -4560,6 +4678,12 @@ void CGameMovement::PlayerMove( void )
 
 	ReduceTimers();
 
+	// dot's additions - wallclimb
+	if (player->m_Local.bShouldTryMantle) {
+		player->m_Local.bShouldTryMantle = false;
+		TryStartMantling();
+	}
+
 	AngleVectors (mv->m_vecViewAngles, &m_vecForward, &m_vecRight, &m_vecUp );  // Determine movement angles
 
 	// Always try and unstick us unless we are using a couple of the movement modes
@@ -4567,6 +4691,7 @@ void CGameMovement::PlayerMove( void )
 		 player->GetMoveType() != MOVETYPE_NONE && 		 
 		 player->GetMoveType() != MOVETYPE_ISOMETRIC && 
 		 player->GetMoveType() != MOVETYPE_OBSERVER && 
+		 player->GetMoveType() != MOVETYPE_MANTLE && // !! vanSulli
 		 !player->pl.deadflag )
 	{
 		if ( CheckInterval( STUCK ) )
@@ -4651,6 +4776,10 @@ void CGameMovement::PlayerMove( void )
 
 		case MOVETYPE_NOCLIP:
 			FullNoClipMove( sv_noclipspeed.GetFloat(), sv_noclipaccelerate.GetFloat() );
+			break;
+
+		case MOVETYPE_MANTLE: // !! vanSulli
+			FullMantleMove();
 			break;
 
 		case MOVETYPE_FLY:

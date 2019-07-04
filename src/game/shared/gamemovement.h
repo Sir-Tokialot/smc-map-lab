@@ -25,6 +25,10 @@
 #define GAMEMOVEMENT_TIME_TO_UNDUCK			( TIME_TO_UNDUCK * 1000.0f )		// ms
 #define GAMEMOVEMENT_TIME_TO_UNDUCK_INV		( GAMEMOVEMENT_DUCK_TIME - GAMEMOVEMENT_TIME_TO_UNDUCK )
 
+// !! dotop
+#define GAMEMOVEMENT_MANTLE_TIME			500.f // slightly increased timeout for maplabs
+#define GAMEMOVEMENT_MANTLE_HEIGHT			65.f
+
 enum
 {
 	SPEED_CROPPED_RESET = 0,
@@ -162,6 +166,17 @@ protected:
 	// Handle movement when in MOVETYPE_LADDER mode.
 	virtual void	FullLadderMove();
 
+	// dot's additions - wallclimb
+	// !! vanSulli
+	void			FullMantleMove();
+	bool			TryStartMantling();
+	// float			m_fMantlePercent{ 0.f };
+	Vector			m_vecMantleStart;
+	Vector			m_vecMantleEnd;
+	float			m_fMantleTime;
+
+	//void			FullAssassinateMove();
+
 	// The basic solid body movement clip that slides along multiple planes
 	virtual int		TryPlayerMove( Vector *pFirstDest=NULL, trace_t *pFirstTrace=NULL );
 	
@@ -277,6 +292,9 @@ protected:
 	int				m_iSpeedCropped;
 
 	float			m_flStuckCheckTime[MAX_PLAYERS+1][2]; // Last time we did a full test
+
+	// !! dotop
+	Vector			m_vecMantleAngle;
 
 	// special function for teleport-with-duck for episodic
 #ifdef HL2_EPISODIC
