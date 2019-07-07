@@ -32,6 +32,8 @@ $Project "Client (MapLab)"
 				$File	"$SRCDIR\game\shared\lab\weapon_slam.cpp"
 				$File	"$SRCDIR\game\shared\lab\weapon_slam.h"
 				$File	"$SRCDIR\game\shared\lab\achievements_maplab.cpp"
+			    $File	"$SRCDIR\game\shared\mapbase\MapEdit.cpp"
+				$File	"$SRCDIR\game\shared\mapbase\SystemConvarMod.cpp"
 		    }
 			$File   "lab\c_lab_player.cpp"
 			$File   "lab\c_lab_player.h"

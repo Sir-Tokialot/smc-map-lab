@@ -22,6 +22,7 @@
 #include "gamestats.h"
 #include "ai_basenpc.h"
 #include "Sprite.h"
+#include "mapbase/SystemConvarMod.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -43,15 +44,15 @@ enum teleport_stages_t
 };
 
 // Convar restoration save/restore
-#define MAX_MODIFIED_CONVAR_STRING		128
-struct modifiedconvars_t 
-{
-	DECLARE_SIMPLE_DATADESC();
-
-	char pszConvar[MAX_MODIFIED_CONVAR_STRING];
-	char pszCurrentValue[MAX_MODIFIED_CONVAR_STRING];
-	char pszOrgValue[MAX_MODIFIED_CONVAR_STRING];
-};
+//#define MAX_MODIFIED_CONVAR_STRING		128
+//struct modifiedconvars_t 
+//{
+//	DECLARE_SIMPLE_DATADESC();
+//
+//	char pszConvar[MAX_MODIFIED_CONVAR_STRING];
+//	char pszCurrentValue[MAX_MODIFIED_CONVAR_STRING];
+//	char pszOrgValue[MAX_MODIFIED_CONVAR_STRING];
+//};
 
 bool g_bInCommentaryMode = false;
 bool IsInCommentaryMode( void )
@@ -821,11 +822,11 @@ BEGIN_DATADESC_NO_BASE( CCommentarySystem )
 	DEFINE_FIELD( m_iCommentaryNodeCount, FIELD_INTEGER ),
 END_DATADESC()
 
-BEGIN_SIMPLE_DATADESC( modifiedconvars_t )
-	DEFINE_ARRAY( pszConvar, FIELD_CHARACTER, MAX_MODIFIED_CONVAR_STRING ),
-	DEFINE_ARRAY( pszCurrentValue, FIELD_CHARACTER, MAX_MODIFIED_CONVAR_STRING ),
-	DEFINE_ARRAY( pszOrgValue, FIELD_CHARACTER, MAX_MODIFIED_CONVAR_STRING ),
-END_DATADESC()
+//BEGIN_SIMPLE_DATADESC( modifiedconvars_t )
+//	DEFINE_ARRAY( pszConvar, FIELD_CHARACTER, MAX_MODIFIED_CONVAR_STRING ),
+//	DEFINE_ARRAY( pszCurrentValue, FIELD_CHARACTER, MAX_MODIFIED_CONVAR_STRING ),
+//	DEFINE_ARRAY( pszOrgValue, FIELD_CHARACTER, MAX_MODIFIED_CONVAR_STRING ),
+//END_DATADESC()
 
 
 //-----------------------------------------------------------------------------

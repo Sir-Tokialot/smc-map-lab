@@ -55,6 +55,7 @@ class CAchievementMaplab01Completed : public CBaseAchievement
 		m_iNumComponents = ARRAYSIZE(szComponents);
 		SetComponentPrefix("CMAPLAB01");
 		SetGoal(m_iNumComponents);
+		SetHideUntilAchieved(true);
 	}
 
 	// don't show progress notifications for this achievement, it's distracting
@@ -78,6 +79,7 @@ class CAchievementTesttube01Completed : public CBaseAchievement
 		m_iNumComponents = ARRAYSIZE(szComponents);
 		SetComponentPrefix("CTESTTUBE01");
 		SetGoal(m_iNumComponents);
+		SetHideUntilAchieved(true);
 	}
 
 	// don't show progress notifications for this achievement, it's distracting
@@ -101,6 +103,7 @@ class CAchievementMaplab02Completed : public CBaseAchievement
 		m_iNumComponents = ARRAYSIZE(szComponents);
 		SetComponentPrefix("CMAPLAB02");
 		SetGoal(m_iNumComponents);
+		SetHideUntilAchieved(true);
 	}
 
 	// don't show progress notifications for this achievement, it's distracting
@@ -123,6 +126,7 @@ class CAchievementTesttube02Completed : public CBaseAchievement
 		m_iNumComponents = ARRAYSIZE(szComponents);
 		SetComponentPrefix("CTESTTUBE02");
 		SetGoal(m_iNumComponents);
+		SetHideUntilAchieved(true);
 	}
 	virtual bool ShouldShowProgressNotification() { return false; }
 };
@@ -146,6 +150,7 @@ class CAchievementMaplab03Completed : public CBaseAchievement
 		m_iNumComponents = ARRAYSIZE(szComponents);
 		SetComponentPrefix("CMAPLAB03");
 		SetGoal(m_iNumComponents);
+		SetHideUntilAchieved(true);
 	}
 	virtual bool ShouldShowProgressNotification() { return false; }
 };
@@ -169,6 +174,7 @@ class CAchievementTesttube03Completed : public CBaseAchievement
 		m_iNumComponents = ARRAYSIZE(szComponents);
 		SetComponentPrefix("CTESTTUBE03");
 		SetGoal(m_iNumComponents);
+		SetHideUntilAchieved(true);
 	}
 	virtual bool ShouldShowProgressNotification() { return false; }
 };
@@ -190,6 +196,7 @@ class CAchievementMaplab04Completed : public CBaseAchievement
 		m_iNumComponents = ARRAYSIZE(szComponents);
 		SetComponentPrefix("CMAPLAB04");
 		SetGoal(m_iNumComponents);
+		SetHideUntilAchieved(true);
 	}
 	virtual bool ShouldShowProgressNotification() { return false; }
 };
@@ -204,7 +211,7 @@ class CAchievementAtom01Completed : public CBaseAchievement
 		{
 			"CATOM01_1", "CATOM01_2", "CATOM01_3", "CATOM01_4",
 			"CATOM01_5", "CATOM01_6", "CATOM01_7", "CATOM01_8",
-			"CATOM01_9", "CATOM01_10", "CATOM01_11", "CATOM01_12"
+			"CATOM01_9", "CATOM01_10", "CATOM01_11", "CATOM01_12",
 			"CATOM01_13", "CATOM01_14", "CATOM01_15"
 		};
 		SetFlags(ACH_HAS_COMPONENTS | ACH_LISTEN_COMPONENT_EVENTS | ACH_SAVE_GLOBAL);
@@ -212,10 +219,34 @@ class CAchievementAtom01Completed : public CBaseAchievement
 		m_iNumComponents = ARRAYSIZE(szComponents);
 		SetComponentPrefix("CATOM01");
 		SetGoal(m_iNumComponents);
+		SetHideUntilAchieved(true);
 	}
 	virtual bool ShouldShowProgressNotification() { return false; }
 };
 DECLARE_ACHIEVEMENT(CAchievementAtom01Completed, ACHIEVEMENT_EVENT_ATOM01_ALL, "ATOM01_ALL", 5);
+
+class CAchievementTesttube04Completed : public CBaseAchievement
+{
+
+	virtual void Init()
+	{
+		static const char *szComponents[] =
+		{
+			"CTESTTUBE04_1", "CTESTTUBE04_2", "CTESTTUBE04_3", "CTESTTUBE04_4",
+			"CTESTTUBE04_5", "CTESTTUBE04_6", "CTESTTUBE04_7", "CTESTTUBE04_8",
+			"CTESTTUBE04_9", "CTESTTUBE04_10", "CTESTTUBE04_11", "CTESTTUBE04_12",
+			"CTESTTUBE04_13"
+		};
+		SetFlags(ACH_HAS_COMPONENTS | ACH_LISTEN_COMPONENT_EVENTS | ACH_SAVE_GLOBAL);
+		m_pszComponentNames = szComponents;
+		m_iNumComponents = ARRAYSIZE(szComponents);
+		SetComponentPrefix("CTESTTUBE04");
+		SetGoal(m_iNumComponents);
+		SetHideUntilAchieved(true);
+	}
+	virtual bool ShouldShowProgressNotification() { return false; }
+};
+DECLARE_ACHIEVEMENT(CAchievementTesttube04Completed, ACHIEVEMENT_EVENT_TESTTUBE04_ALL, "TESTTUBE04_ALL", 5);
 
 // map logic achievements
 //
@@ -349,4 +380,21 @@ DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_ATOM01_12, "ATOM01_12", 5);
 DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_ATOM01_13, "ATOM01_13", 5);
 DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_ATOM01_14, "ATOM01_14", 5);
 DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_ATOM01_15, "ATOM01_15", 5);
+//
+//
+//
+// 1,000,000,000 Units
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_TESTTUBE04_1, "TESTTUBE04_1", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_TESTTUBE04_2, "TESTTUBE04_2", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_TESTTUBE04_3, "TESTTUBE04_3", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_TESTTUBE04_4, "TESTTUBE04_4", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_TESTTUBE04_5, "TESTTUBE04_5", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_TESTTUBE04_6, "TESTTUBE04_6", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_TESTTUBE04_7, "TESTTUBE04_7", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_TESTTUBE04_8, "TESTTUBE04_8", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_TESTTUBE04_9, "TESTTUBE04_9", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_TESTTUBE04_10, "TESTTUBE04_10", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_TESTTUBE04_11, "TESTTUBE04_11", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_TESTTUBE04_12, "TESTTUBE04_12", 5);
+DECLARE_MAP_EVENT_ACHIEVEMENT(ACHIEVEMENT_EVENT_TESTTUBE04_13, "TESTTUBE04_13", 5);
 #endif MAPLAB
