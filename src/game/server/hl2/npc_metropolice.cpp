@@ -572,14 +572,6 @@ bool CNPC_MetroPolice::OverrideMoveFacing( const AILocalMoveGoal_t &move, float 
 //-----------------------------------------------------------------------------
 void CNPC_MetroPolice::Precache( void )
 {
-	if ( HasSpawnFlags( SF_NPC_START_EFFICIENT ) )
-	{
-		SetModelName( AllocPooledString("models/police_cheaple.mdl" ) );
-	}
-	else
-	{
-		SetModelName( AllocPooledString("models/police.mdl") );
-	}
 
 	PrecacheModel( STRING( GetModelName() ) );
 
@@ -614,14 +606,38 @@ bool CNPC_MetroPolice::CreateComponents()
 //-----------------------------------------------------------------------------
 void CNPC_MetroPolice::Spawn( void )
 {
+	// jackathan 2019/10/04 - copied from npc_kleiner.cpp
+	// sets up "szModel" keyvalue string
+	char *szModel = (char *)STRING( GetModelName() );
+	if (!szModel || !*szModel)
+	{
+		szModel = "models/police.mdl";
+		SetModelName( AllocPooledString(szModel) );
+	}
+	
+	// jackathan 2019/10/04 - moved from Precache function
+	// checks for efficiency spawnflag, if yes use cheaple, if no use szModel
+	if ( HasSpawnFlags( SF_NPC_START_EFFICIENT ) )
+	{
+		szModel = "models/police_cheaple.mdl";
+		SetModelName( AllocPooledString(szModel) );
+	}
+	else
+	{
+		SetModelName( AllocPooledString(szModel) );
+	}
+	
 	Precache();
 
 #ifdef _XBOX
 	// Always fade the corpse
 	AddSpawnFlags( SF_NPC_FADE_CORPSE );
 #endif // _XBOX
-
-	SetModel( STRING( GetModelName() ) );
+	
+	// jackathan 2019/10/04 - copied from npc_kleiner.cpp
+	// sets model to "szModel" keyvalue string instead of default
+	SetModel( szModel );
+	//SetModel( STRING( GetModelName() ) );
 
 	SetHullType(HULL_HUMAN);
 	SetHullSizeNormal();
