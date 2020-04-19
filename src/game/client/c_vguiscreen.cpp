@@ -416,6 +416,25 @@ void C_VGuiScreen::ClientThink( void )
 	int px = (int)(u * m_nPixelWidth + 0.5f);
 	int py = (int)(v * m_nPixelHeight + 0.5f);
 
+	// START TEDDYS FIX
+	for (int i = 0; i < pPanel->GetChildCount(); i++)
+	{
+		vgui::Button *child = dynamic_cast<vgui::Button*>(pPanel->GetChild(i));
+		if (child)
+		{
+			int x1, x2, y1, y2;
+			child->GetBounds(x1, y1, x2, y2);
+
+			// Generate mouse input commands
+			if ((m_nButtonState & IN_ATTACK))
+			{
+				if (px >= x1 && px <= x1 + x2 && py >= y1 && py <= y1 + y2)
+					child->FireActionSignal();
+			}
+		}
+	}
+	// FIN TEDDYS FIX
+
 	// Generate mouse input commands
 	if ((px != m_nOldPx) || (py != m_nOldPy))
 	{

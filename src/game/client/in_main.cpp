@@ -1108,6 +1108,7 @@ void CInput::CreateMove ( int sequence_number, float input_sample_frametime, boo
 	CVerifiedUserCmd *pVerified = &m_pVerifiedCommands[ sequence_number % MULTIPLAYER_BACKUP ];
 
 	cmd->Reset();
+	cmd->buttons |= IN_VALIDVGUIINPUT;
 
 	cmd->command_number = sequence_number;
 	cmd->tick_count = gpGlobals->tickcount;
