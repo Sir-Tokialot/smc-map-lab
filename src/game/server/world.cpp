@@ -586,6 +586,9 @@ void CWorld::Precache( void )
 	ConVarRef roomtype( "room_type" );
 	roomtype.SetValue( 0 );
 
+	ConVarRef fullbright("mat_fullbright");
+	fullbright.SetValue(0);
+
 	// Set up game rules
 	Assert( !g_pGameRules );
 	if (g_pGameRules)
