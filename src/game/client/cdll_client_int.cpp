@@ -171,7 +171,8 @@ extern vgui::IInputInternal *g_InputInternal;
 
 #include "discord_rpc.h"
 #include <time.h>
-
+#include "dbg.h"
+#include "hl2_shareddefs.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -876,6 +877,78 @@ static void HandleDiscordJoinRequest(const DiscordUser* request)
 	// Not implemented
 }
 
+const char* GetMapMaker(const char* pMap) 
+{
+	KeyValues* pDiscordRPC = new KeyValues("Discord");
+
+	pDiscordRPC->LoadFromFile(filesystem, "scripts/discord_rpc.txt");
+	if (pDiscordRPC)
+	{
+		KeyValues* pNames = pDiscordRPC->FindKey("names");
+		if (pNames)
+		{
+			return pNames->GetString(pMap);
+		}
+		pDiscordRPC->deleteThis();
+		pNames->deleteThis();
+	}
+	return "name";
+}
+
+
+const char* GetRPCMapImage(const char* pMap)
+{
+	KeyValues* pDiscordRPC = new KeyValues("Discord");
+
+	pDiscordRPC->LoadFromFile(filesystem, "scripts/discord_rpc.txt");
+	if (pDiscordRPC)
+	{
+		KeyValues* pMaps = pDiscordRPC->FindKey("Maps");
+		if (pMaps)
+		{
+			return pMaps->GetString(pMap, "icon");
+		}
+		pMaps->deleteThis();
+		pDiscordRPC->deleteThis();
+	}
+	return "icon";
+}
+
+const char* GetCompetitionImage()
+{
+	KeyValues* pDiscordRPC = new KeyValues("Discord");
+
+	pDiscordRPC->LoadFromFile(filesystem, "scripts/discord_rpc.txt");
+	if (pDiscordRPC)
+	{
+		KeyValues* pCompetitions = pDiscordRPC->FindKey("Comp");
+		if (pCompetitions)
+		{
+			return pCompetitions->GetString("comp_icon");
+		}
+		pCompetitions->deleteThis();
+		pDiscordRPC->deleteThis();
+	}
+	return NULL;
+}
+
+const char* GetCompetitionName()
+{
+	KeyValues* pDiscordRPC = new KeyValues("Discord");
+
+	pDiscordRPC->LoadFromFile(filesystem, "scripts/discord_rpc.txt");
+	if (pDiscordRPC)
+	{
+		KeyValues* pCompetitions = pDiscordRPC->FindKey("Comp");
+		if (pCompetitions)
+		{
+			return pCompetitions->GetString("comp_name");
+		}
+		pCompetitions->deleteThis();
+		pDiscordRPC->deleteThis();
+	}
+	return NULL;
+}
 //-----------------------------------------------------------------------------
 // Constructor
 //-----------------------------------------------------------------------------
@@ -1144,6 +1217,10 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 	sprintf(appid, "%d", engine->GetAppID());
 	Discord_Initialize(cl_discord_appid.GetString(), &handlers, 1, appid);
 
+
+	const char* cl_CompName = GetCompetitionName();
+	const char* cl_CompImage = GetCompetitionImage();
+
 	if (!g_bTextMode)
 	{
 		DiscordRichPresence discordPresence;
@@ -1152,7 +1229,9 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 		discordPresence.state = "In-Game";
 		discordPresence.details = "Main Menu";
 		discordPresence.startTimestamp = startTimestamp;
-		discordPresence.largeImageKey = "ModImageHere";
+		discordPresence.largeImageKey = "icon";
+		discordPresence.smallImageKey = cl_CompImage;
+		discordPresence.smallImageText = cl_CompName;
 		Discord_UpdatePresence(&discordPresence);
 	}
 
@@ -1696,6 +1775,17 @@ void CHLClient::LevelInitPreEntity( char const* pMapName )
 	}
 #endif
 
+	const char* cl_MapMakerName = GetMapMaker(pMapName);
+	const char* cl_MapImageLarge = GetRPCMapImage(pMapName);
+	const char* cl_CompName = GetCompetitionName();
+	const char* cl_CompImage = GetCompetitionImage();
+
+
+	ConDColorMsg(Color(96, 213, 49, 255), "[Rich Presence] LargImage = %s\n", cl_MapImageLarge);
+	ConDColorMsg(Color(96, 213, 49, 255), "[Rich Presence] Map Maker = %s\n", cl_MapMakerName);
+
+
+
 	// Discord RPC
 	if (!g_bTextMode)
 	{
@@ -1707,7 +1797,10 @@ void CHLClient::LevelInitPreEntity( char const* pMapName )
 		sprintf(buffer, "Map: %s", pMapName);
 		discordPresence.details = buffer;
 		discordPresence.startTimestamp = startTimestamp;
-		discordPresence.largeImageKey = "icon";
+		discordPresence.largeImageKey = cl_MapImageLarge;
+		discordPresence.largeImageText = cl_MapMakerName;
+		discordPresence.smallImageKey = cl_CompImage;
+		discordPresence.smallImageText = cl_CompName;
 		Discord_UpdatePresence(&discordPresence);
 	}
 
@@ -1802,6 +1895,9 @@ void CHLClient::LevelShutdown( void )
 
 	gHUD.LevelShutdown();
 
+	const char* cl_CompName = GetCompetitionName();
+	const char* cl_CompImage = GetCompetitionImage();
+
 	// Discord RPC
 	if (!g_bTextMode)
 	{
@@ -1811,6 +1907,9 @@ void CHLClient::LevelShutdown( void )
 		discordPresence.state = "In-Game";
 		discordPresence.details = "Main Menu";
 		discordPresence.largeImageKey = "icon";
+		discordPresence.largeImageText = NULL;
+		discordPresence.smallImageKey = cl_CompImage;
+		discordPresence.smallImageText = cl_CompName;
 		Discord_UpdatePresence(&discordPresence);
 	}
 
