@@ -1,0 +1,22 @@
+"Discord"
+{	
+	"Maps"
+	{
+		//Map name       Map icon name
+		"sdk_vehicles"	"sdk_vehicles"
+	}
+
+    "names"
+	{
+	    //Map name      name of the creator/s
+		"sdk_vehicles"	"Made by Valve"
+	}
+	
+	"Comp"
+	{
+		//Icon for competition
+		"comp_icon" "icon"
+		//Name of competition
+		"comp_name" "Test competition"
+	}
+}
