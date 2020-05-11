@@ -147,6 +147,7 @@ END_SEND_TABLE();
 #ifndef HL2_EPISODIC
 LINK_ENTITY_TO_CLASS( prop_vehicle_jeep, CPropJeep );
 #endif
+LINK_ENTITY_TO_CLASS(prop_vehicle_buggy, CPropJeep);
 
 //-----------------------------------------------------------------------------
 // Purpose: 

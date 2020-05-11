@@ -6555,3 +6555,52 @@
 	parm9(instance_parm) : "Parm" : : "This is a parameter.  It goes in the form of $variable type."
 	parm10(instance_parm) : "Parm" : : "This is a parameter.  It goes in the form of $variable type."
 ]
+
+@PointClass base(BaseDriveableVehicle) studioprop() = prop_vehicle_buggy :
+    "MAPLABS: Half-Life 2 Buggy/Jeep"
+[
+    model(studio) : "World Model" : "models/buggy.mdl"
+   
+    input StartRemoveTauCannon(void) : "Start the tau removal sequence."
+    input FinishRemoveTauCannon(void) : "Finish the tau removal sequence."
+    input ShowHudHint(void) : "Show Jeep helptext."
+]
+ 
+@PointClass base(BaseDriveableVehicle) studioprop() = prop_vehicle_jalopy :
+    "MAPLABS: Half-Life 2 Episode 2 Muscle Car/Jalopy"
+[
+    model(studio) : "World Model" : "models/vehicle.mdl"
+    vehiclescript(string) : "Vehicle Script File" : "scripts/vehicles/jalopy.txt"
+   
+    CargoVisible(choices): "Hopper Visible" : 0 : "Is the striderbuster cargo hopper visible?" =
+    [
+        0 : "No"
+        1 : "Yes"
+    ]
+ 
+    spawnflags(Flags) =
+    [
+        1 : "HUD Locator Precache" : 0
+    ]
+ 
+    input LockEntrance( void ) : "Stops NPC's from entering the vehicle until unlocked."
+    input UnlockEntrance( void ) : "Allows NPC's to enter the vehicle."
+    input LockExit( void ) : "Stops NPC's from exiting the vehicle until unlocked."
+    input UnlockExit( void ) : "Allows NPC's to exit the vehicle."
+    input EnableRadar( void ) : "Turn on the Jalopy radar"
+    input DisableRadar( void ) : "Turn off the Jalopy radar"
+    input EnableRadarDetectEnemies( void ) : "Enable Jalopy radar to detect Striders and Hunters"
+    input AddBusterToCargo( void ) : "Put a striderbuster in the cargo trigger"
+    input SetCargoHopperVisibility ( bool ) : "Set the strider buster hopper thingy to be visible, or invisible."
+ 
+    input DisablePhysGun(void) : "Disable physgun interactions with the jeep."
+    input EnablePhysGun(void) : "Enable physgun interactions with the jeep (default)."
+ 
+    input CreateLinkController(void) : "Automatically builds and attaches a link controller to the car, which cuts the node connections under the car while the car is standing still."
+    input DestroyLinkController(void) : "Destroys the link controller created by CreateLinkController."
+   
+    output OnCompanionEnteredVehicle(void) : "Companion has entered the vehicle."
+    output OnCompanionExitedVehicle(void) : "Companion has exited the vehicle."
+    output OnHostileEnteredVehicle(void) : "Hostile has entered the vehicle."
+    output OnHostileExitedVehicle(void) : "Hostile has exited the vehicle."
+]

@@ -314,7 +314,8 @@ LINK_ENTITY_TO_CLASS( info_target_vehicle_transition, CInfoTargetVehicleTransiti
 //	CPropJeepEpisodic
 //
 
-LINK_ENTITY_TO_CLASS( prop_vehicle_jeep, CPropJeepEpisodic );
+LINK_ENTITY_TO_CLASS(prop_vehicle_jeep, CPropJeepEpisodic);
+LINK_ENTITY_TO_CLASS(prop_vehicle_jalopy, CPropJeepEpisodic);
 
 BEGIN_DATADESC( CPropJeepEpisodic )
 
